@@ -11,7 +11,7 @@ const Home = () => {
     <main className="w-screen min-h-screen bg-richblack-900 font-inter">
       {/* section 1 */}
       <section className="container mx-auto flex flex-col items-center gap-4 text-white py-10">
-        <Link to={"/signup"}>
+        <Link to={"/login"}>
           <div className="bg-richblack-800 text-richblack-200 font-bold rounded-full flex items-center gap-2 px-5 py-2 mt-4 transition-all duration-200 hover:scale-95 hover:bg-richblack-700 border-b-2 border-richblack-500">
             <p>Become an Instructor</p>
             <FaArrowRight />
@@ -31,7 +31,7 @@ const Home = () => {
         </div>
 
         <div className="flex gap-6 mt-2">
-          <CtaButton active={true} linkto="/signup">
+          <CtaButton active={true} linkto="/login">
             Learn More
           </CtaButton>
           <CtaButton linkto="/login">Book a Demo</CtaButton>
@@ -56,19 +56,41 @@ const Home = () => {
         <CodeBlocks
           heading={<>
             <span>Unlock your</span>&nbsp;
-            <HighlightedText>coding potential</HighlightedText><br/>
+            <HighlightedText>coding potential</HighlightedText><br />
             <span>with our online courses.</span>
           </>}
           subHeading="Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."
           ctaBtn1={
-            {active:true,linkto:'/signup',content:"Try it Yourself"}
+            { active: true, linkto: '/login', content: "Try it Yourself" }
           }
           ctaBtn2={
-            {active:false,linkto:'/login',content:"Learn More"}
+            { active: false, linkto: '/login', content: "Learn More" }
           }
           codeBlock={
-            `<!DOCTYPE html>\n<html>\n<head><>Example</\ntitle><linkrel="stylesheet"href="styles.css">\n</head>\n<body>\n<h1><ahref="/">Header</a>\n</h1>\n<nav><ahref="one/">One</a><ahref="two/">Two</\n<a><ahref="three/">Three</a>\n</nav>`
+            `<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n<linkrel="stylesheet"\nhref="styles.css">\n</head>\n<body>\n<h1><a href="/">Link</a></h1>\n<nav>\n<a href="/one">One</a>\n<ahref="/two">Two</<a>\n</nav>`
           }
+          codeColor='#eb387d'
+          bgGradient='orange'
+        />
+
+        <CodeBlocks
+          heading={<>
+            <span>Start</span>&nbsp;
+            <HighlightedText>coding in seconds.</HighlightedText>&nbsp;
+          </>}
+          subHeading="Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."
+          ctaBtn1={
+            { active: true, linkto: '/login', content: "Continue Lesson" }
+          }
+          ctaBtn2={
+            { active: false, linkto: '/login', content: "Learn More" }
+          }
+          codeBlock={
+            `<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n<linkrel="stylesheet"\nhref="styles.css">\n</head>\n<body>\n<h1><a href="/">Link</a></h1>\n<nav>\n<a href="/one">One</a>\n<ahref="/two">Two</<a>\n</nav>`
+          }
+          codeColor='#4ca5ed'
+          bgGradient='blue'
+          position="flex-col md:flex-row-reverse"
         />
 
       </section>

@@ -9,7 +9,7 @@ const CodeBlocks = ({
   return (
     <div className={`flex ${position} justify-center items-center my-20 gap-16 w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] mx-auto`}>
       {/* section1 */}
-      <div className="w-full md:w-[50%] flex flex-col items-start gap-4">
+      <div className="w-full md:w-[40%] lg:w-[50%] flex flex-col items-start gap-4 z-10">
         <h2 className="text-4xl font-semi-bold">
           {heading}
         </h2>
@@ -18,7 +18,7 @@ const CodeBlocks = ({
           {subHeading}
         </div>
 
-        <div className="flex gap-6 mt-2">
+        <div className="flex gap-6 mt-10">
           <CtaButton active={ctaBtn1.active} linkto={ctaBtn1.linkto}>
             <div className="flex items-center gap-2">
               <span>{ctaBtn1.content}</span>
@@ -32,12 +32,14 @@ const CodeBlocks = ({
       </div>
 
       {/* section 2 */}
-      <div className="w-full md:w-[50%] bg-richblack-100/5">
-        <div className="flex justify-start border-2 border-richblack-100/15 rounded-md py-4">
+      <div className="w-full md:w-[60%] lg:w-[50%] bg-transparent relative">
+        <div className={`absolute top-[-30%] left-[-30%] rounded-[50%] h-full w-full 
+        ${bgGradient=='blue' ? 'bg-[radial-gradient(#0977bc62,#000814,#000814)]' : 'bg-[radial-gradient(#bc4a0c62,#000814,#000814)]'}`}></div>
+        <div className="flex justify-start border-2 border-richblack-200/15 rounded-md py-4 pr-2 relative z-10">
           <div className="px-2 flex flex-col items-center text-richblack-400 font-inter">
-            <p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p>
+            <p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p>
           </div>
-          <div className={`flex flex-col gap-2 items-start ${codeColor}`}>
+          <div className={`flex flex-col gap-2 items-start`}>
             <TypeAnimation
               sequence={[codeBlock, 1000, ""]}
               repeat={Infinity}
@@ -45,8 +47,8 @@ const CodeBlocks = ({
                 whiteSpace: "pre-line",
                 fontFamily: "Menlo, Monaco, 'Courier New', monospace",
                 fontSize: "16px",
-                color: "#c5c8c6", // Text color in VS Code theme
-                boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)", // Box shadow in VS Code theme
+                fontWeight: "bold",
+                color: `${codeColor}`, // Text color in VS Code theme
               }}
               cursor={true}
               omitDeletionAnimation={true}
