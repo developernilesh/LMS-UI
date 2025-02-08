@@ -9,12 +9,12 @@ const CodeBlocks = ({
   return (
     <div className={`flex ${position} justify-center items-center my-20 gap-16 w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] mx-auto`}>
       {/* section1 */}
-      <div className="w-full md:w-[40%] lg:w-[50%] flex flex-col items-start gap-4 z-10">
-        <h2 className="text-4xl font-semi-bold">
+      <div className="w-full md:w-[40%] lg:w-[50%] flex flex-col items-center md:items-start gap-4 z-10">
+        <h2 className="text-4xl font-semi-bold text-center md:text-start">
           {heading}
         </h2>
 
-        <div className="text-base font-medium text-richblack-200">
+        <div className="text-base font-medium text-richblack-200 text-center md:text-start">
           {subHeading}
         </div>
 
@@ -34,7 +34,7 @@ const CodeBlocks = ({
       {/* section 2 */}
       <div className="w-full md:w-[60%] lg:w-[50%] bg-transparent relative">
         <div className={`absolute top-[-30%] left-[-30%] rounded-[50%] h-full w-full 
-        ${bgGradient=='blue' ? 'bg-[radial-gradient(#0977bc62,#000814,#000814)]' : 'bg-[radial-gradient(#bc4a0c62,#000814,#000814)]'}`}></div>
+        ${bgGradient=='blue' ? 'bg-[radial-gradient(#0977bc7d,#000814,#000814)]' : 'bg-[radial-gradient(#bc4a0c62,#000814,#000814)]'}`}></div>
         <div className="flex justify-start border-2 border-richblack-200/15 rounded-md py-4 pr-2 relative z-10">
           <div className="px-2 flex flex-col items-center text-richblack-400 font-inter">
             <p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p>
