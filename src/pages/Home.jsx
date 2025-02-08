@@ -12,11 +12,12 @@ import { FaFacebook } from "react-icons/fa";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FaYoutube } from "react-icons/fa";
+import { FooterLink2 } from "../data/footer-links"
 
 const Home = () => {
   return (
     <>
-      <main className="w-screen min-h-screen bg-richblack-900 font-inter">
+      <main className="w-full min-h-screen bg-richblack-900 font-inter">
         {/* section 1 */}
         <section className="container mx-auto flex flex-col items-center gap-4 text-white py-10">
           <Link to={"/login"}>
@@ -114,7 +115,7 @@ const Home = () => {
             </CtaButton>
             <CtaButton linkto="/login">Learn More</CtaButton>
           </div>
-          <div className="container mx-auto py-10">
+          <div className="container mx-auto pt-10 pb-40">
             {/* subsection 2 */}
             <div className="w-11/12 mx-auto flex flex-col sm:flex-row items-center gap-4 sm:gap-0 mt-10">
               {/* left side */}
@@ -172,6 +173,17 @@ const Home = () => {
                   alt="TimeLineImage"
                   className="w-full sm:w-[90%] mx-auto shadow-[10px_10px_0_0_rgba(255,255,255,1)] relative z-10"
                 />
+                <div className="absolute bg-caribbeangreen-700 flex flex-col lg:flex-row gap-4 lg:gap-0 text-white uppercase p-10 left-[50%] bottom-0 translate-x-[-50%] translate-y-[50%] z-20">
+                  <div className="flex gap-5 justify-center items-center w-fit">
+                    <div className="text-3xl font-bold">10</div>
+                    <div className="text-sm text-caribbeangreen-300">Years of Experience</div>
+                  </div>
+                  <div className="border-r border-caribbeangreen-300 mx-2 lg:mx-6 hidden lg:block"></div>
+                  <div className="flex gap-5 justify-center items-center w-fit">
+                    <div className="text-3xl font-bold">250</div>
+                    <div className="text-sm text-caribbeangreen-300">Types of Courses</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -185,17 +197,17 @@ const Home = () => {
 
         </section>
       </main>
-      <footer className="w-screen bg-richblack-800 text-richblack-200 py-12">
-        <div className="container mx-auto">
+      <footer className="w-full bg-richblack-800 text-richblack-200 py-12">
+        <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-1/2">
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="w-full">
+              <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Company Section */}
                 <div className="space-y-6">
                   <div className="flex items-center">
                     <span className="text-white text-xl font-semibold">StudyNotion</span>
                   </div>
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     <h3 className="text-white font-semibold">Company</h3>
                     <ul className="space-y-2">
                       <li>
@@ -231,7 +243,7 @@ const Home = () => {
                   </div>
                 </div>
                 {/* Resources Section */}
-                <div className="space-y-6">
+                <div className="space-y-2">
                   <h3 className="text-white font-semibold">Resources</h3>
                   <ul className="space-y-2">
                     <li>
@@ -331,11 +343,34 @@ const Home = () => {
                 </div>
               </div>
             </div>
+            <div className="border-r border-richblack-700 mx-2 lg:mx-10 hidden md:block"></div>
+            <div className="w-full">
+              <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+                {
+                  FooterLink2.map((item, index) => (
+                    <div className="space-y-2" key={index}>
+                      <h3 className="text-white font-semibold">{item.title}</h3>
+                      <ul className="space-y-2">
+                        {
+                          item.links.map((elem, idx) => (
+                            <li key={idx}>
+                              <Link to={elem.link} className="hover:text-white transition-colors">
+                                {elem.title}
+                              </Link>
+                            </li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
           </div>
 
           {/* Bottom Footer */}
-          <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-            <div className="flex space-x-4 mb-4 md:mb-0">
+          <div className="mt-12 pt-8 border-t border-richblack-700 flex flex-col md:flex-row justify-between items-center">
+            <div className="flex gap-4 mb-4 md:mb-0">
               <Link href="#" className="hover:text-white transition-colors">
                 Privacy Policy
               </Link>
