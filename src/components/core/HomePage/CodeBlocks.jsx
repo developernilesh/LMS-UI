@@ -7,10 +7,10 @@ const CodeBlocks = ({
   position = 'flex-col md:flex-row', heading, subHeading, ctaBtn1, ctaBtn2, codeBlock, bgGradient, codeColor
 }) => {
   return (
-    <div className={`flex ${position} justify-center items-center my-20 gap-16 w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] mx-auto`}>
+    <div className={`flex ${position} justify-center items-center my-20 gap-16 w-[95%] sm:w-[90%] md:w-[85%] mx-auto`}>
       {/* section1 */}
       <div className="w-full md:w-[40%] lg:w-[50%] flex flex-col items-center md:items-start gap-4 z-10">
-        <h2 className="text-4xl font-semi-bold text-center md:text-start">
+        <h2 className="text-4xl font-semibold text-center md:text-start">
           {heading}
         </h2>
 

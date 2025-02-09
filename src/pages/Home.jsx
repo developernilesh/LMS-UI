@@ -12,7 +12,9 @@ import { FaFacebook } from "react-icons/fa";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FaYoutube } from "react-icons/fa";
-import { FooterLink2 } from "../data/footer-links"
+import { FooterLink2 } from "../data/footer-links";
+import Logo from "../assets/Logo/MainLogo.png";
+import Instructor from "../assets/Images/Instructor.png";
 
 const Home = () => {
   return (
@@ -27,7 +29,7 @@ const Home = () => {
             </div>
           </Link>
 
-          <h1 className="text-4xl font-semi-bold mt-4 text-center">
+          <h1 className="text-4xl font-semibold mt-4 text-center">
             <span>Empower Your Future with</span>&nbsp;
             <HighlightedText>Coding Skills</HighlightedText>
           </h1>
@@ -47,7 +49,8 @@ const Home = () => {
           </div>
 
           <div className="w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] mx-auto mt-10 relative">
-            <div className="absolute top-0 left-[50%] bg-transparent rounded-[50%] h-56 w-[70%] shadow-[0_-10px_40px_rgba(126,198,255,0.6)] translate-x-[-55%]"></div>
+            <div className="absolute top-0 left-[50%] bg-transparent rounded-[50%] h-[70%] w-[70%] shadow-[0_-10px_40px_rgba(126,198,255,0.6)] translate-x-[-55%]"></div>
+
             {/* Video */}
             <video
               src={banner}
@@ -115,21 +118,22 @@ const Home = () => {
             </CtaButton>
             <CtaButton linkto="/login">Learn More</CtaButton>
           </div>
-          <div className="container mx-auto pt-10 pb-40">
+          <div className="container mx-auto mt-16">
             {/* subsection 2 */}
-            <div className="w-11/12 mx-auto flex flex-col sm:flex-row items-center gap-4 sm:gap-0 mt-10">
+            <div className="w-11/12 mx-auto flex flex-col sm:flex-row items-center gap-4 sm:gap-20">
               {/* left side */}
-              <div className="w-full sm:w-1/2 text-4xl pr-0 sm:pr-5 font-semi-bold text-center sm:text-start">
-                <span>Get the skills you need for a</span>
+              <div className="w-full sm:w-1/2 text-4xl font-semibold text-center sm:text-start">
+                <span>Get the skills you need for a </span>
                 <br />
                 <span>
                   <HighlightedText>job that is in demand</HighlightedText>
                 </span>
               </div>
+
               {/* right side */}
-              <div className="w-full sm:w-1/2 pr-5 sm:pr-5 text-center sm:text-start">
+              <div className="w-full sm:w-1/2 text-center sm:text-start">
                 <p className="mb-6">
-                  The modern StudyNotion is the dictates its own terms. Today, to
+                  The modern LearnVerse is the dictates its own terms. Today, to
                   be a competitive specialist requires more than professional
                   skills.
                 </p>
@@ -138,8 +142,9 @@ const Home = () => {
                 </CtaButton>
               </div>
             </div>
+
             {/* subsection 3 */}
-            <div className="w-11/12 mx-auto flex flex-col sm:flex-row items-center gap-16 sm:gap-0 mt-16">
+            <div className="w-11/12 mx-auto flex flex-col sm:flex-row items-center gap-16 sm:gap-0 my-16">
               {/* left side */}
               <div className="w-full sm:w-[40%] pl-0 md:pl-5 flex justify-center sm:justify-start">
                 <div className="flex flex-col items-start">
@@ -156,18 +161,19 @@ const Home = () => {
                         )}
                       </div>
                       <div className="font-inter">
-                        <h3 className="text-lg font-semibold">{item.heading}</h3>
+                        <h3 className="text-lg font-semibold">
+                          {item.heading}
+                        </h3>
                         <p className="text-sm">{item.description}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
+
               {/* right side */}
               <div className="relative w-full sm:w-[60%]">
-                <div
-                  className="absolute left-[50%] top-[50%] bg-transparent rounded-[50%] h-[70%] w-[90%] shadow-[0_0_40px_40px_rgba(126,198,255,0.6)] translate-x-[-50%] translate-y-[-50%]"
-                ></div>
+                <div className="absolute left-[50%] top-[50%] bg-transparent rounded-[50%] h-[70%] w-[90%] shadow-[0_0_40px_40px_rgba(126,198,255,0.6)] translate-x-[-50%] translate-y-[-50%]"></div>
                 <img
                   src={TimeLineImage}
                   alt="TimeLineImage"
@@ -176,113 +182,220 @@ const Home = () => {
                 <div className="absolute bg-caribbeangreen-700 flex flex-col lg:flex-row gap-4 lg:gap-0 text-white uppercase p-10 left-[50%] bottom-0 translate-x-[-50%] translate-y-[50%] z-20">
                   <div className="flex gap-5 justify-center items-center w-fit">
                     <div className="text-3xl font-bold">10</div>
-                    <div className="text-sm text-caribbeangreen-300">Years of Experience</div>
+                    <div className="text-sm text-caribbeangreen-300">
+                      Years of Experience
+                    </div>
                   </div>
                   <div className="border-r border-caribbeangreen-300 mx-2 lg:mx-6 hidden lg:block"></div>
                   <div className="flex gap-5 justify-center items-center w-fit">
                     <div className="text-3xl font-bold">250</div>
-                    <div className="text-sm text-caribbeangreen-300">Types of Courses</div>
+                    <div className="text-sm text-caribbeangreen-300">
+                      Types of Courses
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* subsection 4 */}
+            <div className="w-11/12 mx-auto py-20">
+              <div className="mt-4">
+                <h3 className="text-4xl font-semibold text-center text-richblack-900">
+                  <span>Your swiss knife for</span>&nbsp;
+                  <HighlightedText>learning any language</HighlightedText>
+                </h3>
+              </div>
+              <div>2</div>
             </div>
           </div>
         </section>
 
         {/* section 3 */}
-        <section></section>
+        <section className="container mx-auto flex flex-col items-center gap-4 text-white py-10">
+          {/* sub section 1 */}
+          <div
+            className={`flex flex-col md:flex-row justify-center items-center my-20 gap-20 w-[90%] sm:w-[85%] mx-auto`}
+          >
+            {/* left side */}
+            <div className="w-full md:w-[50%] lg:w-[50%] bg-transparent relative">
+              <div className="absolute left-[50%] top-[50%] bg-transparent rounded-[50%] h-[70%] w-[90%] shadow-[0_0_40px_40px_rgba(126,198,255,0.5)] translate-x-[-50%] translate-y-[-50%]"></div>
+              <img
+                src={Instructor}
+                alt="TimeLineImage"
+                className="w-full mx-auto shadow-[-10px_-10px_0_0_rgba(255,255,255,1)] relative z-10"
+              />
+            </div>
 
-        {/* footer */}
-        <section>
+            {/* right side */}
+            <div className="w-full md:w-[50%] flex flex-col items-center md:items-start gap-4 z-10">
+              <h2 className="text-4xl font-semibold text-center md:text-start">
+                <span>Become an</span>&nbsp;
+                <span>
+                  <HighlightedText>Instructor</HighlightedText>
+                </span>
+              </h2>
 
+              <div className="text-base font-medium text-richblack-200 text-center md:text-start">
+                Instructors from around the world teach millions of students on
+                StudyNotion. We provide the tools and skills to teach what you
+                love.
+              </div>
+
+              <div className="flex gap-6 mt-10">
+                <CtaButton active={true} linkto="/signup">
+                  <div className="flex items-center gap-2">
+                    <span>Start Teaching Today</span>
+                    <span>
+                      <FaArrowRight />
+                    </span>
+                  </div>
+                </CtaButton>
+              </div>
+            </div>
+          </div>
+
+          {/* sub section 2 */}
         </section>
       </main>
+
+      {/* footer */}
       <footer className="w-full bg-richblack-800 text-richblack-200 py-12">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row">
+            {/* left side */}
             <div className="w-full">
               <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Company Section */}
                 <div className="space-y-6">
-                  <div className="flex items-center">
-                    <span className="text-white text-xl font-semibold">StudyNotion</span>
+                  <div className="flex items-center text-white text-xl font-bold">
+                    <img src={Logo} alt="Logo" className="w-32" />
+                    {/* <span className="italic text-caribbeangreen-100">L</span>
+                    <span>earn</span>
+                    <span className="text-yellow-100">V</span>
+                    <span>erse</span> */}
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-white font-semibold">Company</h3>
                     <ul className="space-y-2">
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           About
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Careers
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Affiliates
                         </Link>
                       </li>
                     </ul>
                   </div>
                   <div className="flex space-x-4">
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       <FaFacebook size={20} />
                     </Link>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       <AiFillGoogleCircle size={20} />
                     </Link>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       <RiTwitterXLine size={20} />
                     </Link>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       <FaYoutube size={20} />
                     </Link>
                   </div>
                 </div>
+
                 {/* Resources Section */}
                 <div className="space-y-2">
                   <h3 className="text-white font-semibold">Resources</h3>
                   <ul className="space-y-2">
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Articles
                       </Link>
                     </li>
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Blog
                       </Link>
                     </li>
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Chart Sheet
                       </Link>
                     </li>
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Code challenges
                       </Link>
                     </li>
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Docs
                       </Link>
                     </li>
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Projects
                       </Link>
                     </li>
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Videos
                       </Link>
                     </li>
                     <li>
-                      <Link href="#" className="hover:text-white transition-colors">
+                      <Link
+                        href="#"
+                        className="hover:text-white transition-colors"
+                      >
                         Workspaces
                       </Link>
                     </li>
@@ -291,30 +404,43 @@ const Home = () => {
                     <h3 className="text-white font-semibold">Support</h3>
                     <ul className="mt-2">
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Help Center
                         </Link>
                       </li>
                     </ul>
                   </div>
                 </div>
+
                 {/* Plans & Community Section */}
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-white font-semibold">Plans</h3>
                     <ul className="mt-2 space-y-2">
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Paid memberships
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           For students
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Business solutions
                         </Link>
                       </li>
@@ -324,17 +450,26 @@ const Home = () => {
                     <h3 className="text-white font-semibold">Community</h3>
                     <ul className="mt-2 space-y-2">
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Forums
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Chapters
                         </Link>
                       </li>
                       <li>
-                        <Link href="#" className="hover:text-white transition-colors">
+                        <Link
+                          href="#"
+                          className="hover:text-white transition-colors"
+                        >
                           Events
                         </Link>
                       </li>
@@ -344,26 +479,27 @@ const Home = () => {
               </div>
             </div>
             <div className="border-r border-richblack-700 mx-2 lg:mx-10 hidden md:block"></div>
+
+            {/* right side */}
             <div className="w-full">
               <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
-                {
-                  FooterLink2.map((item, index) => (
-                    <div className="space-y-2" key={index}>
-                      <h3 className="text-white font-semibold">{item.title}</h3>
-                      <ul className="space-y-2">
-                        {
-                          item.links.map((elem, idx) => (
-                            <li key={idx}>
-                              <Link to={elem.link} className="hover:text-white transition-colors">
-                                {elem.title}
-                              </Link>
-                            </li>
-                          ))
-                        }
-                      </ul>
-                    </div>
-                  ))
-                }
+                {FooterLink2.map((item, index) => (
+                  <div className="space-y-2" key={index}>
+                    <h3 className="text-white font-semibold">{item.title}</h3>
+                    <ul className="space-y-2">
+                      {item.links.map((elem, idx) => (
+                        <li key={idx}>
+                          <Link
+                            to={elem.link}
+                            className="hover:text-white transition-colors"
+                          >
+                            {elem.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -381,7 +517,9 @@ const Home = () => {
                 Terms
               </Link>
             </div>
-            <div className="text-sm">Made with ❤️ CodeHelp © 2023 Studynotion</div>
+            <div className="text-sm">
+              Made with ❤️ CodeHelp © 2023 LearnVerse
+            </div>
           </div>
         </div>
       </footer>
