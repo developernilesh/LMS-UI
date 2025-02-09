@@ -15,6 +15,9 @@ import { FaYoutube } from "react-icons/fa";
 import { FooterLink2 } from "../data/footer-links";
 import Logo from "../assets/Logo/MainLogo.png";
 import Instructor from "../assets/Images/Instructor.png";
+import Know_your_progress from "../assets/Images/Know_your_progress.svg"
+import Plan_your_lessons from "../assets/Images/Plan_your_lessons.svg"
+import Compare_with_others from "../assets/Images/Compare_with_others.svg"
 
 const Home = () => {
   return (
@@ -199,13 +202,21 @@ const Home = () => {
 
             {/* subsection 4 */}
             <div className="w-11/12 mx-auto py-20">
-              <div className="mt-4">
-                <h3 className="text-4xl font-semibold text-center text-richblack-900">
+              <div className="mt-4 text-center">
+                <h3 className="text-4xl font-semibold text-richblack-900">
                   <span>Your swiss knife for</span>&nbsp;
                   <HighlightedText>learning any language</HighlightedText>
                 </h3>
+                <p className="mt-3">Using spin making learning multiple languages easy. with 20+ languages realistic voice-over, progress tracking, custom schedule and more.</p>
               </div>
-              <div>2</div>
+              <div className="flex flex-col lg:flex-row justify-center items-center mt-10 lg:mt-4">
+                  <img src={Know_your_progress} alt="Know_your_progress" className="object-contain"/>
+                  <img src={Compare_with_others} alt="Compare_with_others" className="object-contain mx-0 lg:-mx-36 -my-24 lg:my-0"/>
+                  <img src={Plan_your_lessons} alt="Plan_your_lessons" className="object-contain"/>
+              </div>
+              <div className="flex justify-center mt-4">
+                <CtaButton active={true} linkto="/login">Learn More</CtaButton>
+              </div>
             </div>
           </div>
         </section>
