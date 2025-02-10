@@ -12,13 +12,13 @@ export const HomePageExplore = [
                 heading : "Learn CSS",
                 description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 4
             },
             {
                 heading : "Responsive Web design",
                 description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 5
             },
         ]
     },
@@ -29,19 +29,19 @@ export const HomePageExplore = [
                 heading : "HTML",
                 description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 8
             },
             {
                 heading : "CSS",
                 description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 5
             },
             {
                 heading : "Responsive ",
                 description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 4
             },
         ]
     },
@@ -52,19 +52,19 @@ export const HomePageExplore = [
                 heading : "Java",
                 description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 7
             },
             {
                 heading : "Python",
                 description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 4
             },
             {
                 heading : "SCSS",
                 description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 5
             },
         ]
     },
@@ -75,19 +75,19 @@ export const HomePageExplore = [
                 heading : "Flask",
                 description : "This course covers the basic concepts of HTML including creating and structuring web pages, adding text, links, images, and more.",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 2
             },
             {
                 heading : "Django",
                 description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 4
             },
             {
                 heading : "Fast API",
                 description : "This course teaches responsive web design techniques, allowing web pages to adapt to different devices and screen sizes",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 3
             },
         ]
     },
@@ -104,7 +104,7 @@ export const HomePageExplore = [
                 heading : "Nuxt.js",
                 description : "This course explores advanced topics in HTML5 and CSS3, including animations, transitions, and layout techniques",
                 level : 'Beginner',
-                lessionNumber : 6
+                lessionNumber : 5
             },
             {
                 heading : "Sanity",
