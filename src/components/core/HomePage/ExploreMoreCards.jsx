@@ -29,7 +29,7 @@ const ExploreMoreCards = ({ dark, data }) => {
         <div className="flex gap-2 items-center">
           <TbBinaryTree2Filled className="w-5" />
           <span className="text-base font-medium">
-            {data.lessionNumber} Lessons
+            {data.lessonNumber} Lessons
           </span>
         </div>
       </div>
