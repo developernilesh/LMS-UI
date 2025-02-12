@@ -1,9 +1,7 @@
 import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
 import Footer from "./components/common/Footer";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -17,6 +15,7 @@ const App = () => {
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
+      <Toaster/>
     </>
   );
 };

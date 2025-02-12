@@ -12,7 +12,6 @@ import Instructor from "../assets/Images/Instructor.png";
 import Know_your_progress from "../assets/Images/Know_your_progress.svg";
 import Plan_your_lessons from "../assets/Images/Plan_your_lessons.svg";
 import Compare_with_others from "../assets/Images/Compare_with_others.svg";
-import Footer from "../components/common/Footer";
 import { HomePageExplore } from "../data/homepage-explore";
 import ExploreMoreCards from "../components/core/HomePage/ExploreMoreCards";
 
