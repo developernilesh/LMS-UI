@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import InputField from "../../common/InputField";
 
-const SignupForm = ({ setIsloggedin }) => {
-  const navigate = useNavigate();
+const SignupForm = () => {
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -23,34 +23,48 @@ const SignupForm = ({ setIsloggedin }) => {
       toast.error("Passwords do not match");
       return;
     }
-    setIsloggedin(true);
-    toast.success("Created Account Successfully");
+    toast.success(`Created ${accountType.charAt(0).toUpperCase() + accountType.slice(1)} Account Successfully`);
 
     const finalData = { ...data, accountType };
-    console.log(finalData);
-
-    navigate("/dashboard");
+    console.log("finalData", finalData);
+    reset()
   };
 
   return (
-    <div>
+    <>
+      <h2 className="text-richblack-5 font-semibold text-[1.875rem] leading-[2.375rem]">
+        {accountType === "student"
+          ? "Join the millions learning to code with LearnVerse for free"
+          : "Join to help students ace their career through LearnVerse"}
+      </h2>
+
+      <p className="flex flex-col text-[1.125rem] leading-[1.625rem] mt-4">
+        <span className="text-richblack-100">
+          {accountType === "student"
+            ? "Build skilld for today, tomorrow, and beyond"
+            : "Discover your passions"}
+        </span>
+        <span className="text-blue-100 italic">
+          {accountType === "student"
+            ? "Education to future-proof your career"
+            : "Be unstoppable"}
+        </span>
+      </p>
       <div className="mt-6 bg-richblack-800 p-1 flex gap-1 rounded-full max-w-max">
         <button
-          className={`${
-            accountType === "student"
-              ? "bg-richblack-900 text-richblack-5"
-              : "bg-transparent text-richblack-200"
-          } py-2 px-5 rounded-full transition-all duration-200`}
+          className={`${accountType === "student"
+            ? "bg-richblack-900 text-richblack-5"
+            : "bg-transparent text-richblack-200"
+            } py-2 px-5 rounded-full transition-all duration-200`}
           onClick={() => setAccountType("student")}
         >
           Student
         </button>
         <button
-          className={`${
-            accountType === "instructor"
-              ? "bg-richblack-900 text-richblack-5"
-              : "bg-transparent text-richblack-200"
-          } py-2 px-5 rounded-full transition-all duration-200`}
+          className={`${accountType === "instructor"
+            ? "bg-richblack-900 text-richblack-5"
+            : "bg-transparent text-richblack-200"
+            } py-2 px-5 rounded-full transition-all duration-200`}
           onClick={() => setAccountType("instructor")}
         >
           Instructor
@@ -88,7 +102,7 @@ const SignupForm = ({ setIsloggedin }) => {
           validation={{
             required: "Email is required",
             pattern: {
-              value: /^\S+@$/i,
+              value: /^\S+@\S+$/i,
               message: "Please include '@' in your email address",
             },
           }}
@@ -133,7 +147,7 @@ const SignupForm = ({ setIsloggedin }) => {
             validation={{
               required: "Confirm Password is required",
               validate: (value) =>
-                value === watch("password") || "Passwords do not match",
+                value === watch("password") || "Password does not match",
             }}
             error={errors.confirmPassword}
           />
@@ -152,8 +166,18 @@ const SignupForm = ({ setIsloggedin }) => {
         <button className="w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6">
           Create Account
         </button>
+
+        <div className="text-center">
+          <span className="text-richblack-200">Already have an account?</span>
+          &nbsp;
+          <span>
+            <Link to="/login" className="text-blue-100 underline">
+              Sign in
+            </Link>
+          </span>
+        </div>
       </form>
-    </div>
+    </>
   );
 };
 
