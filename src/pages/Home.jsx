@@ -25,7 +25,7 @@ const Home = () => {
       {/* section 1 */}
       <section className="container mx-auto flex flex-col items-center gap-4 text-white pt-10">
         <Link to={"/login"}>
-          <div className="bg-richblack-800 text-richblack-200 font-bold rounded-full flex items-center gap-2 px-5 py-2 mt-4 transition-all duration-200 hover:scale-95 hover:bg-richblack-700 border-b-2 border-richblack-500">
+          <div className="bg-richblack-800 text-richblack-200 font-bold rounded-full flex items-center gap-2 px-5 py-2 mt-4 transition-all duration-200 hover:scale-95 hover:bg-richblack-900 border-b-2 hover:border border-richblack-700">
             <p>Become an Instructor</p>
             <FaArrowRight />
           </div>
@@ -297,7 +297,7 @@ const Home = () => {
 
             <div className="text-base font-medium text-richblack-200 text-center md:text-start">
               Instructors from around the world teach millions of students on
-              StudyNotion. We provide the tools and skills to teach what you
+              LearnVerse. We provide the tools and skills to teach what you
               love.
             </div>
 

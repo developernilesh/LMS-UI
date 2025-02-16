@@ -1,14 +1,14 @@
 import React from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Footer from "./components/common/Footer";
 import { Toaster } from "react-hot-toast";
-
+import Navbar from "./components/common/Navbar";
 const App = () => {
   return (
     <>
-      {/* <nav>
+      <nav className="w-full bg-richblack-900 text-richblack-25 border-b border-richblack-700 font-inter">
         <Navbar />
-      </nav> */}
+      </nav>
       <main className="w-full min-h-screen bg-richblack-900 font-inter">
         <Outlet />
       </main>
