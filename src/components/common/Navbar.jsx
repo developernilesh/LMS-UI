@@ -1,10 +1,15 @@
 import React from "react";
 import Logo from "../../assets/Logo/MainLogo.png";
-import { Link, useParams } from "react-router-dom";
+import { Link, matchPath, useLocation, useParams } from "react-router-dom";
 import { NavbarLinks } from "../../data/navbar-links";
 
 const Navbar = () => {
   const param = useParams();
+  const location = useLocation();
+  const matchRoute = (route) => {
+    if (!route) return false;
+    return matchPath({ path: route }, location.pathname);
+  };
   return (
     <div className="container mx-auto py-2">
       <div className="w-11/12 mx-auto flex justify-between items-center">
@@ -15,16 +20,16 @@ const Navbar = () => {
           <ul className="flex items-center gap-8">
             {NavbarLinks.map((item, index) => (
               <li
-                className={`${
-                  param === item.path
+                key={index}
+                className={`${matchRoute(item?.path)
                     ? "text-yellow-50"
                     : "text-richblack-25 hover:text-richblack-100"
-                } transition-colors`}
+                  } transition-colors`}
               >
-                {!item.path ? (
-                  <div>{item.title}</div>
-                ) : (
+                {item.path ? (
                   <Link to={item.path}>{item.title}</Link>
+                ) : (
+                  <div>{item.title}</div>
                 )}
               </li>
             ))}
