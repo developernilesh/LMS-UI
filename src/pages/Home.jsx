@@ -114,7 +114,7 @@ const Home = () => {
             Learn to Build Anything You Can Imagine
           </div>
           <div className="flex justify-center mt-6">
-            <div className="bg-richblack-800 rounded-full flex gap-2 p-2 shadow-md">
+            <div className="bg-richblack-800 rounded-full flex gap-4 p-1">
               {tabs.map((item, index) => (
                 <span
                   key={index}
