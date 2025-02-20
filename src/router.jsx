@@ -5,6 +5,7 @@ import Home from "./pages/Home.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import AboutUs from "./pages/AboutUs.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+import Error from "./pages/Error.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <ContactUs />,
+      },
+      {
+        path: "*",
+        element: <Error />,
       },
     ],
   },
