@@ -5,6 +5,8 @@ export default function useOnClickOutside(ref, handler) {
   useEffect(() => {
     // Define the listener function to be called on click/touch events
     const listener = (event) => {
+      console.log("event", event);
+      console.log("ref", ref);
       // If the click/touch event originated inside the ref element, do nothing
       if (!ref.current || ref.current.contains(event.target)) {
         return;
