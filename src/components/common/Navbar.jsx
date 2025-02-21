@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import Logo from "../../assets/Logo/MainLogo.png";
 import { Link, matchPath, useLocation } from "react-router-dom";
 import { NavbarLinks } from "../../data/navbar-links";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 import apiConnector from "../../services/apiConnector";
 import endpoints from "../../services/apiEndpoints";
 import toast from "react-hot-toast";
 import { IoIosArrowDown } from "react-icons/io";
 import ProfileDropdown from "../core/Auth/ProfileDropdown";
+import { setLoading } from "../../redux/slices/loaderSlice";
 
 const Navbar = () => {
   // getting the token, cartItems, user from the redux store
   const { token } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
 
   // matching the route with the current path
   const location = useLocation();
@@ -27,14 +29,18 @@ const Navbar = () => {
 
   const fetchAllCategories = async () => {
     try {
+      dispatch(setLoading(true));
       const { data } = await apiConnector("GET", endpoints.VIEW_ALL_CATEGORIES);
       if (data?.success) {
         setCategories(data.data);
       } else {
-        toast.error(data?.message);
+        throw new Error(data?.message);
       }
     } catch (error) {
-      toast.error("Error fetching categories");
+      console.log(error);
+      // toast.error(error);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -107,7 +113,7 @@ const Navbar = () => {
               )}
 
               {/* User Avatar */}
-              <ProfileDropdown />
+              {!user && <ProfileDropdown />}
             </>
           ) : (
             <>

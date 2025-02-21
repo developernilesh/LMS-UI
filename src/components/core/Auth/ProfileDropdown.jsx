@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { AiOutlineCaretDown, AiOutlineCaretUp } from "react-icons/ai";
+import { AiOutlineCaretDown } from "react-icons/ai";
 import { PiSignOut } from "react-icons/pi";
 import { VscDashboard } from "react-icons/vsc";
 import { Link } from "react-router-dom";
