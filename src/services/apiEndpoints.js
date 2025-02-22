@@ -3,8 +3,8 @@ const BASE_URL = `${import.meta.env.VITE_BASE_URL}/api/v1`;
 // Auth API Endpoints
 const authEndpoints = {
   SEND_OTP_API: `${BASE_URL}/auth/send-otp`,
-  LOGIN_API: `${BASE_URL}/auth/login`,
   SIGNUP_API: `${BASE_URL}/auth/signup`,
+  LOGIN_API: `${BASE_URL}/auth/login`,
   RESET_PASSWORD_TOKEN_API: `${BASE_URL}/auth/reset-password-token`,
   RESET_PASSWORD_API: `${BASE_URL}/auth/reset-password`,
 };
