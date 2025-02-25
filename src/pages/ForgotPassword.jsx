@@ -31,7 +31,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="w-full pt-[20vh] pb-5 flex justify-center items-center">
       <div className="w-full max-w-[400px] px-4">
         {isEmailSent ? (
           <div className="flex flex-col gap-6">
@@ -40,7 +40,11 @@ const ForgotPassword = () => {
               We have sent the reset email to:
               <br /> {email}
             </p>
-            <SubmitButton buttonContent="Resend Email" buttonType="button" />
+            <SubmitButton
+              buttonContent="Resend Email"
+              buttonType="button"
+              onClick={() => console.log("clicked")}
+            />
           </div>
         ) : (
           <div className="flex flex-col gap-6">
