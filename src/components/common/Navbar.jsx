@@ -95,7 +95,7 @@ const Navbar = () => {
 
         {/* Items based on the user's authentication status */}
         <div className="flex items-center gap-2 md:gap-4">
-          {!token ? (
+          {token ? (
             <>
               {/* Search Icon */}
               <button className="flex items-center justify-center">

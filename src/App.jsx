@@ -3,13 +3,12 @@ import { Outlet } from "react-router-dom";
 import Footer from "./components/common/Footer";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/common/Navbar";
-import Loader from "./components/common/Loader";
+import Loader from "./components/Loader/Loader";
 import { useSelector } from "react-redux";
 const App = () => {
   const { loading } = useSelector((state) => state.loader);
   return (
     <>
-      {loading && <Loader />}
       <nav className="w-full bg-richblack-900 text-richblack-25 border-b border-richblack-700 font-inter">
         <Navbar />
       </nav>
