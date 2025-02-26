@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
 import SubmitButton from "../components/core/Form/SubmitButton";
 import Loader from "../components/Loader/Loader";
+import { resetPassowrdToken } from "../services/operations/authApi";
 
 const ForgotPassword = () => {
   const {
@@ -21,8 +22,10 @@ const ForgotPassword = () => {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [email, setEmail] = useState("abc");
 
-  const onSubmit = (data) => {
-    console.log("finalData", data);
+  const onSubmit = async (data) => {
+    const { email } = data;
+    dispatch(resetPassowrdToken(email, setIsEmailSent));
+    setEmail(email)
     reset();
   };
 
@@ -78,12 +81,14 @@ const ForgotPassword = () => {
             </form>
           </div>
         )}
-        <Link to="/login">
-          <button className="flex items-center gap-2 mt-3">
-            <GoArrowLeft />
-            <span>Back to Login</span>
-          </button>
-        </Link>
+        <div className="flex justify-left">
+          <Link to="/login">
+            <button className="flex items-center gap-2 mt-3">
+              <GoArrowLeft />
+              <span>Back to Login</span>
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

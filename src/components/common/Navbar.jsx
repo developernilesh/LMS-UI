@@ -12,11 +12,13 @@ import ProfileDropdown from "../core/Auth/ProfileDropdown";
 import { setLoading } from "../../redux/slices/loaderSlice";
 
 const Navbar = () => {
-  // getting the token, cartItems, user from the redux store
+  const dispatch = useDispatch();
+
   const { token } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.profile);
-  const dispatch = useDispatch();
+
+  const { VIEW_ALL_CATEGORIES } = endpoints;
 
   // matching the route with the current path
   const location = useLocation();
@@ -28,17 +30,15 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
 
   const fetchAllCategories = async () => {
+    setCategories([]);
+    dispatch(setLoading(true));
     try {
-      dispatch(setLoading(true));
-      const { data } = await apiConnector("GET", endpoints.VIEW_ALL_CATEGORIES);
-      if (data?.success) {
-        setCategories(data.data);
-      } else {
-        setCategories([]);
-        throw new Error(data?.message);
+      const response = await apiConnector("GET", VIEW_ALL_CATEGORIES);
+      if (response?.data?.success) {
+        setCategories(response.data.data);
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
@@ -75,18 +75,26 @@ const Navbar = () => {
                     <span>{item.title}</span>
                     <IoIosArrowDown />
                   </div>
-                  <div className="h-2 w-2 bg-richblack-5 absolute hidden group-hover:block right-[15%] rotate-45"></div>
-                  <div className="absolute hidden group-hover:block bg-richblack-5 text-richblack-900 py-2 px-4 rounded-md shadow-md left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap">
-                    <ul className="flex flex-col gap-2">
-                      {categories.map((category) => (
-                        <li key={category._id}>
-                          <Link to={`/catalog/${category.name.split(" ").join("-")}`}>
-                            {category.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {categories.length !== 0 && (
+                    <>
+                      <div className="h-2 w-2 bg-richblack-5 absolute hidden group-hover:block right-[15%] rotate-45"></div>
+                      <div className="absolute hidden group-hover:block bg-richblack-5 text-richblack-900 py-2 px-4 rounded-md shadow-md left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap">
+                        <ul className="flex flex-col gap-2">
+                          {categories.map((category) => (
+                            <li key={category._id}>
+                              <Link
+                                to={`/catalog/${category.name
+                                  .split(" ")
+                                  .join("-")}`}
+                              >
+                                {category.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </li>
