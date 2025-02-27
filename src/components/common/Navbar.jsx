@@ -164,7 +164,15 @@ const Navbar = () => {
             <div className="container mx-auto">
               <div className="py-2 w-11/12 mx-auto flex justify-between items-center">
                 <Link to="/">
-                  <img src={Logo} alt="Logo" className="w-32" />
+                  <img
+                    src={Logo}
+                    alt="Logo"
+                    className="w-32"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsNavbarCatalogOpenInMobile(false);
+                    }}
+                  />
                 </Link>
                 <button
                   className="text-richblack-25 text-2xl"
@@ -216,7 +224,7 @@ const Navbar = () => {
                         </div>
                         {categories.length !== 0 &&
                           isNavbarCatalogOpenInMobile && (
-                            <div className="bg-richblack-5 text-richblack-900 py-2 px-4 mt-2">
+                            <div className="bg-richblack-5 text-richblack-900 py-2 px-4 mt-2 rounded-md">
                               <ul className="flex flex-col gap-2">
                                 {categories.map((category) => (
                                   <li key={category._id}>
