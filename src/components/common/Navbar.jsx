@@ -3,11 +3,16 @@ import Logo from "../../assets/Logo/MainLogo.png";
 import { Link, matchPath, useLocation } from "react-router-dom";
 import { NavbarLinks } from "../../data/navbar-links";
 import { useDispatch, useSelector } from "react-redux";
-import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
+import {
+  IoCartOutline,
+  IoSearchOutline,
+  IoMenu,
+  IoClose,
+} from "react-icons/io5";
 import apiConnector from "../../services/apiConnector";
 import endpoints from "../../services/apiEndpoints";
 import toast from "react-hot-toast";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProfileDropdown from "../core/Auth/ProfileDropdown";
 import { setLoading } from "../../redux/slices/loaderSlice";
 
@@ -28,6 +33,9 @@ const Navbar = () => {
   };
 
   const [categories, setCategories] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
+    useState(false);
 
   const fetchAllCategories = async () => {
     setCategories([]);
@@ -56,8 +64,8 @@ const Navbar = () => {
           <img src={Logo} alt="Logo" className="w-32" />
         </Link>
 
-        {/* Navbar Links */}
-        <ul className="hidden sm:flex items-center gap-4 lg:gap-8">
+        {/* Navbar Links - Desktop */}
+        <ul className="hidden md:flex items-center gap-4 lg:gap-8">
           {NavbarLinks.map((item, index) => (
             <li
               key={index}
@@ -140,7 +148,102 @@ const Navbar = () => {
               </Link>
             </>
           )}
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="md:hidden text-richblack-25 text-2xl ml-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <IoMenu />
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="fixed inset-0 h-screen w-full bg-richblack-900 md:hidden z-50">
+            <div className="container mx-auto">
+              <div className="py-2 w-11/12 mx-auto flex justify-between items-center">
+                <Link to="/">
+                  <img src={Logo} alt="Logo" className="w-32" />
+                </Link>
+                <button
+                  className="text-richblack-25 text-2xl"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsNavbarCatalogOpenInMobile(false);
+                  }}
+                >
+                  <IoClose />
+                </button>
+              </div>
+              <ul className="flex flex-col items-center gap-4 w-11/12 mx-auto mt-4">
+                {NavbarLinks.map((item, index) => (
+                  <li
+                    key={index}
+                    className={`${
+                      matchRoute(item?.path)
+                        ? "text-yellow-50"
+                        : "text-richblack-25 hover:text-richblack-100"
+                    } transition-colors`}
+                  >
+                    {item.path ? (
+                      <Link to={item.path}>
+                        <div
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            setIsNavbarCatalogOpenInMobile(false);
+                          }}
+                        >
+                          {item.title}
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="relative group flex flex-col items-center">
+                        <div
+                          className="flex items-center gap-2"
+                          onClick={() =>
+                            setIsNavbarCatalogOpenInMobile(
+                              !isNavbarCatalogOpenInMobile
+                            )
+                          }
+                        >
+                          <span>{item.title}</span>
+                          {isNavbarCatalogOpenInMobile ? (
+                            <IoIosArrowUp />
+                          ) : (
+                            <IoIosArrowDown />
+                          )}
+                        </div>
+                        {categories.length !== 0 &&
+                          isNavbarCatalogOpenInMobile && (
+                            <div className="bg-richblack-5 text-richblack-900 py-2 px-4 mt-2">
+                              <ul className="flex flex-col gap-2">
+                                {categories.map((category) => (
+                                  <li key={category._id}>
+                                    <Link
+                                      to={`/catalog/${category.name
+                                        .split(" ")
+                                        .join("-")}`}
+                                      onClick={() => {
+                                        setIsMenuOpen(false);
+                                        setIsNavbarCatalogOpenInMobile(false);
+                                      }}
+                                    >
+                                      {category.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
