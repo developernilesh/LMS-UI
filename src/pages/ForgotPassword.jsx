@@ -45,11 +45,11 @@ const ForgotPassword = () => {
       dispatch(setLoading(false));
     }
   };
-  
+
   const onSubmit = async (data) => {
     const { email } = data;
     const isMailSuccessfullySent = await sendResetPasswordEmail(email);
-    if(isMailSuccessfullySent){
+    if (isMailSuccessfullySent) {
       setEmail(email);
       reset();
     }
@@ -60,8 +60,8 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="w-full pt-[20vh] pb-5 flex justify-center items-center">
-      <div className="w-full max-w-[400px] px-4">
+    <div className="w-full h-screen min-h-min py-14 flex justify-center items-center">
+      <div className="w-full max-w-[400px] px-4 -mt-12">
         {isEmailSent ? (
           <div className="flex flex-col gap-6">
             <h3 className="font-semibold text-3xl">Check email</h3>
