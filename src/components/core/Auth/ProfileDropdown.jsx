@@ -5,7 +5,7 @@ import { VscDashboard } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 
-const ProfileDropdown = () => {
+const ProfileDropdown = ({user}) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -18,7 +18,7 @@ const ProfileDropdown = () => {
         onClick={() => setOpen(!open)}
       >
         <img
-          src={`https://api.dicebear.com/5.x/initials/svg?seed=Arghya Mukherjee`}
+          src={user?.image}
           alt="User"
           className="w-6 h-6 rounded-full"
         />

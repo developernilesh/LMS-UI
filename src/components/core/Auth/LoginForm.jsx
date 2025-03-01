@@ -9,7 +9,7 @@ import { setLoading } from "../../../redux/slices/loaderSlice";
 import endpoints from "../../../services/apiEndpoints";
 import Loader from "../../Loader/Loader";
 import { setToken } from "../../../redux/slices/authSlice";
-import { setUser } from "../../../redux/slices/profileSLice";
+import apiConnector from "../../../services/apiConnector";
 
 const LoginForm = () => {
   const {
@@ -22,24 +22,30 @@ const LoginForm = () => {
 
   const { loading } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { LOGIN_API } = endpoints;
 
   const onSubmit = async (data) => {
+    console.log("data", data);
+
     dispatch(setLoading(true));
     const { email, password } = data;
     try {
+      console.log("1");
+
       const response = await apiConnector("POST", LOGIN_API, {
         email,
         password,
       });
+      console.log("2");
+
       if (response?.data?.success) {
-        toast.success(response.data.message);
-        dispatch(setToken(response.data.token));
-        localStorage.setItem("token", JSON.stringify(response.data.token));
-        dispatch(setUser(response.data.user));
+        toast.success(response?.data?.message);
+        dispatch(setToken(response?.data?.token));
+        localStorage.setItem("token", JSON.stringify(response?.data?.token));
+        // dispatch(setUser(response?.data?.user));
         // navigate("/dashboard/my-profile")
-        navigate("/")
+        navigate("/");
         reset();
       }
     } catch (error) {
@@ -47,7 +53,6 @@ const LoginForm = () => {
     } finally {
       dispatch(setLoading(false));
     }
-    reset();
   };
 
   if (loading) return <Loader />;

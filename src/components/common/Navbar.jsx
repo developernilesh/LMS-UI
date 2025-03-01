@@ -21,9 +21,8 @@ const Navbar = () => {
 
   const { token } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.profile);
 
-  const { VIEW_ALL_CATEGORIES } = endpoints;
+  const { VIEW_ALL_CATEGORIES, USER_DETAILS_API } = endpoints;
 
   // matching the route with the current path
   const location = useLocation();
@@ -33,6 +32,7 @@ const Navbar = () => {
   };
 
   const [categories, setCategories] = useState([]);
+  const [user, setUser] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
     useState(false);
@@ -52,8 +52,24 @@ const Navbar = () => {
     }
   };
 
+  const fetchUserDetails = async () => {
+    setUser([]);
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("GET", USER_DETAILS_API);
+      if (response?.data?.success) {
+        setUser(response.data.data);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   useEffect(() => {
     fetchAllCategories();
+    fetchUserDetails();
   }, []);
 
   return (
@@ -129,7 +145,7 @@ const Navbar = () => {
               )}
 
               {/* User Avatar */}
-              {!user && <ProfileDropdown />}
+              {user && <ProfileDropdown user={user} />}
             </>
           ) : (
             <>
