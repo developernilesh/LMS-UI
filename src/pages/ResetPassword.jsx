@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
 import { Link, useParams } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -8,6 +8,9 @@ import { useForm } from "react-hook-form";
 import SubmitButton from "../components/core/Form/SubmitButton";
 import toast from "react-hot-toast";
 import { GoArrowLeft } from "react-icons/go";
+import { setLoading } from "../redux/slices/loaderSlice";
+import apiConnector from "../services/apiConnector";
+import endpoints from "../services/apiEndpoints";
 
 const ResetPassword = () => {
   const {
@@ -19,21 +22,35 @@ const ResetPassword = () => {
 
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
-  const [isResetSucessful, setIsResetSucessful] = useState(true);
+  const [isResetSucessful, setIsResetSucessful] = useState(false);
+
   const { loading } = useSelector((state) => state.loader);
   const { token } = useParams();
+  const dispatch = useDispatch();
+  const { RESET_PASSWORD_API } = endpoints;
 
-  const onSubmit = (data) => {
-    if (data.newPassword !== data.confirmNewPassword) {
-      toast.error("Passwords do not match");
-      return;
+  const onSubmit = async (data) => {
+    dispatch(setLoading(true));
+    const { newPassword, confirmNewPassword } = data;
+    try {
+      const response = await apiConnector("POST", RESET_PASSWORD_API, {
+        resetPassword: newPassword,
+        confirmResetPassword: confirmNewPassword,
+        token,
+      });
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        setIsResetSucessful(true);
+        reset();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+    } finally {
+      dispatch(setLoading(false));
     }
-    reset();
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   return (
     <div className="w-full h-screen min-h-min py-14 flex justify-center items-center">

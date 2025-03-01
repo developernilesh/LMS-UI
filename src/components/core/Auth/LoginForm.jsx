@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../../core/Form/InputField";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../../redux/slices/loaderSlice";
+import endpoints from "../../../services/apiEndpoints";
+import Loader from "../../Loader/Loader";
+import { setToken } from "../../../redux/slices/authSlice";
+import { setUser } from "../../../redux/slices/profileSLice";
 
 const LoginForm = () => {
   const {
@@ -14,11 +20,37 @@ const LoginForm = () => {
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (data) => {
-    toast.success("Logged In Successfully");
-    console.log(data);
-    reset()
+  const { loading } = useSelector((state) => state.loader);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const { LOGIN_API } = endpoints;
+
+  const onSubmit = async (data) => {
+    dispatch(setLoading(true));
+    const { email, password } = data;
+    try {
+      const response = await apiConnector("POST", LOGIN_API, {
+        email,
+        password,
+      });
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        dispatch(setToken(response.data.token));
+        localStorage.setItem("token", JSON.stringify(response.data.token));
+        dispatch(setUser(response.data.user));
+        // navigate("/dashboard/my-profile")
+        navigate("/")
+        reset();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+    } finally {
+      dispatch(setLoading(false));
+    }
+    reset();
   };
+
+  if (loading) return <Loader />;
 
   return (
     <>
@@ -28,7 +60,9 @@ const LoginForm = () => {
 
       <p className="flex flex-col text-[1.125rem] leading-[1.625rem] mt-4">
         <span className="text-richblack-100">to the Universe of Learning</span>
-        <span className="text-blue-100 italic">where education meets success</span>
+        <span className="text-blue-100 italic">
+          where education meets success
+        </span>
       </p>
 
       <form
