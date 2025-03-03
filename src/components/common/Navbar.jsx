@@ -70,7 +70,8 @@ const Navbar = () => {
   useEffect(() => {
     fetchAllCategories();
     fetchUserDetails();
-  }, []);
+    console.log("nav csall")
+  }, [token]);
 
   return (
     <div className="container mx-auto py-2">
