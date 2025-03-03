@@ -26,24 +26,17 @@ const LoginForm = () => {
   const { LOGIN_API } = endpoints;
 
   const onSubmit = async (data) => {
-    console.log("data", data);
-
     dispatch(setLoading(true));
     const { email, password } = data;
     try {
-      console.log("1");
-
       const response = await apiConnector("POST", LOGIN_API, {
         email,
         password,
       });
-      console.log("2");
-
       if (response?.data?.success) {
         toast.success(response?.data?.message);
         dispatch(setToken(response?.data?.token));
-        localStorage.setItem("token", JSON.stringify(response?.data?.token));
-        // dispatch(setUser(response?.data?.user));
+        localStorage.setItem("token", JSON.stringify(response?.data?.token))
         // navigate("/dashboard/my-profile")
         navigate("/");
         reset();
