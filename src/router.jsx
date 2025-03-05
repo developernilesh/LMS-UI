@@ -8,6 +8,7 @@ import ContactUs from "./pages/ContactUs.jsx";
 import Error from "./pages/Error.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import VerifyOtp from "./pages/VerifyOtp.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "update-password/:token",
         element: <ResetPassword />,
+      },
+      {
+        path: "verify-otp",
+        element: <VerifyOtp />,
       },
       {
         path: "*",
