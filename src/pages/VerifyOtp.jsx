@@ -11,6 +11,11 @@ const VerifyOtp = () => {
   const { loading } = useSelector((state) => state.loader);
   const [otp, setOtp] = useState("");
 
+  const verifyGivenOtp = (e) => {
+    e.preventDefault();
+    console.log(otp)
+  }
+
   if (loading) return <Loader />;
 
   return (
@@ -20,7 +25,7 @@ const VerifyOtp = () => {
         <p className="mb-6">
           A verification code has been sent to you. Enter the code below.
         </p>
-        <form>
+        <form onSubmit={verifyGivenOtp}>
           <OTPInput
             value={otp}
             onChange={setOtp}
