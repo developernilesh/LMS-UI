@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../../core/Form/InputField";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import endpoints from "../../../services/apiEndpoints";
+import { setLoading } from "../../../redux/slices/loaderSlice";
+import apiConnector from "../../../services/apiConnector";
+import { setSignupData } from "../../../redux/slices/authSlice";
+import Loader from "../../Loader/Loader";
 
 const SignupForm = () => {
   const {
@@ -20,38 +24,40 @@ const SignupForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("student");
 
+  const { loading } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { SEND_OTP_API } = endpoints;
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-    toast.success(`Created ${accountType.charAt(0).toUpperCase() + accountType.slice(1)} Account Successfully`);
-
+    // toast.success(`Created ${accountType.charAt(0).toUpperCase() + accountType.slice(1)} Account Successfully`);
     const finalData = { ...data, accountType };
-    console.log("finalData", finalData);
+    
     dispatch(setLoading(true));
-    const { newPassword, confirmNewPassword } = data;
     try {
       const response = await apiConnector("POST", SEND_OTP_API, {
-        resetPassword: newPassword,
-        confirmResetPassword: confirmNewPassword,
-        token,
+        email: data.email,
       });
+      console.log("response", response?.data?.success)
       if (response?.data?.success) {
         toast.success(response.data.message);
-        setIsResetSucessful(true);
+        setSignupData(finalData);
+        navigate("/verify-otp")
         reset();
       }
     } catch (error) {
+      console.log("error", error)
       toast.error(error?.response?.data?.message || "Something Went Wrong!");
     } finally {
       dispatch(setLoading(false));
     }
-    reset()
   };
+
+  if (loading) return <Loader />;
 
   return (
     <>
@@ -75,19 +81,21 @@ const SignupForm = () => {
       </p>
       <div className="mt-6 bg-richblack-800 p-1 flex gap-1 rounded-full max-w-max">
         <button
-          className={`${accountType === "student"
-            ? "bg-richblack-900 text-richblack-5"
-            : "bg-transparent text-richblack-200"
-            } py-2 px-5 rounded-full transition-all duration-200`}
+          className={`${
+            accountType === "student"
+              ? "bg-richblack-900 text-richblack-5"
+              : "bg-transparent text-richblack-200"
+          } py-2 px-5 rounded-full transition-all duration-200`}
           onClick={() => setAccountType("student")}
         >
           Student
         </button>
         <button
-          className={`${accountType === "instructor"
-            ? "bg-richblack-900 text-richblack-5"
-            : "bg-transparent text-richblack-200"
-            } py-2 px-5 rounded-full transition-all duration-200`}
+          className={`${
+            accountType === "instructor"
+              ? "bg-richblack-900 text-richblack-5"
+              : "bg-transparent text-richblack-200"
+          } py-2 px-5 rounded-full transition-all duration-200`}
           onClick={() => setAccountType("instructor")}
         >
           Instructor
@@ -169,8 +177,8 @@ const SignupForm = () => {
             register={register}
             validation={{
               required: "Confirm Password is required",
-              validate: (value) =>
-                value === watch("password") || "Password does not match",
+              // validate: (value) =>
+              //   value === watch("password") || "Password does not match",
             }}
             error={errors.confirmPassword}
           />
