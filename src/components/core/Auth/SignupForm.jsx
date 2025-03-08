@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import InputField from "../../core/Form/InputField";
+import { useDispatch } from "react-redux";
+import endpoints from "../../../services/apiEndpoints";
 
 const SignupForm = () => {
   const {
@@ -18,7 +20,10 @@ const SignupForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("student");
 
-  const onSubmit = (data) => {
+  const dispatch = useDispatch();
+  const { SEND_OTP_API } = endpoints;
+
+  const onSubmit = async(data) => {
     if (data.password !== data.confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -27,6 +32,24 @@ const SignupForm = () => {
 
     const finalData = { ...data, accountType };
     console.log("finalData", finalData);
+    dispatch(setLoading(true));
+    const { newPassword, confirmNewPassword } = data;
+    try {
+      const response = await apiConnector("POST", SEND_OTP_API, {
+        resetPassword: newPassword,
+        confirmResetPassword: confirmNewPassword,
+        token,
+      });
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        setIsResetSucessful(true);
+        reset();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+    } finally {
+      dispatch(setLoading(false));
+    }
     reset()
   };
 
