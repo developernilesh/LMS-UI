@@ -15,7 +15,6 @@ const SignupForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm();
@@ -34,23 +33,19 @@ const SignupForm = () => {
       toast.error("Passwords do not match");
       return;
     }
-    // toast.success(`Created ${accountType.charAt(0).toUpperCase() + accountType.slice(1)} Account Successfully`);
-    const finalData = { ...data, accountType };
-    
+    const finalData = { ...data, accountType };    
     dispatch(setLoading(true));
     try {
       const response = await apiConnector("POST", SEND_OTP_API, {
         email: data.email,
       });
-      console.log("response", response?.data?.success)
       if (response?.data?.success) {
         toast.success(response.data.message);
-        setSignupData(finalData);
+        dispatch(setSignupData(finalData));
         navigate("/verify-otp")
         reset();
       }
     } catch (error) {
-      console.log("error", error)
       toast.error(error?.response?.data?.message || "Something Went Wrong!");
     } finally {
       dispatch(setLoading(false));

@@ -1,20 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
 import SubmitButton from "../components/core/Form/SubmitButton";
 import { GoArrowLeft } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { GiBackwardTime } from "react-icons/gi";
+import { setLoading } from "../redux/slices/loaderSlice";
+import endpoints from "../services/apiEndpoints";
+import apiConnector from "../services/apiConnector";
 
 const VerifyOtp = () => {
-  const { loading } = useSelector((state) => state.loader);
   const [otp, setOtp] = useState("");
 
-  const verifyGivenOtp = (e) => {
+  const { loading } = useSelector((state) => state.loader);
+  const { signupData } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { SIGNUP_API } = endpoints;
+
+  const verifyGivenOtp = async (e) => {
     e.preventDefault();
-    console.log(otp)
-  }
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("POST", SIGNUP_API, {
+        ...signupData,
+        otp,
+      });
+      if (response?.data?.success) {
+        toast.success(response?.data?.message);
+        navigate("/login");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
 
   if (loading) return <Loader />;
 
