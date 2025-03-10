@@ -21,7 +21,7 @@ const SignupForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [accountType, setAccountType] = useState("student");
+  const [accountType, setAccountType] = useState("Student");
 
   const { loading } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
@@ -57,19 +57,19 @@ const SignupForm = () => {
   return (
     <>
       <h2 className="text-richblack-5 font-semibold text-[1.875rem] leading-[2.375rem]">
-        {accountType === "student"
+        {accountType === "Student"
           ? "Join the millions learning to code with LearnVerse for free"
           : "Join to help students ace their career through LearnVerse"}
       </h2>
 
       <p className="flex flex-col text-[1.125rem] leading-[1.625rem] mt-4">
         <span className="text-richblack-100">
-          {accountType === "student"
+          {accountType === "Student"
             ? "Build skilld for today, tomorrow, and beyond"
             : "Discover your passions"}
         </span>
         <span className="text-blue-100 italic">
-          {accountType === "student"
+          {accountType === "Student"
             ? "Education to future-proof your career"
             : "Be unstoppable"}
         </span>
@@ -77,21 +77,21 @@ const SignupForm = () => {
       <div className="mt-6 bg-richblack-800 p-1 flex gap-1 rounded-full max-w-max">
         <button
           className={`${
-            accountType === "student"
+            accountType === "Student"
               ? "bg-richblack-900 text-richblack-5"
               : "bg-transparent text-richblack-200"
           } py-2 px-5 rounded-full transition-all duration-200`}
-          onClick={() => setAccountType("student")}
+          onClick={() => setAccountType("Student")}
         >
           Student
         </button>
         <button
           className={`${
-            accountType === "instructor"
+            accountType === "Instructor"
               ? "bg-richblack-900 text-richblack-5"
               : "bg-transparent text-richblack-200"
           } py-2 px-5 rounded-full transition-all duration-200`}
-          onClick={() => setAccountType("instructor")}
+          onClick={() => setAccountType("Instructor")}
         >
           Instructor
         </button>

@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
 import SubmitButton from "../components/core/Form/SubmitButton";
 import { GoArrowLeft } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GiBackwardTime } from "react-icons/gi";
 import { setLoading } from "../redux/slices/loaderSlice";
 import endpoints from "../services/apiEndpoints";
 import apiConnector from "../services/apiConnector";
+import toast from "react-hot-toast";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
@@ -16,6 +17,7 @@ const VerifyOtp = () => {
   const { loading } = useSelector((state) => state.loader);
   const { signupData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { SIGNUP_API } = endpoints;
 
   const verifyGivenOtp = async (e) => {
