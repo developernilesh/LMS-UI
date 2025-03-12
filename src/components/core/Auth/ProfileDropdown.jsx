@@ -2,14 +2,31 @@ import React, { useRef, useState } from "react";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import { PiSignOut } from "react-icons/pi";
 import { VscDashboard } from "react-icons/vsc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import { setToken } from "../../../redux/slices/authSlice";
+import { setUser } from "../../../redux/slices/profileSLice";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
-const ProfileDropdown = ({user}) => {
+const ProfileDropdown = ({ user }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useOnClickOutside(ref, () => setOpen(false));
+
+  const logout = () => {
+    setOpen(false);
+    dispatch(setToken(null))
+    dispatch(setUser(null))
+    // dispatch(resetCart())
+    localStorage.removeItem("token")
+    // localStorage.removeItem("user")
+    toast.success("Logged Out")
+    navigate("/")
+  };
 
   return (
     <div className="relative" ref={ref}>
@@ -17,11 +34,7 @@ const ProfileDropdown = ({user}) => {
         className="flex items-center justify-center ml-1"
         onClick={() => setOpen(!open)}
       >
-        <img
-          src={user?.image}
-          alt="User"
-          className="w-6 h-6 rounded-full"
-        />
+        <img src={user?.image} alt="User" className="w-6 h-6 rounded-full" />
         <AiOutlineCaretDown
           className={`text-sm text-richblack-100 ${
             open ? "rotate-180" : ""
@@ -36,16 +49,13 @@ const ProfileDropdown = ({user}) => {
               Dashboard
             </div>
           </Link>
-          <div
-            onClick={() => {
-              // dispatch(logout(navigate));
-              setOpen(false);
-            }}
+          <button
+            onClick={logout}
             className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
           >
             <PiSignOut className="text-lg" />
             Logout
-          </div>
+          </button>
         </div>
       )}
     </div>
