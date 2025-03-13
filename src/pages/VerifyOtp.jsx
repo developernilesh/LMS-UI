@@ -18,7 +18,7 @@ const VerifyOtp = () => {
   const { signupData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { SIGNUP_API } = endpoints;
+  const { SIGNUP_API, SEND_OTP_API } = endpoints;
 
   const verifyGivenOtp = async (e) => {
     e.preventDefault();
@@ -31,6 +31,22 @@ const VerifyOtp = () => {
       if (response?.data?.success) {
         toast.success(response?.data?.message);
         navigate("/login");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const resendOtp = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("POST", SEND_OTP_API, {
+        email: signupData.email,
+      });
+      if (response?.data?.success) {
+        toast.success(response.data.message);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something Went Wrong!");
@@ -72,7 +88,10 @@ const VerifyOtp = () => {
               <span>Back to Login</span>
             </button>
           </Link>
-          <button className="flex items-center gap-1 mt-3 text-blue-100">
+          <button
+            onClick={resendOtp}
+            className="flex items-center gap-1 mt-3 text-blue-100"
+          >
             <GiBackwardTime />
             <span>Resend otp</span>
           </button>
