@@ -4,3 +4,10 @@ export const infoParas = [
   "With this vision in mind, we set out on a journey to create an e-learning platform that would revolutionize the way people learn. Our team of dedicated experts worked tirelessly to develop a robust and intuitive platform that combines cutting-edge technology with engaging content, fostering a dynamic and interactive learning experience.",
   "Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.",
 ];
+
+export const stats = [
+    {count: '5K', label: 'Active Students'},
+    {count: '10+', label: 'Mentors'},
+    {count: '200+', label: 'Courses'},
+    {count: '50+', label: 'Awards'},
+]

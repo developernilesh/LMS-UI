@@ -6,7 +6,9 @@ import aboutus3 from "../assets/Images/aboutus3.webp";
 import FoundingStory from "../assets/Images/FoundingStory.png";
 import InfoSubSectionContainer from "../components/core/About/InfoSubSectionContainer";
 import ContentBlock from "../components/core/About/ContentBlock";
-import { infoParas } from "../data/aboutUs";
+import { infoParas, stats } from "../data/aboutUs";
+import GradientSpan from "../components/core/About/GradientSpan";
+import SectionContainer from "../components/core/About/SectionContainer";
 
 const AboutUs = () => {
   return (
@@ -42,22 +44,17 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-      <section className="container mx-auto flex justify-center gap-4 pt-10">
-        <p className="font-semibold text-4xl text-center w-11/12 max-w-[1200px] my-24 text-richblack-100">
-          "We are passionate about revolutionizing the way we learn. Our
-          innovative platform
-          <HighlightedText> combines technology,</HighlightedText>
-          <span className="bg-gradient-to-br from-[#E65C00] to-[#F9D423] text-transparent bg-clip-text">
-            {" "}
-            expertise,{" "}
-          </span>
-          and community to create an
-          <span className="bg-gradient-to-br from-[#E65C00] to-[#F9D423] text-transparent bg-clip-text">
-            {" "}
-            unparalleled educational experience.
-          </span>
-          "
-        </p>
+      <section className="container mx-auto pt-20">
+        <SectionContainer addClassName="justify-center">
+          <p className="font-semibold text-4xl text-center text-richblack-100">
+            "We are passionate about revolutionizing the way we learn. Our
+            innovative platform&nbsp;
+            <HighlightedText>combines technology,</HighlightedText>&nbsp;
+            <GradientSpan>expertise,</GradientSpan> and community to create
+            an&nbsp;
+            <GradientSpan>unparalleled educational experience.</GradientSpan>"
+          </p>
+        </SectionContainer>
       </section>
       <section className="container mx-auto">
         <InfoSubSectionContainer>
@@ -75,7 +72,7 @@ const AboutUs = () => {
           />
         </InfoSubSectionContainer>
 
-        <InfoSubSectionContainer alignItems="items-start">
+        <InfoSubSectionContainer alignItems="items-center lg:items-start">
           <ContentBlock
             title="Our Vision"
             gradient="from-[#E65C00] to-[#F9D423]"
@@ -90,6 +87,20 @@ const AboutUs = () => {
             <p>{infoParas[3]}</p>
           </ContentBlock>
         </InfoSubSectionContainer>
+      </section>
+      <section className="bg-richblack-800">
+        <div className="container mx-auto">
+          <SectionContainer addClassName="flex-wrap justify-center">
+            {stats.map((item) => (
+              <div className="flex flex-col items-center w-[50%] sm:w-[25%] mb-6 sm:mb-0">
+                <div className="text-2xl font-semibold">{item.count}</div>
+                <div className="text-center text-richblack-200">
+                  {item.label}
+                </div>
+              </div>
+            ))}
+          </SectionContainer>
+        </div>
       </section>
     </>
   );
