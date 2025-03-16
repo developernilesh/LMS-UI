@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import OTPInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
-import SubmitButton from "../components/core/Form/SubmitButton";
+import SubmitButton from "../components/Form/SubmitButton";
 import { GoArrowLeft } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
 import { GiBackwardTime } from "react-icons/gi";

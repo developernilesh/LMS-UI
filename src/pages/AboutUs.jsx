@@ -5,9 +5,11 @@ import aboutus2 from "../assets/Images/aboutus2.webp";
 import aboutus3 from "../assets/Images/aboutus3.webp";
 import FoundingStory from "../assets/Images/FoundingStory.png";
 import ContentBlock from "../components/core/About/ContentBlock";
-import { infoParas, stats } from "../data/aboutUs";
+import { infoParas, stats, LearningGridArray } from "../data/aboutUs";
 import GradientText from "../components/core/About/GradientText";
 import SectionContainer from "../components/core/About/SectionContainer";
+import CtaButton from "../components/core/HomePage/CtaButton";
+import ContactUsForm from "../components/Contact/ContactUsForm";
 
 const AboutUs = () => {
   return (
@@ -43,7 +45,7 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-      <section className="container mx-auto pt-20">
+      <section className="container mx-auto pt-10">
         <SectionContainer>
           <p className="font-semibold text-4xl text-center text-richblack-100">
             "We are passionate about revolutionizing the way we learn. Our
@@ -107,6 +109,61 @@ const AboutUs = () => {
             ))}
           </SectionContainer>
         </div>
+      </section>
+      <section className="container mx-auto">
+        <SectionContainer>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {LearningGridArray.map((item, index) => (
+              <div
+                key={index}
+                className={`${item.order < 0 && "sm:col-span-2"}
+                ${
+                  item.order > 0 &&
+                  (item.order % 2 === 1
+                    ? "bg-richblack-700 h-[290px]"
+                    : "bg-richblack-800 h-[290px]")
+                }
+                ${item.order === 3 && "sm:col-start-2"}
+                ${item.order === 4 && "sm:col-start-2 lg:col-start-3"}`}
+              >
+                {item.order < 0 ? (
+                  <div className="w-[90%] h-full pb-7 flex flex-col gap-3 justify-between">
+                    <h3 className="text-4xl text-richblack-5 font-semibold">
+                      World-Class Learning For{" "}
+                      <GradientText gradient="from-[#5433FF] via-[#20BDFF] to-[#A5FECB]">
+                        Anyone, Anywhere
+                      </GradientText>
+                    </h3>
+                    <p className="text-richblack-100">
+                      Studynotion partners with more than 275+ leading
+                      universities and companies to bring flexible, affordable,
+                      job-relevant online learning to individuals and
+                      organizations worldwide.
+                    </p>
+                    <CtaButton active={true} linkto={item.BtnLink}>
+                      {item.BtnText}
+                    </CtaButton>
+                  </div>
+                ) : (
+                  <div className="p-8">
+                    <p className="text-lg text-richblack-5 h-16">
+                      {item.heading}
+                    </p>
+                    <p className="text-richblack-100">{item.description}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </SectionContainer>
+      </section>
+      <section className="container mx-auto">
+        <SectionContainer>
+          <ContactUsForm
+            title="Get in touch"
+            subtitle="We’d love to here for you, Please fill out this form."
+          />
+        </SectionContainer>
       </section>
     </>
   );

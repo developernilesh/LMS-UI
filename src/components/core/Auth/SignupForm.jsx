@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import InputField from "../../core/Form/InputField";
+import InputField from "../../Form/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import endpoints from "../../../services/apiEndpoints";
 import { setLoading } from "../../../redux/slices/loaderSlice";
@@ -129,7 +129,7 @@ const SignupForm = () => {
             required: "Email is required",
             pattern: {
               value: /^\S+@\S+$/i,
-              message: "Please include '@' in your email address",
+              message: "Invalid email format",
             },
           }}
           error={errors.email}

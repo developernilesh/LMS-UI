@@ -11,7 +11,7 @@ const InputField = ({ label, name, type = "text", placeholder, register, validat
         type={type}
         placeholder={placeholder}
         {...register(name, validation)}
-        className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px]"
+        className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
       />
       {error && <p className="text-pink-200 text-sm mt-1">{error.message}</p>}
     </label>
