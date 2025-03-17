@@ -71,7 +71,10 @@ const Navbar = () => {
 
   useEffect(() => {
     fetchAllCategories();
-    fetchUserDetails();
+  }, []);
+
+  useEffect(() => {
+    token && fetchUserDetails();
   }, [token]);
 
   return (
