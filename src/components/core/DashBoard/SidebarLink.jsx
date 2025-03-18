@@ -16,7 +16,7 @@ const SidebarLink = ({ linkPath, iconName, linkName }) => {
     <NavLink
       to={linkPath}
       className={`${
-        matchRoute(link)
+        matchRoute(linkPath)
           ? "bg-yellow-800 border-l-2 border-yellow-50 text-yellow-50"
           : "text-richblack-100"
       } py-2 px-6 flex justify-start items-center gap-3`}
