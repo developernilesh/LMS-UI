@@ -10,6 +10,8 @@ import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import VerifyOtp from "./pages/VerifyOtp.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import ProtectedRoute from "./utils/ProtectedRoute.jsx";
+import Myprof from "./pages/Myprof.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +52,17 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: "my-profile",
+            element: <Myprof />,
+          },
+        ],
       },
       {
         path: "*",

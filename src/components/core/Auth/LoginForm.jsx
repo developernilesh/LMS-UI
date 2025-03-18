@@ -37,8 +37,7 @@ const LoginForm = () => {
         toast.success(response?.data?.message);
         dispatch(setToken(response?.data?.token));
         localStorage.setItem("token", JSON.stringify(response?.data?.token))
-        navigate("/dashboard")
-        // navigate("/dashboard/my-profile")
+        navigate("/dashboard/my-profile")
         reset();
       }
     } catch (error) {
