@@ -4,10 +4,8 @@ import { PiSignOut } from "react-icons/pi";
 import { VscDashboard } from "react-icons/vsc";
 import { Link, useNavigate } from "react-router-dom";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
-import { setToken } from "../../../redux/slices/authSlice";
-import { setUser } from "../../../redux/slices/profileSLice";
 import { useDispatch } from "react-redux";
-import toast from "react-hot-toast";
+import { logout } from "../../../services/operations/logout";
 
 const ProfileDropdown = ({ user }) => {
   const [open, setOpen] = useState(false);
@@ -17,15 +15,9 @@ const ProfileDropdown = ({ user }) => {
 
   useOnClickOutside(ref, () => setOpen(false));
 
-  const logout = () => {
+  const onLogout = () => {
     setOpen(false);
-    dispatch(setToken(null))
-    dispatch(setUser(null))
-    // dispatch(resetCart())
-    localStorage.removeItem("token")
-    // localStorage.removeItem("user")
-    toast.success("Logged Out")
-    navigate("/")
+    dispatch(logout(navigate));
   };
 
   return (
@@ -50,7 +42,7 @@ const ProfileDropdown = ({ user }) => {
             </div>
           </Link>
           <button
-            onClick={logout}
+            onClick={onLogout}
             className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"
           >
             <PiSignOut className="text-lg" />
