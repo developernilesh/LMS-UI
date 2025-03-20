@@ -22,47 +22,48 @@ const Sidebar = ({ addClassName }) => {
   return (
     <>
       <div
-        className={`h-[calc(100vh-48px)] bg-richblack-800 border-r border-richblack-700 min-w-[222px] pt-7 space-y-3 ${addClassName}`}
+        className={`md:h-[calc(100vh-48px)] bg-richblack-900 md:bg-richblack-800 border-t md:border-r border-richblack-700 
+        w-full md:w-[222px] md:py-7 flex flex-row md:flex-col justify-between md:justify-start gap-3 md:gap-0 z-30 ${addClassName}`}
       >
-        <div>
-          {sidebarLinks.map(
-            (link, index) =>
-              (!link.type || user?.accountType === link.type) && (
-                <SidebarLink
-                  key={link.id}
-                  linkPath={link.path}
-                  linkName={link.name}
-                  iconName={link.icon}
-                />
-              )
-          )}
-        </div>
-        <div className="bg-richblack-600 h-[1px] w-[190px] mx-auto"></div>
-        <div>
-          <SidebarLink
-            linkPath="/dashboard/settings"
-            linkName="Settings"
-            iconName="VscSettingsGear"
-          />
-          <button
-            className="text-richblack-100 py-2 px-6 flex justify-start items-center gap-3"
-            onClick={() =>
-              setConfirmationModal({
-                text1: "Are you sure?",
-                text2: "You will be Logged out of your Account!",
-                btn1text: "Logout",
-                btn2text: "Cancel",
-                btn1handler: () => dispatch(logout(navigate)),
-                btn2handler: () => setConfirmationModal(null),
-              })
-            }
-          >
-            <LuLogOut className="w-4 h-4" />
-            <div>Logout</div>
-          </button>
-        </div>
+        {/* <div className="flex flex-row md:flex-col w-full"> */}
+        {sidebarLinks.map(
+          (link) =>
+            (!link.type || user?.accountType === link.type) && (
+              <SidebarLink
+                key={link.id}
+                linkPath={link.path}
+                linkName={link.name}
+                iconName={link.icon}
+              />
+            )
+        )}
+        {/* </div> */}
+        <div className="bg-richblack-600 h-[1px] w-[190px] mx-auto hidden md:block"></div>
+        {/* <div className="flex flex-row md:flex-col w-full"> */}
+        <SidebarLink
+          linkPath="/dashboard/settings"
+          linkName="Settings"
+          iconName="VscSettingsGear"
+        />
+        <button
+          className="text-richblack-100 py-2 px-2 md:px-6 flex flex-col md:flex-row justify-start items-center gap-1 md:gap-3"
+          onClick={() =>
+            setConfirmationModal({
+              text1: "Are you sure?",
+              text2: "You will be Logged out of your Account!",
+              btn1text: "Logout",
+              btn2text: "Cancel",
+              btn1handler: () => dispatch(logout(navigate)),
+              btn2handler: () => setConfirmationModal(null),
+            })
+          }
+        >
+          <LuLogOut className="w-4 h-4" />
+          <div className="text-xs sm:text-sm md:text-base">Logout</div>
+        </button>
       </div>
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal}/>}
+      {/* </div> */}
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   );
 };

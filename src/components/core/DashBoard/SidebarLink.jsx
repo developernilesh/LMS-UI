@@ -17,12 +17,12 @@ const SidebarLink = ({ linkPath, iconName, linkName }) => {
       to={linkPath}
       className={`${
         matchRoute(linkPath)
-          ? "bg-yellow-800 border-l-2 border-yellow-50 text-yellow-50"
+          ? "bg-yellow-800 border-b-2 md:border-b-0 md:border-l-2 border-yellow-50 text-yellow-50"
           : "text-richblack-100"
-      } py-2 px-6 flex justify-start items-center gap-3`}
+      } py-2 px-1 md:px-6 flex flex-col md:flex-row justify-start items-center gap-1 md:gap-3`}
     >
       <Icon className="w-4 h-4" />
-      <div>{linkName}</div>
+      <div className="text-xs sm:text-sm md:text-base text-center md:text-start">{linkName}</div>
     </NavLink>
   );
 };

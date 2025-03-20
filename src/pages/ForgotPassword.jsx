@@ -10,6 +10,7 @@ import Loader from "../components/Loader/Loader";
 import endpoints from "../services/apiEndpoints";
 import toast from "react-hot-toast";
 import apiConnector from "../services/apiConnector";
+import Footer from "../components/common/Footer";
 
 const ForgotPassword = () => {
   const {
@@ -60,63 +61,68 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="w-full h-screen min-h-min py-14 flex justify-center items-center">
-      <div className="w-full max-w-[400px] px-4 -mt-12">
-        {isEmailSent ? (
-          <div className="flex flex-col gap-6">
-            <h3 className="font-semibold text-3xl">Check email</h3>
-            <p>
-              We have sent the reset email to:
-              <br /> {email}
-            </p>
-            <SubmitButton
-              buttonContent="Resend Email"
-              buttonType="button"
-              onClick={() => sendResetPasswordEmail(email)}
-            />
-          </div>
-        ) : (
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <h3 className="font-semibold text-3xl">Check Your Email</h3>
+    <>
+      <div className="w-full h-screen min-h-min py-14 flex justify-center items-center">
+        <div className="w-full max-w-[400px] px-4 -mt-12">
+          {isEmailSent ? (
+            <div className="flex flex-col gap-6">
+              <h3 className="font-semibold text-3xl">Check email</h3>
               <p>
-                Have no fear. We’ll email you instructions to reset your
-                password. If you dont have access to your email we can try
-                account recovery
+                We have sent the reset email to:
+                <br /> {email}
               </p>
-            </div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-6 w-full"
-            >
-              <InputField
-                label="Email Address"
-                name="email"
-                placeholder="Enter email address"
-                register={register}
-                validation={{
-                  required: "Email is required",
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "Your email format is not valid",
-                  },
-                }}
-                error={errors.email}
+              <SubmitButton
+                buttonContent="Resend Email"
+                buttonType="button"
+                onClick={() => sendResetPasswordEmail(email)}
               />
-              <SubmitButton buttonContent="Reset Password" />
-            </form>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-3">
+                <h3 className="font-semibold text-3xl">Check Your Email</h3>
+                <p>
+                  Have no fear. We’ll email you instructions to reset your
+                  password. If you dont have access to your email we can try
+                  account recovery
+                </p>
+              </div>
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-6 w-full"
+              >
+                <InputField
+                  label="Email Address"
+                  name="email"
+                  placeholder="Enter email address"
+                  register={register}
+                  validation={{
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: "Your email format is not valid",
+                    },
+                  }}
+                  error={errors.email}
+                />
+                <SubmitButton buttonContent="Reset Password" />
+              </form>
+            </div>
+          )}
+          <div className="flex justify-left">
+            <Link to="/login">
+              <button className="flex items-center gap-2 mt-3">
+                <GoArrowLeft />
+                <span>Back to Login</span>
+              </button>
+            </Link>
           </div>
-        )}
-        <div className="flex justify-left">
-          <Link to="/login">
-            <button className="flex items-center gap-2 mt-3">
-              <GoArrowLeft />
-              <span>Back to Login</span>
-            </button>
-          </Link>
         </div>
       </div>
-    </div>
+      <footer className="w-full bg-richblack-800 text-richblack-200">
+        <Footer />
+      </footer>
+    </>
   );
 };
 

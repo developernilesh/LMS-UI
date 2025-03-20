@@ -10,6 +10,7 @@ import GradientText from "../components/core/About/GradientText";
 import SectionContainer from "../components/core/About/SectionContainer";
 import CtaButton from "../components/core/HomePage/CtaButton";
 import ContactUsForm from "../components/Contact/ContactUsForm";
+import Footer from "../components/common/Footer";
 
 const AboutUs = () => {
   return (
@@ -165,6 +166,9 @@ const AboutUs = () => {
           />
         </SectionContainer>
       </section>
+      <footer className="w-full bg-richblack-800 text-richblack-200">
+        <Footer />
+      </footer>
     </>
   );
 };

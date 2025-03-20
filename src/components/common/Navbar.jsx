@@ -78,8 +78,8 @@ const Navbar = () => {
   }, [token]);
 
   return (
-    <div className="container mx-auto h-12 flex items-center">
-      <div className="w-11/12 mx-auto flex justify-between items-center">
+    <div className="w-11/12 mx-auto h-12 flex items-center">
+      <div className="w-full flex justify-between items-center">
         {/* Logo */}
         <Link to="/">
           <img src={Logo} alt="Logo" className="w-32" />

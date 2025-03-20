@@ -14,6 +14,7 @@ import Plan_your_lessons from "../assets/Images/Plan_your_lessons.svg";
 import Compare_with_others from "../assets/Images/Compare_with_others.svg";
 import { HomePageExplore } from "../data/homepage-explore";
 import ExploreMoreCards from "../components/core/HomePage/ExploreMoreCards";
+import Footer from "../components/common/Footer";
 
 const tabs = HomePageExplore.map((category) => category.tag);
 
@@ -315,6 +316,9 @@ const Home = () => {
         </div>
         {/* sub section 2 */}
       </section>
+      <footer className="w-full bg-richblack-800 text-richblack-200">
+        <Footer />
+      </footer>
     </>
   );
 };

@@ -11,7 +11,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import VerifyOtp from "./pages/VerifyOtp.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
-import Myprof from "./pages/Myprof.jsx";
+import MyProfile from "./components/core/DashBoard/MyProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +51,6 @@ const router = createBrowserRouter([
         element: <VerifyOtp />,
       },
       {
-        path: "dashboard",
         element: (
           <ProtectedRoute>
             <Dashboard />
@@ -59,8 +58,8 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            path: "my-profile",
-            element: <Myprof />,
+            path: "dashboard/my-profile",
+            element: <MyProfile />,
           },
         ],
       },
