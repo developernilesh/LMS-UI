@@ -21,7 +21,6 @@ const Sidebar = ({ addClassName }) => {
         className={`md:h-[calc(100vh-48px)] bg-richblack-900 md:bg-richblack-800 border-t md:border-r border-richblack-700 
         w-full md:w-[222px] md:py-7 flex flex-row md:flex-col justify-between md:justify-start gap-3 md:gap-0 z-30 ${addClassName}`}
       >
-        {/* <div className="flex flex-row md:flex-col w-full"> */}
         {sidebarLinks.map(
           (link) =>
             (!link.type || user?.accountType === link.type) && (
@@ -33,9 +32,7 @@ const Sidebar = ({ addClassName }) => {
               />
             )
         )}
-        {/* </div> */}
-        <div className="bg-richblack-600 h-[1px] w-[190px] mx-auto hidden md:block"></div>
-        {/* <div className="flex flex-row md:flex-col w-full"> */}
+        <div className="bg-richblack-600 h-[1px] w-[190px] my-2 mx-auto hidden md:block"></div>
         <SidebarLink
           linkPath="/dashboard/settings"
           linkName="Settings"
@@ -58,7 +55,6 @@ const Sidebar = ({ addClassName }) => {
           <div className="text-xs sm:text-sm md:text-base">Logout</div>
         </button>
       </div>
-      {/* </div> */}
       {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   );
