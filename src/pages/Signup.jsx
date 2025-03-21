@@ -2,8 +2,13 @@ import React from "react";
 import signupImage from "../assets/Images/signup.webp";
 import Template from "../components/core/Auth/Template";
 import Footer from "../components/common/Footer";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader/Loader";
 
 const Signup = () => {
+  const { loading } = useSelector((state) => state.loader);
+  if (loading) return <Loader />;
+  
   return (
     <>
       <div className="container mx-auto">

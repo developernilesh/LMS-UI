@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import HighlightedText from "../components/core/HomePage/HighlightedText";
 import CtaButton from "../components/core/HomePage/CtaButton";
 import banner from "../assets/Images/banner.mp4";
@@ -15,23 +15,43 @@ import Compare_with_others from "../assets/Images/Compare_with_others.svg";
 import { HomePageExplore } from "../data/homepage-explore";
 import ExploreMoreCards from "../components/core/HomePage/ExploreMoreCards";
 import Footer from "../components/common/Footer";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader/Loader";
 
 const tabs = HomePageExplore.map((category) => category.tag);
 
 const Home = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
+  const { loading } = useSelector((state) => state.loader);
+  const { token } = useSelector((state) => state.auth);
+
+  if (loading) return <Loader />;
+
   return (
     <>
-      {/* section 1 */}
       <section className="container mx-auto flex flex-col items-center gap-4 text-white pt-10">
-        <Link to={"/login"}>
-          <div className="bg-richblack-800 text-richblack-200 font-bold rounded-full flex items-center gap-2 px-5 py-2 mt-4 transition-all duration-200 hover:scale-95 hover:bg-richblack-900 border-b-2 hover:border border-richblack-700">
-            <p>Become an Instructor</p>
-            <FaArrowRight />
-          </div>
-        </Link>
-
+        {token ? (
+          <Link to={"/dashboard/my-profile"}>
+            <div
+              className="bg-caribbeangreen-400 text-richblack-25 hover:text-white font-semibold rounded-full flex items-center gap-2 
+            px-5 py-2 mt-4 transition-all duration-200 hover:bg-caribbeangreen-300 border-b-2 border-caribbeangreen-600"
+            >
+              <p>Go To Your Dashboard</p>
+              <FaArrowRight />
+            </div>
+          </Link>
+        ) : (
+          <Link to={"/signup"}>
+            <div
+              className="bg-richblack-800 text-richblack-200 font-bold rounded-full flex items-center gap-2 px-5 py-2 mt-4 
+            transition-all duration-200 hover:scale-95 hover:bg-richblack-900 border-b-2 hover:border border-richblack-700"
+            >
+              <p>Become an Instructor</p>
+              <FaArrowRight />
+            </div>
+          </Link>
+        )}
         <h1 className="text-4xl font-semibold mt-4 text-center">
           <span>Empower Your Future with</span>&nbsp;
           <HighlightedText>Coding Skills</HighlightedText>
@@ -80,7 +100,11 @@ const Home = () => {
             linkto: "/login",
             content: "Try it Yourself",
           }}
-          ctaBtn2={{ active: false, linkto: "/login", content: "Learn More" }}
+          ctaBtn2={{
+            active: false,
+            linkto: "/login",
+            content: "Learn More",
+          }}
           codeBlock={`<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n<linkrel="stylesheet"\nhref="styles.css">\n</head>\n<body>\n<h1><a href="/">Link</a></h1>\n<nav>\n<a href="/one">One</a>\n<ahref="/two">Two</<a>\n</nav>`}
           codeColor="#eb387d"
           bgGradient="orange"
@@ -99,7 +123,11 @@ const Home = () => {
             linkto: "/login",
             content: "Continue Lesson",
           }}
-          ctaBtn2={{ active: false, linkto: "/login", content: "Learn More" }}
+          ctaBtn2={{
+            active: false,
+            linkto: "/login",
+            content: "Learn More",
+          }}
           codeBlock={`<!DOCTYPE html>\n<html>\n<head>\n<title>Example</title>\n<linkrel="stylesheet"\nhref="styles.css">\n</head>\n<body>\n<h1><a href="/">Link</a></h1>\n<nav>\n<a href="/one">One</a>\n<ahref="/two">Two</<a>\n</nav>`}
           codeColor="#4ca5ed"
           bgGradient="blue"

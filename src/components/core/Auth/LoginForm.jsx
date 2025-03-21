@@ -7,7 +7,6 @@ import InputField from "../../Form/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../redux/slices/loaderSlice";
 import endpoints from "../../../services/apiEndpoints";
-import Loader from "../../Loader/Loader";
 import { setToken } from "../../../redux/slices/authSlice";
 import apiConnector from "../../../services/apiConnector";
 
@@ -20,7 +19,6 @@ const LoginForm = () => {
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { loading } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { LOGIN_API } = endpoints;
@@ -46,8 +44,6 @@ const LoginForm = () => {
       dispatch(setLoading(false));
     }
   };
-
-  if (loading) return <Loader />;
 
   return (
     <>

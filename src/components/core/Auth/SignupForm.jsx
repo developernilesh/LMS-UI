@@ -9,7 +9,6 @@ import endpoints from "../../../services/apiEndpoints";
 import { setLoading } from "../../../redux/slices/loaderSlice";
 import apiConnector from "../../../services/apiConnector";
 import { setSignupData } from "../../../redux/slices/authSlice";
-import Loader from "../../Loader/Loader";
 
 const SignupForm = () => {
   const {
@@ -22,8 +21,7 @@ const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("Student");
-
-  const { loading } = useSelector((state) => state.loader);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const { SEND_OTP_API } = endpoints;
@@ -51,8 +49,6 @@ const SignupForm = () => {
       dispatch(setLoading(false));
     }
   };
-
-  if (loading) return <Loader />;
 
   return (
     <>

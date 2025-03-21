@@ -1,9 +1,15 @@
 import React from "react";
-import Sidebar from "../components/core/DashBoard/Sidebar";
+import Sidebar from "../components/core/DashBoard/sidebar/Sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader/Loader";
 
 const Dashboard = () => {
   // const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.loader);
+
+  if (loading) return <Loader />;
+
   return (
     <div className="flex">
       <Sidebar addClassName="fixed bottom-0 left-0" />
@@ -14,7 +20,7 @@ const Dashboard = () => {
               .split("/")
               .filter(Boolean)
               .map((path, index, array) => {
-                const routePath = `/${array.slice(0, index + 1).join("/")}`;
+                {/* const routePath = `/${array.slice(0, index + 1).join("/")}`; */}
                 const isLast = index === array.length - 1;
                 return (
                   <div key={index}>
@@ -30,7 +36,7 @@ const Dashboard = () => {
               })}
           </div>
         </div>
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center w-full mb-16 md:mb-0">
           <Outlet />
         </div>
       </div>

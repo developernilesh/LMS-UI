@@ -11,8 +11,13 @@ import SectionContainer from "../components/core/About/SectionContainer";
 import CtaButton from "../components/core/HomePage/CtaButton";
 import ContactUsForm from "../components/Contact/ContactUsForm";
 import Footer from "../components/common/Footer";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader/Loader";
 
 const AboutUs = () => {
+  const { loading } = useSelector((state) => state.loader);
+  if (loading) return <Loader />;
+  
   return (
     <>
       <section className="bg-richblack-800">

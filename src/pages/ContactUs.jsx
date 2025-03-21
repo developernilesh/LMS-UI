@@ -2,8 +2,13 @@ import React from "react";
 import ContactUsForm from "../components/Contact/ContactUsForm";
 import contactData from "../data/contactData";
 import Footer from "../components/common/Footer";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader/Loader";
 
 const ContactUs = () => {
+  const { loading } = useSelector((state) => state.loader);
+  if (loading) return <Loader />;
+  
   return (
     <>
       <div className="container mx-auto py-10 flex flex-wrap justify-center items-start gap-10 px-4">

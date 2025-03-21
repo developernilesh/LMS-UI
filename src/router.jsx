@@ -11,7 +11,8 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import VerifyOtp from "./pages/VerifyOtp.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
-import MyProfile from "./components/core/DashBoard/MyProfile.jsx";
+import MyProfile from "./components/core/DashBoard/myProfile/MyProfile.jsx";
+import Settings from "./components/core/DashBoard/settings/Settings.jsx";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/my-profile",
             element: <MyProfile />,
+          },
+          {
+            path: "dashboard/settings",
+            element: <Settings />,
           },
         ],
       },

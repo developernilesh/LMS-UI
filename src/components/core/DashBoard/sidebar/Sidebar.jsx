@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../Loader/Loader";
-import { sidebarLinks } from "../../../data/dashboard-links";
+import { sidebarLinks } from "../../../../data/dashboard-links";
 import SidebarLink from "./SidebarLink";
 import { LuLogOut } from "react-icons/lu";
-import { logout } from "../../../services/operations/logout";
+import { logout } from "../../../../services/operations/logout";
 import { useNavigate } from "react-router-dom";
-import ConfirmationModal from "../../common/ConfirmationModal";
+import ConfirmationModal from "../../../common/ConfirmationModal";
 
 const Sidebar = ({ addClassName }) => {
   const [confirmationModal, setConfirmationModal] = useState(null);
 
   const { user } = useSelector((state) => state.profile);
-  const { loading } = useSelector((state) => state.loader);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  if (loading) return <Loader />;
-
+  
   return (
     <>
       <div
