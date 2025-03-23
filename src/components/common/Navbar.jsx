@@ -16,6 +16,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProfileDropdown from "../core/Auth/ProfileDropdown";
 import { setLoading } from "../../redux/slices/loaderSlice";
 import { setUser } from "../../redux/slices/profileSLice";
+import { setToken } from "../../redux/slices/authSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -63,7 +64,10 @@ const Navbar = () => {
         dispatch(setUser(response.data.data))
       }
     } catch (error) {
-      console.error(error);
+      if(error?.response?.data?.message === "Something went wrong while verifying token"){
+        localStorage.removeItem("token")
+        dispatch(setToken(null))
+      }
     } finally {
       dispatch(setLoading(false));
     }
