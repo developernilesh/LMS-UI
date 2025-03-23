@@ -11,17 +11,16 @@ import {
 } from "react-icons/io5";
 import apiConnector from "../../services/apiConnector";
 import endpoints from "../../services/apiEndpoints";
-import toast from "react-hot-toast";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProfileDropdown from "../core/Auth/ProfileDropdown";
 import { setLoading } from "../../redux/slices/loaderSlice";
 import { setUser } from "../../redux/slices/profileSLice";
-import { setToken } from "../../redux/slices/authSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
 
   const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
 
   const { VIEW_ALL_CATEGORIES, USER_DETAILS_API } = endpoints;
@@ -34,7 +33,6 @@ const Navbar = () => {
   };
 
   const [categories, setCategories] = useState([]);
-  const [userDetails, setUserDetails] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
     useState(false);
@@ -55,19 +53,14 @@ const Navbar = () => {
   };
 
   const fetchUserDetails = async () => {
-    setUserDetails(null);
     dispatch(setLoading(true));
     try {
       const response = await apiConnector("GET", USER_DETAILS_API);
       if (response?.data?.success) {
-        setUserDetails(response.data.data);
-        dispatch(setUser(response.data.data))
+        dispatch(setUser(response.data.data));
       }
     } catch (error) {
-      if(error?.response?.data?.message === "Something went wrong while verifying token"){
-        localStorage.removeItem("token")
-        dispatch(setToken(null))
-      }
+      console.error(error)
     } finally {
       dispatch(setLoading(false));
     }
@@ -111,7 +104,8 @@ const Navbar = () => {
                   {categories.length !== 0 && (
                     <>
                       <div className="h-2 w-2 bg-richblack-5 absolute hidden group-hover:block right-[15%] rotate-45"></div>
-                      <div className="absolute hidden group-hover:block bg-richblack-5 text-richblack-900 py-2 px-4 rounded-md shadow-md left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap">
+                      <div className="absolute hidden group-hover:block bg-richblack-5 text-richblack-900 py-2 px-4 rounded-md shadow-md 
+                      left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap">
                         <ul className="flex flex-col gap-2">
                           {categories.map((category) => (
                             <li key={category._id}>
@@ -133,10 +127,10 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        
+
         {/* Items based on the user's authentication status */}
         <div className="flex items-center gap-2 md:gap-4">
-          {(userDetails && token) ? (
+          {user ? (
             <>
               {/* Search Icon */}
               <button className="flex items-center justify-center">
@@ -144,30 +138,33 @@ const Navbar = () => {
               </button>
 
               {/* Cart Icon */}
-              {userDetails?.accountType === "Student" && (
+              {user?.accountType === "Student" && (
                 <button className="flex items-center justify-center relative">
                   <IoCartOutline className="text-richblack-25 text-2xl" />
-                  <span className="absolute top-[-10%] right-[-20%] bg-pink-500 text-richblack-25 text-sm w-4 h-4 rounded-full flex items-center justify-center animate-bounce">
+                  <span className="absolute top-[-10%] right-[-20%] bg-pink-500 text-richblack-25 text-sm w-4 h-4 rounded-full 
+                  flex items-center justify-center animate-bounce">
                     {cartItems.length ? cartItems.length : 0}
                   </span>
                 </button>
               )}
 
               {/* User Avatar */}
-              <ProfileDropdown user={userDetails} />
+              <ProfileDropdown user={user} />
             </>
           ) : (
             <>
               {/* Login Button */}
               <Link to="/login">
-                <button className="bg-richblack-800 text-richblack-25 px-3 py-1 rounded-md border border-richblack-700 hover:bg-richblack-900 hover:scale-95 transition-all duration-200 ease-linear">
+                <button className="bg-richblack-800 text-richblack-25 px-3 py-1 rounded-md border border-richblack-700 
+                hover:bg-richblack-900 hover:scale-95 transition-all duration-200 ease-linear">
                   Login
                 </button>
               </Link>
 
               {/* Signup Button */}
               <Link to="/signup">
-                <button className="bg-richblack-800 text-richblack-25 px-3 py-1 rounded-md border border-richblack-700 hover:bg-richblack-900 hover:scale-95 transition-all duration-200 ease-linear">
+                <button className="bg-richblack-800 text-richblack-25 px-3 py-1 rounded-md border border-richblack-700 
+                hover:bg-richblack-900 hover:scale-95 transition-all duration-200 ease-linear">
                   Signup
                 </button>
               </Link>

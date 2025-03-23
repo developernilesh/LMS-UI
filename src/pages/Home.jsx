@@ -24,14 +24,14 @@ const Home = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
 
   const { loading } = useSelector((state) => state.loader);
-  const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
 
   if (loading) return <Loader />;
 
   return (
     <>
       <section className="container mx-auto flex flex-col items-center gap-4 text-white pt-10">
-        {token ? (
+        {user ? (
           <Link to={"/dashboard/my-profile"}>
             <div
               className="bg-caribbeangreen-400 text-richblack-25 hover:text-white font-semibold rounded-full flex items-center gap-2 
