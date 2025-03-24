@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import MyProfile from "./components/core/DashBoard/myProfile/MyProfile.jsx";
 import Settings from "./components/core/DashBoard/settings/Settings.jsx";
+import ChangePassword from "./pages/ChangePassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/settings",
             element: <Settings />,
+          },
+          {
+            path: "dashboard/change-password",
+            element: <ChangePassword />,
           },
         ],
       },

@@ -4,6 +4,7 @@ import SubmitButton from "../../../Form/SubmitButton";
 import { MdEditSquare } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { TbLockPassword } from "react-icons/tb";
 
 const MyProfile = () => {
   const navigate = useNavigate();
@@ -40,11 +41,11 @@ const MyProfile = () => {
           <SubmitButton
             buttonContent=<div className="flex items-center">
               <span>
-                <MdEditSquare />
+              <TbLockPassword />
               </span>
-              <span>&nbsp;Edit</span>
+              <span>&nbsp;Change Password</span>
             </div>
-            onClick={() => navigate("/dashboard/settings")}
+            onClick={() => navigate("/dashboard/change-password")}
             buttonType="button"
             width="w-fit"
           />

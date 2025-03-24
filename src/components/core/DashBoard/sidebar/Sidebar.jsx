@@ -19,7 +19,7 @@ const Sidebar = ({ addClassName }) => {
     <>
       <div
         className={`md:h-[calc(100vh-48px)] bg-richblack-900 md:bg-richblack-800 border-t md:border-r border-richblack-700 
-        w-full md:w-[222px] md:py-7 flex flex-row md:flex-col justify-between md:justify-start gap-3 md:gap-0 z-30 ${addClassName}`}
+        w-full md:w-[222px] md:py-5 flex flex-row md:flex-col justify-between md:justify-start gap-3 md:gap-0 z-30 ${addClassName}`}
       >
         {sidebarLinks.map(
           (link) =>
