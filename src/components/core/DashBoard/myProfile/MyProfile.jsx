@@ -18,7 +18,7 @@ const MyProfile = () => {
         </h3>
 
         {/* profile section */}
-        <div className="flex justify-between items-center p-6 bg-richblack-800 rounded-lg border border-richblack-600">
+        <div className="flex justify-between items-center p-6 bg-richblack-800 rounded-lg border border-richblack-700">
           {/* profile info */}
           <div className="flex justify-start items-center gap-3 sm:gap-6">
             {user?.image ? (
@@ -52,7 +52,7 @@ const MyProfile = () => {
         </div>
 
         {/* personal details section */}
-        <div className="flex flex-col gap-3 p-6 bg-richblack-800 rounded-lg border border-richblack-600">
+        <div className="flex flex-col gap-3 p-6 bg-richblack-800 rounded-lg border border-richblack-700">
           {/* 1st row */}
           <div className="flex justify-between items-center">
             <h4 className="text-lg font-semibold">Personal Details</h4>
@@ -110,7 +110,7 @@ const MyProfile = () => {
         </div>
 
         {/* about section */}
-        <div className="flex flex-col gap-3 p-6 bg-richblack-800 rounded-lg border border-richblack-600">
+        <div className="flex flex-col gap-3 p-6 bg-richblack-800 rounded-lg border border-richblack-700">
           {/* 1st row */}
           <div className="flex justify-between items-center">
             <h4 className="text-lg font-semibold">About</h4>

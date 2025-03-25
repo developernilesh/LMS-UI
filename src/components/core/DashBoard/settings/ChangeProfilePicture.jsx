@@ -1,14 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FiUpload } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import SubmitButton from "../../../Form/SubmitButton";
 import apiConnector from "../../../../services/apiConnector";
 import endpoints from "../../../../services/apiEndpoints";
+import { setUser } from "../../../../redux/slices/profileSLice";
+import toast from "react-hot-toast";
 
-const {UPLOAD_PROFILE_PICTURE_API} = endpoints;
+const { UPLOAD_PROFILE_PICTURE_API } = endpoints;
 
 export default function ChangeProfilePicture() {
-  const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
@@ -24,7 +25,6 @@ export default function ChangeProfilePicture() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    // console.log(file)
     if (file) {
       setImageFile(file);
       previewFile(file);
@@ -32,6 +32,7 @@ export default function ChangeProfilePicture() {
   };
 
   const previewFile = (file) => {
+    console.log("call");
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -44,34 +45,28 @@ export default function ChangeProfilePicture() {
       setIsLoading(true);
       const formData = new FormData();
       formData.append("displayPicture", imageFile);
-      console.log("formdata", formData)
       const response = await apiConnector(
         "PUT",
         UPLOAD_PROFILE_PICTURE_API,
         formData
       );
-      console.log(
-        "UPDATE_DISPLAY_PICTURE_API API RESPONSE............",
-        response
-      );
-      if (response.data.success) {
+      if (response?.data?.success) {
         toast.success(response.data.message);
-        dispatch(setUser(response.data.data));
+        const presentUser = { ...user };
+        presentUser.image = response.data.data.image;
+        dispatch(setUser(presentUser));
       }
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message);
+      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (imageFile) {
-      previewFile(imageFile);
-    }
-  }, [imageFile]);
   return (
     <>
-      <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 text-richblack-5">
-        <div className="flex items-center gap-x-4">
+      <div className="w-full p-6 bg-richblack-800 rounded-lg border border-richblack-700">
+        <div className="flex items-center gap-4">
           <img
             src={previewSource || user?.image}
             alt={`profile-${user?.firstName}`}
