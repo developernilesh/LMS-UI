@@ -11,6 +11,7 @@ export const endpoints = {
   
   // #region profile
   USER_DETAILS_API: `${BASE_URL}/profile/get-user-details`,
+  UPLOAD_PROFILE_PICTURE_API: `${BASE_URL}/profile/update-display-picture`,
 
   // #region categories
   VIEW_ALL_CATEGORIES: `${BASE_URL}/course/get-all-categories`,

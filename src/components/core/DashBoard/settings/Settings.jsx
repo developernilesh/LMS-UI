@@ -1,7 +1,12 @@
 import React from "react";
+import ChangeProfilePicture from "./ChangeProfilePicture";
 
 const Settings = () => {
-  return <div>Settings</div>;
+  return (
+    <>
+      <ChangeProfilePicture />
+    </>
+  );
 };
 
 export default Settings;
