@@ -41,11 +41,11 @@ const MyProfile = () => {
           <SubmitButton
             buttonContent=<div className="flex items-center">
               <span>
-              <TbLockPassword />
+                <MdEditSquare />
               </span>
-              <span>&nbsp;Change Password</span>
+              <span>&nbsp;Edit Profile</span>
             </div>
-            onClick={() => navigate("/dashboard/change-password")}
+            onClick={() => navigate("/dashboard/settings")}
             buttonType="button"
             width="w-fit"
           />
@@ -54,56 +54,70 @@ const MyProfile = () => {
         {/* personal details section */}
         <div className="flex flex-col gap-3 p-6 bg-richblack-800 rounded-lg border border-richblack-700">
           {/* 1st row */}
-          <div className="flex justify-between items-center">
-            <h4 className="text-lg font-semibold">Personal Details</h4>
-            <SubmitButton
-              buttonContent=<div className="flex items-center">
-                <span>
-                  <MdEditSquare />
-                </span>
-                <span>&nbsp;Edit</span>
-              </div>
-              onClick={() => navigate("/dashboard/settings")}
-              buttonType="button"
-              width="w-fit"
-            />
-          </div>
+          <h4 className="text-lg font-semibold">Personal Details</h4>
           {/* 2nd row */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-0">
             <div className="w-full sm:w-1/2">
-              <div className="text-richblack-400">First Name</div>
+              <div className="text-richblack-200">First Name</div>
               <div className="text-richblack-5">{user?.firstName}</div>
             </div>
             <div className="w-full sm:w-1/2">
-              <div className="text-richblack-400">Last Name</div>
+              <div className="text-richblack-200">Last Name</div>
               <div className="text-richblack-5">{user?.lastName}</div>
             </div>
           </div>
           {/* 3rd row */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-0">
             <div className="w-full sm:w-1/2">
-              <div className="text-richblack-400">Email</div>
+              <div className="text-richblack-200">Email</div>
               <div className="text-richblack-5">{user?.email}</div>
             </div>
             <div className="w-full sm:w-1/2">
-              <div className="text-richblack-400">Contact No</div>
-              <div className="text-richblack-5">
-                {user?.additionalDetails?.contact}
+              <div className="text-richblack-200">Contact No</div>
+              <div>
+                {user?.additionalDetails?.contact ? (
+                  <span className="text-richblack-5">
+                    {user.additionalDetails.contact}
+                  </span>
+                ) : (
+                  <span className="text-richblack-400 font-light">
+                    Please add your contact
+                  </span>
+                )}
               </div>
             </div>
           </div>
           {/* 4th row */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-0">
             <div className="w-full sm:w-1/2">
-              <div className="text-richblack-400">Gender</div>
-              <div className="text-richblack-5">
-                {user?.additionalDetails?.gender}
+              <div className="text-richblack-200">Gender</div>
+              <div>
+                {user?.additionalDetails?.gender ? (
+                  <span className="text-richblack-5">
+                    {user.additionalDetails.gender}
+                  </span>
+                ) : (
+                  <span className="text-richblack-400 font-light">
+                    Please add your gender
+                  </span>
+                )}
               </div>
             </div>
             <div className="w-full sm:w-1/2">
-              <div className="text-richblack-400">Date of Birth</div>
-              <div className="text-richblack-5">
-                {user?.additionalDetails?.dateOfBirth}
+              <div className="text-richblack-200">Date of Birth</div>
+              <div>
+                {user?.additionalDetails?.dateOfBirth ? (
+                  <span className="text-richblack-5">
+                  {user?.additionalDetails?.dateOfBirth
+                  .split("-")
+                  .reverse()
+                  .join("-")}
+                  </span>
+                ) : (
+                  <span className="text-richblack-400 font-light">
+                    Please add your DOB
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -112,27 +126,37 @@ const MyProfile = () => {
         {/* about section */}
         <div className="flex flex-col gap-3 p-6 bg-richblack-800 rounded-lg border border-richblack-700">
           {/* 1st row */}
-          <div className="flex justify-between items-center">
-            <h4 className="text-lg font-semibold">About</h4>
-            <SubmitButton
-              buttonContent=<div className="flex items-center">
-                <span>
-                  <MdEditSquare />
-                </span>
-                <span>&nbsp;Edit</span>
-              </div>
-              onClick={() => navigate("/dashboard/settings")}
-              buttonType="button"
-              width="w-fit"
-            />
-          </div>
+          <h4 className="text-lg font-semibold">About</h4>
           {/* 2nd row */}
           <div>
-            <div className="text-richblack-400">About</div>
-            <div className="text-richblack-5">
-              {user?.additionalDetails?.about}
-            </div>
+            <div className="text-richblack-200">About</div>
+            <div>
+                {user?.additionalDetails?.about ? (
+                  <span className="text-richblack-5">
+                    {user.additionalDetails.about}
+                  </span>
+                ) : (
+                  <span className="text-richblack-400 font-light">
+                    Please add something about you
+                  </span>
+                )}
+              </div>
           </div>
+        </div>
+
+        {/* change password */}
+        <div className="p-6 bg-richblack-800 rounded-lg border border-richblack-700">
+          <SubmitButton
+            buttonContent=<div className="flex items-center">
+              <span>
+                <TbLockPassword />
+              </span>
+              <span>&nbsp;Change Your Password</span>
+            </div>
+            onClick={() => navigate("/dashboard/change-password")}
+            buttonType="button"
+            width="w-fit"
+          />
         </div>
       </div>
     </div>

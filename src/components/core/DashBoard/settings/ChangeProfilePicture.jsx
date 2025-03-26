@@ -73,7 +73,9 @@ export default function ChangeProfilePicture() {
             className="aspect-square w-[78px] rounded-full object-cover"
           />
           <div className="space-y-2">
-            <p>Change Profile Picture</p>
+            <h3 className="text-lg font-medium text-richblack-5">
+              Change Profile Picture
+            </h3>
             <div className="flex flex-row gap-3">
               <input
                 type="file"
@@ -85,7 +87,8 @@ export default function ChangeProfilePicture() {
               <button
                 onClick={handleClick}
                 disabled={isLoading}
-                className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50"
+                className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-medium text-richblack-50 border border-richblack-600
+                hover:bg-richblack-600 hover:text-richblack-5 transition-all duration-200 ease-in-out"
               >
                 Select
               </button>
