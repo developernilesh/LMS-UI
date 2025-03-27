@@ -32,7 +32,6 @@ export default function ChangeProfilePicture() {
   };
 
   const previewFile = (file) => {
-    console.log("call");
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import InputField from "../components/Form/InputField";
 import { useForm } from "react-hook-form";
 import SubmitButton from "../components/Form/SubmitButton";
 import toast from "react-hot-toast";
-import { setLoading } from "../redux/slices/loaderSlice";
 import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
+import Loader from "../components/Loader/Loader";
 
 const ChangePassword = () => {
   const {
@@ -21,9 +21,9 @@ const ChangePassword = () => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => state.profile);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { CHANGE_PASSWORD_API } = endpoints;
 
@@ -33,7 +33,7 @@ const ChangePassword = () => {
       toast.error("Confirm password doesn't match the new passowrd.");
       return;
     }
-    dispatch(setLoading(true));
+    setLoading(true);
     try {
       const response = await apiConnector("POST", CHANGE_PASSWORD_API, {
         ...data,
@@ -47,13 +47,27 @@ const ChangePassword = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something Went Wrong!");
     } finally {
-      dispatch(setLoading(false));
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   };
 
+  const cancelChangePassword = () => {
+    reset();
+    navigate("/dashboard/my-profile");
+  };
+
+  if (loading)
+    return (
+      <div className="fixed bottom-0 z-50">
+        <Loader />
+      </div>
+    );
+
   return (
     <div className="w-full flex justify-center items-center min-h-[calc(100vh-130px)]">
-      <div className="w-full max-w-[400px] px-4">
+      <div className="w-full max-w-[400px] p-5 border border-richblack-600 rounded-lg">
         <h3 className="text-3xl font-semibold">Change Your Password</h3>
         <p>Keep your account secure!</p>
         <form
@@ -134,7 +148,20 @@ const ChangePassword = () => {
               )}
             </span>
           </div>
-          <SubmitButton buttonContent="Reset Password" />
+          <div className="flex gap-3 justify-end mt-2">
+            <button
+              onClick={cancelChangePassword}
+              disabled={loading}
+              className="cursor-pointer rounded-md bg-richblack-800 py-2 px-5 font-medium text-richblack-50 border border-richblack-600
+                hover:bg-richblack-700 hover:text-richblack-5 transition-all duration-200 ease-in-out"
+            >
+              Cancel
+            </button>
+            <SubmitButton
+              buttonContent={`${loading ? "Resetting..." : "Reset Password"}`}
+              width="w-fit"
+            />
+          </div>
         </form>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const Loader = () => {
   return (
-    <div className="flex justify-center items-center h-screen w-full bg-richblack-900">
+    <div className="flex justify-center items-center h-[calc(100vh-48px)] w-full bg-richblack-900">
       <button
         disabled
         type="button"

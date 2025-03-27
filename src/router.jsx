@@ -14,6 +14,7 @@ import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import MyProfile from "./components/core/DashBoard/myProfile/MyProfile.jsx";
 import Settings from "./components/core/DashBoard/settings/Settings.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
+import EnrolledCourse from "./components/core/DashBoard/enrolledCourses/EnrolledCourse.jsx";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/change-password",
             element: <ChangePassword />,
+          },
+          {
+            path: "dashboard/enrolled-courses",
+            element: <EnrolledCourse />,
           },
         ],
       },

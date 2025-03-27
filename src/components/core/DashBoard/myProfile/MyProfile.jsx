@@ -18,14 +18,14 @@ const MyProfile = () => {
         </h3>
 
         {/* profile section */}
-        <div className="flex justify-between items-center p-6 bg-richblack-800 rounded-lg border border-richblack-700">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-5 p-6 bg-richblack-800 rounded-lg border border-richblack-700">
           {/* profile info */}
           <div className="flex justify-start items-center gap-3 sm:gap-6">
             {user?.image ? (
               <img
                 src={user?.image}
                 alt="profile"
-                className="w-10 h-10 sm:w-20 sm:h-20 rounded-full"
+                className="w-14 h-14 sm:w-20 sm:h-20 rounded-full"
               />
             ) : (
               <CgProfile className="w-10 h-10 sm:w-20 sm:h-20 rounded-full" />
