@@ -14,7 +14,7 @@ const ContactUs = () => {
       <div className="container mx-auto py-10 flex flex-wrap justify-center items-start gap-10 px-4">
         <div className="min-w-[344px] max-w-[400px] bg-richblack-800 px-6 py-10 space-y-6 rounded-lg">
           {contactData.map((item, index) => (
-            <div className="flex gap-2">
+            <div className="flex gap-2" key={index}>
               <img src={item.logo} alt={`item.logo`} className="w-6 h-6" />
               <div className="space-y-0.5">
                 <p className="text-lg font-semibold text-richblack-5">

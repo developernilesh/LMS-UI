@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/core/DashBoard/sidebar/Sidebar";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Loader from "../components/Loader/Loader";
 
 const Dashboard = () => {
   // const navigate = useNavigate();
-  const { loading } = useSelector((state) => state.loader);
   const [breadCrumb, setBreadCrumb] = useState(null);
 
   const currentPath = useLocation().pathname;
@@ -34,8 +31,6 @@ const Dashboard = () => {
   useEffect(() => {
     getBreadCrumb();
   }, [currentPath]);
-
-  if (loading) return <Loader />;
 
   return (
     <div className="flex">

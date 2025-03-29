@@ -5,10 +5,19 @@ import { MdEditSquare } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TbLockPassword } from "react-icons/tb";
+import Loader from "../../../Loader/Loader";
 
 const MyProfile = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.profile);
+  const { loading } = useSelector((state) => state.loader);
+
+  if (loading)
+    return (
+      <div className="fixed bottom-0 z-50">
+        <Loader />
+      </div>
+    );
 
   return (
     <div className="w-full h-full flex justify-center">

@@ -56,9 +56,7 @@ const ForgotPassword = () => {
     }
   };
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) return <Loader />;
 
   return (
     <>

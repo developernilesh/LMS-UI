@@ -11,7 +11,7 @@ const CourseCard = ({ course, key }) => {
         transtion-all duration-200 ease-in-out cursor-pointer"
     >
       <img
-        className="rounded-t-lg h-64 w-full"
+        className="rounded-t-lg h-56 w-full"
         src={course.thumbNail}
         alt={course.courseName}
       />
