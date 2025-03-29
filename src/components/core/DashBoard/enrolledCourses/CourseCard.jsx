@@ -12,15 +12,15 @@ const CourseCard = ({ course, key }) => {
     >
       <img
         className="rounded-t-lg h-64 w-full"
-        src={course.image}
-        alt={course.title}
+        src={course.thumbNail}
+        alt={course.courseName}
       />
       <div className="p-5 flex flex-col gap-3">
         <div>
           <h4 className="text-xl font-medium text-richblack-5 truncate">
-            {course.title}
+            {course.courseName}
           </h4>
-          <p className="text-richblack-200 truncate">{course.description}</p>
+          <p className="text-richblack-200 truncate">{course.courseDescription}</p>
         </div>
         <ProgressBar progress={course.progress} />
         <div className="flex justify-between items-center">
