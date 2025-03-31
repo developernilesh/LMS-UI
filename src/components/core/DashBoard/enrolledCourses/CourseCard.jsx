@@ -37,7 +37,7 @@ const CourseCard = ({ course, key }) => {
               </div>
               // onClick={() => navigate("/dashboard/settings")}
               background="bg-richblack-900 border border-richblack-600"
-              text="yellow-100"
+              text="text-[#E7C009]"
               buttonType="button"
               width="w-fit"
             />
