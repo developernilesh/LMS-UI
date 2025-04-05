@@ -16,6 +16,7 @@ import Settings from "./components/core/DashBoard/settings/Settings.jsx";
 import ChangePassword from "./pages/ChangePassword.jsx";
 import EnrolledCourse from "./components/core/DashBoard/enrolledCourses/EnrolledCourse.jsx";
 import MyWishlist from "./components/core/DashBoard/myWishlist/MyWishlist.jsx";
+import AddCourse from "./components/core/DashBoard/addCourses/AddCourse.jsx";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/my-wishlist",
             element: <MyWishlist />,
+          },
+          {
+            path: "dashboard/add-course",
+            element: <AddCourse />,
           },
         ],
       },
