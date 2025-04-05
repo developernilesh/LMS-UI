@@ -21,13 +21,13 @@ const CourseUploadTips = () => {
           Course Upload Tips
         </h3>
       </div>
-      <div className="flex flex-col gap-2">
+      <ul className="flex flex-col gap-2">
         {courseUploadTipsTextsArray.map((item, index) => (
-          <div className="text-xs" key={index}>
+          <li className="text-xs" key={index}>
             &#x2022; {item}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
