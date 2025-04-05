@@ -22,9 +22,9 @@ const MyWishlist = () => {
               <img
                 src={TimelineImage}
                 alt=""
-                className="w-[185px] h-[148px] rounded-md"
+                className="w-[150px] sm:w-[185px] h-[120px] sm:h-[148px] rounded-md"
               />
-              <div className="w-full flex gap-3">
+              <div className="w-full flex flex-col sm:flex-row gap-3">
                 <div className="w-full flex flex-col gap-2">
                   <h4 className="text-lg text-richblack-5 font-medium">
                     The Complete Python Bootcamp From Zero to Hero in Python
@@ -42,14 +42,12 @@ const MyWishlist = () => {
                       numberOfStars={5}
                       name="rating"
                     />
-                    <div className="text-richblack-200 text-sm">(Review Count)</div>
                   </div>
                   <div className="text-richblack-200 text-sm">
-                    Total
-                    Courses&nbsp;&#x2022;&nbsp;Lessons&nbsp;&#x2022;&nbsp;Beginner
+                    Total Courses &#x2022; Lessons &#x2022; Beginner
                   </div>
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col-reverse sm:flex-col gap-3">
                   <SubmitButton
                     buttonContent=<div className="flex items-center">
                       <span>
