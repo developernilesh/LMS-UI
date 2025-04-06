@@ -14,7 +14,7 @@ const courseUploadTipsTextsArray = [
 
 const CourseUploadTips = () => {
   return (
-    <div className="w-full max-w-[384px] bg-richblack-800 p-6 flex flex-col gap-5 rounded-md">
+    <div className="w-full max-w-[384px] bg-richblack-800 p-6 flex flex-col gap-5 rounded-md h-fit">
       <div className="flex gap-1 items-center">
         <AiFillThunderbolt className="text-yellow-100" />
         <h3 className="text-lg font-semibold text-richblack-5">
