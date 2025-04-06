@@ -59,6 +59,7 @@ export default function EditProfile() {
         const presentUser = { ...user };
         presentUser.firstName = response.data.userDetails.firstName;
         presentUser.lastName = response.data.userDetails.lastName;
+        presentUser.image = response.data.userDetails.image;
         presentUser.additionalDetails = { ...response.data.profileDetails };
         dispatch(setUser(presentUser));
         navigate("/dashboard/my-profile")
