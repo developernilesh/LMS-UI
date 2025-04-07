@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -18,7 +18,7 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-
+  const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { LOGIN_API } = endpoints;
@@ -34,8 +34,8 @@ const LoginForm = () => {
       if (response?.data?.success) {
         toast.success(response?.data?.message);
         dispatch(setToken(response?.data?.token));
-        localStorage.setItem("token", JSON.stringify(response?.data?.token))
-        navigate("/dashboard/my-profile")
+        localStorage.setItem("token", JSON.stringify(response?.data?.token));
+        // navigate("/dashboard/my-profile");
         reset();
       }
     } catch (error) {
@@ -44,6 +44,10 @@ const LoginForm = () => {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    user && navigate("/dashboard/my-profile");
+  }, [user]);
 
   return (
     <>
