@@ -45,7 +45,7 @@ const RenderSteps = () => {
       </div>
       <div className="flex gap-20">
         {steps.map((item) => (
-          <div className="text-sm text-richblack-200 -ml-3">{item.step}</div>
+          <div className="text-sm text-richblack-200 -ml-3" key={item.id}>{item.step}</div>
         ))}
       </div>
     </div>

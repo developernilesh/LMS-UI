@@ -59,7 +59,7 @@ const CourseInformation = () => {
             Course Description<sup className="text-pink-200">*</sup>
           </p>
           <textarea
-            rows="2"
+            rows="3"
             placeholder="Enter short description"
             {...register("description", {
               required: "Course description is required",
@@ -90,12 +90,52 @@ const CourseInformation = () => {
               Choose a category
             </option>
             {categories?.map((item) => (
-              <option value={item._id}>{item.name}</option>
+              <option value={item._id} key={item._id}>
+                {item.name}
+              </option>
             ))}
           </select>
           {errors.cousreCategory && (
             <p className="text-pink-200 text-sm mt-1">
               {errors.cousreCategory.message}
+            </p>
+          )}
+        </label>
+
+        <label className="relative w-full text-richblack-5">
+          <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
+            Benefits of the Course<sup className="text-pink-200">*</sup>
+          </p>
+          <textarea
+            rows="3"
+            placeholder="Enter benefits of taking the course"
+            {...register("courseBenefit", {
+              required: "Course benefit is required",
+            })}
+            className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
+          />
+          {errors.courseBenefit && (
+            <p className="text-pink-200 text-sm mt-1">
+              {errors.courseBenefit.message}
+            </p>
+          )}
+        </label>
+
+        <label className="relative w-full text-richblack-5">
+          <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
+            Tags<sup className="text-pink-200">*</sup>
+          </p>
+          <input
+            type="text"
+            placeholder="Please press 'Enter' after adding each tag!"
+            {...register("courseBenefit", {
+              required: "Course benefit is required",
+            })}
+            className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
+          />
+          {errors.courseBenefit && (
+            <p className="text-pink-200 text-sm mt-1">
+              {errors.courseBenefit.message}
             </p>
           )}
         </label>
