@@ -1,5 +1,5 @@
 import React from "react";
-import CourseInformation from "./CourseInformation";
+import CourseInformation from "./courseInformation/CourseInformation";
 import CourseUploadTips from "./CourseUploadTips";
 import { useSelector } from "react-redux";
 import RenderSteps from "./RenderSteps";
