@@ -20,6 +20,8 @@ const CourseInformation = () => {
   } = useForm();
 
   const [categories, setCategories] = useState([]);
+  const [tagsList, setTagsList] = useState([]);
+  const [emptyTagsArrayError, setEmptyTagsArrayError] = useState(false);
   const dispatch = useDispatch();
 
   const fetchAllCategories = async () => {
@@ -37,14 +39,21 @@ const CourseInformation = () => {
     }
   };
 
-  const submitProfileForm = () => {};
+  const submitAddCourseForm = (data) => {
+    console.log("call")
+    console.log("tags-list",tagsList)
+    if (tagsList.length === 0) {
+      setEmptyTagsArrayError(true);
+      return;
+    }
+  };
 
   useEffect(() => {
     fetchAllCategories();
   }, []);
 
   return (
-    <form onSubmit={handleSubmit(submitProfileForm)} className="w-full">
+    <form onSubmit={handleSubmit(submitAddCourseForm)} className="w-full">
       <div className="flex flex-col gap-5 rounded-md bg-richblack-800 p-6">
         <InputField
           label="Course Title"
@@ -122,9 +131,14 @@ const CourseInformation = () => {
           )}
         </label>
 
-        <TagsInputField register={register} errors={errors} reset={reset} />
+        <TagsInputField
+          tagsList={tagsList}
+          setTagsList={setTagsList}
+          emptyTagsArrayError={emptyTagsArrayError}
+          setEmptyTagsArrayError={setEmptyTagsArrayError}
+        />
       </div>
-      <button>Save</button>
+      <button type="submit">Save</button>
     </form>
   );
 };
