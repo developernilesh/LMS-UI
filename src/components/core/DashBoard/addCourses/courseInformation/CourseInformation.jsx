@@ -7,6 +7,7 @@ import { setLoading } from "../../../../../redux/slices/loaderSlice";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import CoursePriceInput from "./CoursePriceInput";
+import TagsInputField from "./TagsInputField";
 
 const { VIEW_ALL_CATEGORIES } = endpoints;
 
@@ -121,24 +122,7 @@ const CourseInformation = () => {
           )}
         </label>
 
-        <label className="relative w-full text-richblack-5">
-          <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
-            Tags<sup className="text-pink-200">*</sup>
-          </p>
-          <input
-            type="text"
-            placeholder="Please press 'Enter' after adding each tag!"
-            {...register("courseBenefit", {
-              required: "Course benefit is required",
-            })}
-            className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
-          />
-          {errors.courseBenefit && (
-            <p className="text-pink-200 text-sm mt-1">
-              {errors.courseBenefit.message}
-            </p>
-          )}
-        </label>
+        <TagsInputField register={register} errors={errors} reset={reset} />
       </div>
       <button>Save</button>
     </form>
