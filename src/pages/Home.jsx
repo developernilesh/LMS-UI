@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import { Link, Navigate } from "react-router-dom";
 import HighlightedText from "../components/core/HomePage/HighlightedText";
@@ -25,6 +25,10 @@ const Home = () => {
 
   const { loading } = useSelector((state) => state.loader);
   const { user } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    if(!user) localStorage.removeItem("token")
+  },[])
 
   if (loading) return <Loader />;
 
