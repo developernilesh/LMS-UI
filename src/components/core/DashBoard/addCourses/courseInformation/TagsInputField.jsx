@@ -1,61 +1,75 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { MdCancel } from "react-icons/md";
 
-const TagsInputField = ({
-  tagsList,
-  setTagsList,
-  emptyTagsArrayError,
-  setEmptyTagsArrayError,
-}) => {
-  const [tag, setTag] = useState("");
+const TagsInputField = ({ value = [], onChange, error }) => {
+  const [tagInput, setTagInput] = useState("");
   const [emptyTagError, setEmptyTagError] = useState(false);
+  const [tagsList, setTagsList] = useState([]);
 
-  useEffect(() => {
-    console.log("list", tagsList);
-  }, [tagsList.length]);
-
-  const addTagToTaglist = (e) => {
+  const handleAddTag = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (tag) {
-        tagsList.push(tag);
-        setTag("");
+      const trimmedTag = tagInput.trim();
+      if (trimmedTag) {
+        setTagsList([...tagsList, trimmedTag]);
+        onChange([...value, trimmedTag]);
+        setTagInput("");
       } else {
         setEmptyTagError(true);
       }
     }
   };
 
+  const handleRemoverTag = (index) => {
+    const updatedTagsList = [...tagsList];
+    updatedTagsList.splice(index, 1);
+    setTagsList(updatedTagsList);
+    onChange(updatedTagsList);
+  };
+
   return (
-    <label className="relative w-full text-richblack-5">
+    <div className="relative w-full text-richblack-5">
       <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
         Tags<sup className="text-pink-200">*</sup>
       </p>
+      {tagsList.length > 0 && (
+        <div className="flex gap-2 flex-wrap mt-1 mb-2">
+          {tagsList.map((item, index) => (
+            <div
+              key={index}
+              className="bg-yellow-700 pl-2 pr-1 text-sm rounded-xl flex gap-1 items-center"
+            >
+              <span>{item}</span>
+              <span
+                onClick={() => handleRemoverTag(index)}
+                className="cursor-pointer"
+              >
+                <MdCancel />
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
       <input
         type="text"
         placeholder="Please press 'Enter' after adding each tag!"
-        value={tag}
+        value={tagInput}
         onChange={(e) => {
-          setTag(e.target.value);
+          setTagInput(e.target.value);
           setEmptyTagError(false);
-          setEmptyTagsArrayError(false);
         }}
-        onKeyDown={(e) => {
-          addTagToTaglist(e);
-          setEmptyTagsArrayError(false);
-        }}
+        onKeyDown={handleAddTag}
         className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
       />
-      {emptyTagsArrayError && (
-        <p className="text-pink-200 text-sm mt-1">
-          Minimum one tag is required
-        </p>
+
+      {/* Display validation errors */}
+      {error && <p className="text-pink-200 text-sm mt-1">{error.message}</p>}
+
+      {/* Display empty tag error */}
+      {!error && emptyTagError && (
+        <p className="text-pink-200 text-sm mt-1">Please enter a valid tag</p>
       )}
-      {!emptyTagsArrayError && emptyTagError && (
-        <p className="text-pink-200 text-sm mt-1">
-          Please enter a tag to add tag
-        </p>
-      )}
-    </label>
+    </div>
   );
 };
 

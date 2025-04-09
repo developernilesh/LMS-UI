@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import InputField from "../../../../Form/InputField";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import CoursePriceInput from "./CoursePriceInput";
 import TagsInputField from "./TagsInputField";
+import RequirementsInputField from "./RequirementsInputField";
 
 const { VIEW_ALL_CATEGORIES } = endpoints;
 
@@ -16,12 +17,11 @@ const CourseInformation = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm();
 
   const [categories, setCategories] = useState([]);
-  const [tagsList, setTagsList] = useState([]);
-  const [emptyTagsArrayError, setEmptyTagsArrayError] = useState(false);
   const dispatch = useDispatch();
 
   const fetchAllCategories = async () => {
@@ -40,12 +40,7 @@ const CourseInformation = () => {
   };
 
   const submitAddCourseForm = (data) => {
-    console.log("call")
-    console.log("tags-list",tagsList)
-    if (tagsList.length === 0) {
-      setEmptyTagsArrayError(true);
-      return;
-    }
+    console.log("call", data);
   };
 
   useEffect(() => {
@@ -55,6 +50,7 @@ const CourseInformation = () => {
   return (
     <form onSubmit={handleSubmit(submitAddCourseForm)} className="w-full">
       <div className="flex flex-col gap-5 rounded-md bg-richblack-800 p-6">
+        {/* Course Title Field */}
         <InputField
           label="Course Title"
           name="courseTitle"
@@ -64,6 +60,8 @@ const CourseInformation = () => {
           error={errors.courseTitle}
           background="bg-richblack-700"
         />
+
+        {/* Course Description Field */}
         <label className="relative w-full text-richblack-5">
           <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
             Course Description<sup className="text-pink-200">*</sup>
@@ -83,8 +81,10 @@ const CourseInformation = () => {
           )}
         </label>
 
+        {/* Course Price Field */}
         <CoursePriceInput register={register} errors={errors} />
 
+        {/* Course Category Field */}
         <label className="relative w-full text-richblack-5">
           <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
             Select Course Category<sup className="text-pink-200">*</sup>
@@ -112,6 +112,25 @@ const CourseInformation = () => {
           )}
         </label>
 
+        {/* Course Tags Field */}
+        <Controller
+          name="tags"
+          control={control}
+          rules={{
+            required: "At least one tag is required",
+            validate: (value) =>
+              value.length > 0 || "Minimum one tag is required",
+          }}
+          render={({ field, fieldState: { error } }) => (
+            <TagsInputField
+              value={field.value || []} // Ensure array is always defined
+              onChange={field.onChange}
+              error={error}
+            />
+          )}
+        />
+
+        {/* Benefits of Course Field */}
         <label className="relative w-full text-richblack-5">
           <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
             Benefits of the Course<sup className="text-pink-200">*</sup>
@@ -131,11 +150,22 @@ const CourseInformation = () => {
           )}
         </label>
 
-        <TagsInputField
-          tagsList={tagsList}
-          setTagsList={setTagsList}
-          emptyTagsArrayError={emptyTagsArrayError}
-          setEmptyTagsArrayError={setEmptyTagsArrayError}
+        {/* Requirements/Instructions Field */}
+        <Controller
+          name="instructions"
+          control={control}
+          rules={{
+            required: "At least one instruction is required",
+            validate: (value) =>
+              value.length > 0 || "Minimum one instruction is required",
+          }}
+          render={({ field, fieldState: { error } }) => (
+            <RequirementsInputField
+              value={field.value || []} // Ensure array is always defined
+              onChange={field.onChange}
+              error={error}
+            />
+          )}
         />
       </div>
       <button type="submit">Save</button>
