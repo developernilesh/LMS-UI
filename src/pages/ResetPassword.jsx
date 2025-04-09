@@ -72,7 +72,6 @@ const ResetPassword = () => {
             <>
               <h3 className="text-3xl font-semibold">Choose New Password</h3>
               <p>Almost done! Enter your new password and youre all set.</p>
-              {/* <div className="text-xl font-semibold">Token: {token}</div> */}
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-4 w-full mt-4"

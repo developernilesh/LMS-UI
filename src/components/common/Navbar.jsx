@@ -19,7 +19,7 @@ import { setUser } from "../../redux/slices/profileSLice";
 const Navbar = () => {
   const dispatch = useDispatch();
 
-  const { token } = useSelector((state) => state.auth);
+  const { tokenExpiresIn } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -71,8 +71,9 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    token && fetchUserDetails();
-  }, [token]);
+    if (tokenExpiresIn && Date.now() < Number(tokenExpiresIn))
+      fetchUserDetails();
+  }, [tokenExpiresIn]);
 
   return (
     <div className="w-11/12 mx-auto h-12 flex items-center">

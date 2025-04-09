@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../../Form/InputField";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLoading } from "../../../redux/slices/loaderSlice";
 import endpoints from "../../../services/apiEndpoints";
-import { setToken, setTokenExpiresIn } from "../../../redux/slices/authSlice";
+import { setTokenExpiresIn } from "../../../redux/slices/authSlice";
 import apiConnector from "../../../services/apiConnector";
 
 const LoginForm = () => {
@@ -18,7 +18,6 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-  const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { LOGIN_API } = endpoints;
@@ -33,8 +32,6 @@ const LoginForm = () => {
       });
       if (response?.data?.success) {
         toast.success(response?.data?.message);
-        dispatch(setToken(response?.data?.token));
-        localStorage.setItem("token", JSON.stringify(response?.data?.token));
         dispatch(setTokenExpiresIn(response?.data?.tokenExpiresIn));
         localStorage.setItem("tokenExpiresIn", JSON.stringify(response?.data?.tokenExpiresIn));
         navigate("/dashboard/my-profile");
