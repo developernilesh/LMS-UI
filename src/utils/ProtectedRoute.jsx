@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const { user } = useSelector((state) => state.profile);
+  const { token, tokenExpiresIn } = useSelector((state) => state.auth);
 
-  if (user) {
+  if (Date.now() < Number(tokenExpiresIn)) {
     return children;
   } else {
     return <Navigate to="/login" />;

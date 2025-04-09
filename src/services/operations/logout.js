@@ -6,8 +6,8 @@ export const logout = (navigate) => {
   return (dispatch) => {
     dispatch(setToken(null));
     dispatch(setUser(null));
-    // dispatch(resetCart())
     localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiresIn");
     toast.success("Logged Out");
     navigate("/login");
   };

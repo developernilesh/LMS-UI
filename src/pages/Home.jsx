@@ -26,10 +26,6 @@ const Home = () => {
   const { loading } = useSelector((state) => state.loader);
   const { user } = useSelector((state) => state.profile);
 
-  useEffect(() => {
-    if(!user) localStorage.removeItem("token")
-  },[])
-
   if (loading) return <Loader />;
 
   return (
