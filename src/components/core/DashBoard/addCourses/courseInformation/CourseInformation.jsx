@@ -10,11 +10,7 @@ import CoursePriceInput from "./CoursePriceInput";
 import TagsInputField from "./TagsInputField";
 import RequirementsInputField from "./RequirementsInputField";
 import SubmitButton from "../../../../Form/SubmitButton";
-import {
-  FaAngleRight,
-  FaChevronCircleRight,
-  FaChevronRight,
-} from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
 
 const { VIEW_ALL_CATEGORIES } = endpoints;
 
