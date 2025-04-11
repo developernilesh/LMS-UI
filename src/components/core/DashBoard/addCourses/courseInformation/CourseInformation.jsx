@@ -10,7 +10,7 @@ import CoursePriceInput from "./CoursePriceInput";
 import TagsInputField from "./TagsInputField";
 import RequirementsInputField from "./RequirementsInputField";
 import SubmitButton from "../../../../Form/SubmitButton";
-import { FaAngleRight } from "react-icons/fa";
+import { FaAngleRight, FaTimes, FaUpload } from "react-icons/fa";
 
 const { VIEW_ALL_CATEGORIES } = endpoints;
 
@@ -18,7 +18,7 @@ const CourseInformation = () => {
   const {
     register,
     handleSubmit,
-    reset,
+    reset,watch,
     control,
     formState: { errors },
   } = useForm();
@@ -133,6 +133,73 @@ const CourseInformation = () => {
           />
         )}
       />
+
+      {/* Course ThumbNail */}
+      <label className="relative w-full text-richblack-5">
+        <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
+          Course Thumbnail<sup className="text-pink-200">*</sup>
+        </p>
+        <div className="flex items-center gap-3">
+          <label 
+            htmlFor="courseImage"
+            className="flex items-center gap-2 bg-richblack-700 rounded-[0.5rem] py-3 px-4 border-b border-richblack-500 cursor-pointer"
+          >
+            <FaUpload className="text-richblack-300" />
+            <span className="text-richblack-200">Upload Thumbnail</span>
+            <input 
+              type="file"
+              id="courseImage"
+              accept="image/png, image/jpeg, image/jpg"
+              {...register("courseImage", {
+                required: "Course thumbnail is required",
+                validate: (value) => {
+                  if (!value[0]) return "Course thumbnail is required";
+                  const fileType = value[0]?.type;
+                  if (!fileType.includes("image")) {
+                    return "Please upload an image file";
+                  }
+                  return true;
+                }
+              })}
+              className="hidden"
+              onChange={(e) => {
+                register("courseImage").onChange(e);
+                if (e.target.files[0]) {
+                  const fileReader = new FileReader();
+                  fileReader.readAsDataURL(e.target.files[0]);
+                  fileReader.onload = () => {
+                    setValue("courseImagePreview", fileReader.result);
+                  };
+                }
+              }}
+            />
+          </label>
+          {watch("courseImagePreview") && (
+            <div className="relative h-14 w-14 rounded-md overflow-hidden">
+              <img 
+                src={watch("courseImagePreview")} 
+                alt="Course thumbnail" 
+                className="h-full w-full object-cover"
+              />
+              <button
+                type="button"
+                className="absolute top-1 right-1 bg-richblack-800 rounded-full p-1"
+                onClick={() => {
+                  setValue("courseImage", null);
+                  setValue("courseImagePreview", null);
+                }}
+              >
+                <FaTimes className="text-pink-200 text-xs" />
+              </button>
+            </div>
+          )}
+        </div>
+        {errors.courseImage && (
+          <p className="text-pink-200 text-sm mt-1">
+            {errors.courseImage.message}
+          </p>
+        )}
+      </label>
 
       {/* Benefits of Course Field */}
       <label className="relative w-full text-richblack-5">
