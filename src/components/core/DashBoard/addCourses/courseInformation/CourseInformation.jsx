@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import InputField from "../../../../Form/InputField";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CoursePriceInput from "./CoursePriceInput";
 import TagsInputField from "./TagsInputField";
 import RequirementsInputField from "./RequirementsInputField";
 import SubmitButton from "../../../../Form/SubmitButton";
 import { FaAngleRight, FaTimes, FaUpload } from "react-icons/fa";
+import { setStep } from "../../../../../redux/slices/courseSlice";
 
 const CourseInformation = () => {
   const {
@@ -20,8 +21,11 @@ const CourseInformation = () => {
   } = useForm();
 
   const { categories } = useSelector((state) => state.course);
+  const dispatch = useDispatch()
 
-  const submitAddCourseForm = () => {};
+  const submitAddCourseForm = () => {
+    setStep(2)
+  };
 
   return (
     <form
