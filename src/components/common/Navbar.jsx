@@ -15,6 +15,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import ProfileDropdown from "../core/Auth/ProfileDropdown";
 import { setLoading } from "../../redux/slices/loaderSlice";
 import { setUser } from "../../redux/slices/profileSLice";
+import { setCategories } from "../../redux/slices/courseSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -31,19 +32,17 @@ const Navbar = () => {
     if (!route) return false;
     return matchPath({ path: route }, location.pathname);
   };
-
-  const [categories, setCategories] = useState([]);
+  const {categories} = useSelector(state=>state.course)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
     useState(false);
 
   const fetchAllCategories = async () => {
-    setCategories([]);
     dispatch(setLoading(true));
     try {
       const response = await apiConnector("GET", VIEW_ALL_CATEGORIES);
       if (response?.data?.success) {
-        setCategories(response.data.data);
+        dispatch(setCategories(response.data.data));
       }
     } catch (error) {
       console.error(error);

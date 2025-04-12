@@ -1,53 +1,27 @@
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import InputField from "../../../../Form/InputField";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setLoading } from "../../../../../redux/slices/loaderSlice";
-import apiConnector from "../../../../../services/apiConnector";
-import endpoints from "../../../../../services/apiEndpoints";
+import { useSelector } from "react-redux";
 import CoursePriceInput from "./CoursePriceInput";
 import TagsInputField from "./TagsInputField";
 import RequirementsInputField from "./RequirementsInputField";
 import SubmitButton from "../../../../Form/SubmitButton";
 import { FaAngleRight, FaTimes, FaUpload } from "react-icons/fa";
 
-const { VIEW_ALL_CATEGORIES } = endpoints;
-
 const CourseInformation = () => {
   const {
     register,
     handleSubmit,
-    reset,watch,
+    reset,
+    watch,
+    setValue,
     control,
     formState: { errors },
   } = useForm();
 
-  const [categories, setCategories] = useState([]);
-  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.course);
 
-  const fetchAllCategories = async () => {
-    setCategories([]);
-    dispatch(setLoading(true));
-    try {
-      const response = await apiConnector("GET", VIEW_ALL_CATEGORIES);
-      if (response?.data?.success) {
-        setCategories(response.data.data);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-
-  const submitAddCourseForm = (data) => {
-    console.log("call", data);
-  };
-
-  useEffect(() => {
-    fetchAllCategories();
-  }, []);
+  const submitAddCourseForm = () => {};
 
   return (
     <form
@@ -140,13 +114,13 @@ const CourseInformation = () => {
           Course Thumbnail<sup className="text-pink-200">*</sup>
         </p>
         <div className="flex items-center gap-3">
-          <label 
+          <label
             htmlFor="courseImage"
             className="flex items-center gap-2 bg-richblack-700 rounded-[0.5rem] py-3 px-4 border-b border-richblack-500 cursor-pointer"
           >
             <FaUpload className="text-richblack-300" />
             <span className="text-richblack-200">Upload Thumbnail</span>
-            <input 
+            <input
               type="file"
               id="courseImage"
               accept="image/png, image/jpeg, image/jpg"
@@ -159,7 +133,7 @@ const CourseInformation = () => {
                     return "Please upload an image file";
                   }
                   return true;
-                }
+                },
               })}
               className="hidden"
               onChange={(e) => {
@@ -176,15 +150,16 @@ const CourseInformation = () => {
           </label>
           {watch("courseImagePreview") && (
             <div className="relative h-14 w-14 rounded-md overflow-hidden">
-              <img 
-                src={watch("courseImagePreview")} 
-                alt="Course thumbnail" 
+              <img
+                src={watch("courseImagePreview")}
+                alt="Course thumbnail"
                 className="h-full w-full object-cover"
               />
               <button
                 type="button"
                 className="absolute top-1 right-1 bg-richblack-800 rounded-full p-1"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setValue("courseImage", null);
                   setValue("courseImagePreview", null);
                 }}
