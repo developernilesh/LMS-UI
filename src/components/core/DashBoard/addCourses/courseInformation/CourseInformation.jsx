@@ -226,6 +226,7 @@ const CourseInformation = () => {
             width="w-fit"
             background="bg-richblack-900 border border-richblack-700"
             text="text-richblack-300"
+            onClick={() => setStep(2)}
           />
         )}
         <SubmitButton
