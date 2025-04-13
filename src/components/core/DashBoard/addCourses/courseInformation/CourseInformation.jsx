@@ -20,11 +20,13 @@ const CourseInformation = () => {
     formState: { errors },
   } = useForm();
 
-  const { categories } = useSelector((state) => state.course);
-  const dispatch = useDispatch()
+  const { categories, isEditCourse, course } = useSelector(
+    (state) => state.course
+  );
+  const dispatch = useDispatch();
 
   const submitAddCourseForm = () => {
-    setStep(2)
+    setStep(2);
   };
 
   return (
@@ -217,12 +219,26 @@ const CourseInformation = () => {
           />
         )}
       />
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-3">
+        {isEditCourse && (
+          <SubmitButton
+            buttonContent="Continue Without Saving"
+            width="w-fit"
+            background="bg-richblack-900 border border-richblack-700"
+            text="text-richblack-300"
+          />
+        )}
         <SubmitButton
-          buttonContent=<div className="flex gap-1 items-center">
-            <span>Next</span>
-            <FaAngleRight />
-          </div>
+          buttonContent={
+            isEditCourse ? (
+              "Save Changes"
+            ) : (
+              <div className="flex gap-1 items-center">
+                <span>Next</span>
+                <FaAngleRight />
+              </div>
+            )
+          }
           width="w-fit"
         />
       </div>
