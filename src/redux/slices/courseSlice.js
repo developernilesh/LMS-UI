@@ -4,7 +4,7 @@ const initialState = {
   step: 1,
   categories: [],
   course: null,
-  isEditCourse: true,
+  isEditCourse: false,
 };
 
 const courseSlice = createSlice({
