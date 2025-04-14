@@ -20,13 +20,17 @@ const CourseInformation = () => {
     formState: { errors },
   } = useForm();
 
+  const [instructionsList, setInstructionsList] = useState([]);
+  const [tagsList, setTagsList] = useState([]);
+  
   const { categories, isEditCourse, course } = useSelector(
     (state) => state.course
   );
   const dispatch = useDispatch();
 
-  const submitAddCourseForm = () => {
-    dispatch(setStep(2));
+  const submitAddCourseForm = (data) => {
+    console.log("form-data",data)
+    // dispatch(setStep(2));
   };
 
   return (
@@ -110,6 +114,8 @@ const CourseInformation = () => {
             value={field.value || []} // Ensure array is always defined
             onChange={field.onChange}
             error={error}
+            tagsList={tagsList}
+            setTagsList={setTagsList}
           />
         )}
       />
@@ -216,6 +222,8 @@ const CourseInformation = () => {
             value={field.value || []} // Ensure array is always defined
             onChange={field.onChange}
             error={error}
+            instructionsList={instructionsList}
+            setInstructionsList={setInstructionsList}
           />
         )}
       />

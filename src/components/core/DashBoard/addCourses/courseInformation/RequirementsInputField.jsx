@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 
-const RequirementsInputField = ({ value = [], onChange, error }) => {
+const RequirementsInputField = ({
+  value = [],
+  onChange,
+  error,
+  instructionsList,
+  setInstructionsList,
+}) => {
   const [instructionInput, setInstructionInput] = useState("");
   const [emptyInputError, setEmptyInputError] = useState(false);
-  const [instructionsList, setInstructionsList] = useState([]);
 
   const handleAddInstruction = () => {
     const trimmedInstruction = instructionInput.trim();
@@ -72,7 +77,7 @@ const RequirementsInputField = ({ value = [], onChange, error }) => {
               <span>{item}</span>
               <span
                 onClick={() => handleRemoverInstruction(index)}
-                className="text-richblack-300 text-xs cursor-pointer"
+                className="text-richblack-5 text-xs cursor-pointer bg-pink-700 px-1 rounded-full"
               >
                 clear
               </span>

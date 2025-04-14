@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
 
-const TagsInputField = ({ value = [], onChange, error }) => {
+const TagsInputField = ({
+  value = [],
+  onChange,
+  error,
+  tagsList,
+  setTagsList,
+}) => {
   const [tagInput, setTagInput] = useState("");
   const [emptyTagError, setEmptyTagError] = useState(false);
-  const [tagsList, setTagsList] = useState([]);
 
   const handleAddTag = (e) => {
     if (e.key === "Enter") {
@@ -37,7 +42,7 @@ const TagsInputField = ({ value = [], onChange, error }) => {
           {tagsList.map((item, index) => (
             <div
               key={index}
-              className="bg-yellow-700 pl-2 pr-1 text-sm rounded-xl flex gap-1 items-center"
+              className="bg-caribbeangreen-600 pl-2 pr-1 text-sm rounded-xl flex gap-1 items-center"
             >
               <span>{item}</span>
               <span
