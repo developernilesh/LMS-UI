@@ -26,7 +26,7 @@ const CourseInformation = () => {
   const dispatch = useDispatch();
 
   const submitAddCourseForm = () => {
-    setStep(2);
+    dispatch(setStep(2));
   };
 
   return (
@@ -37,11 +37,11 @@ const CourseInformation = () => {
       {/* Course Title Field */}
       <InputField
         label="Course Title"
-        name="courseTitle"
+        name="courseName"
         placeholder="Enter course title"
         register={register}
         validation={{ required: "Course title is required" }}
-        error={errors.courseTitle}
+        error={errors.courseName}
         background="bg-richblack-700"
       />
 
@@ -53,14 +53,14 @@ const CourseInformation = () => {
         <textarea
           rows="3"
           placeholder="Enter short description"
-          {...register("description", {
+          {...register("courseDescription", {
             required: "Course description is required",
           })}
           className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
         />
-        {errors.description && (
+        {errors.courseDescription && (
           <p className="text-pink-200 text-sm mt-1">
-            {errors.description.message}
+            {errors.courseDescription.message}
           </p>
         )}
       </label>
@@ -74,7 +74,7 @@ const CourseInformation = () => {
           Select Course Category<sup className="text-pink-200">*</sup>
         </p>
         <select
-          {...register("cousreCategory", {
+          {...register("category", {
             required: "Course category is required",
           })}
           className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
@@ -89,9 +89,9 @@ const CourseInformation = () => {
             </option>
           ))}
         </select>
-        {errors.cousreCategory && (
+        {errors.category && (
           <p className="text-pink-200 text-sm mt-1">
-            {errors.cousreCategory.message}
+            {errors.category.message}
           </p>
         )}
       </label>
@@ -121,16 +121,16 @@ const CourseInformation = () => {
         </p>
         <div className="flex items-center gap-3">
           <label
-            htmlFor="courseImage"
+            htmlFor="thumbnailImage"
             className="flex items-center gap-2 bg-richblack-700 rounded-[0.5rem] py-3 px-4 border-b border-richblack-500 cursor-pointer"
           >
             <FaUpload className="text-richblack-300" />
             <span className="text-richblack-200">Upload Thumbnail</span>
             <input
               type="file"
-              id="courseImage"
+              id="thumbnailImage"
               accept="image/png, image/jpeg, image/jpg"
-              {...register("courseImage", {
+              {...register("thumbnailImage", {
                 required: "Course thumbnail is required",
                 validate: (value) => {
                   if (!value[0]) return "Course thumbnail is required";
@@ -143,21 +143,21 @@ const CourseInformation = () => {
               })}
               className="hidden"
               onChange={(e) => {
-                register("courseImage").onChange(e);
+                register("thumbnailImage").onChange(e);
                 if (e.target.files[0]) {
                   const fileReader = new FileReader();
                   fileReader.readAsDataURL(e.target.files[0]);
                   fileReader.onload = () => {
-                    setValue("courseImagePreview", fileReader.result);
+                    setValue("thumbnailImagePreview", fileReader.result);
                   };
                 }
               }}
             />
           </label>
-          {watch("courseImagePreview") && (
+          {watch("thumbnailImagePreview") && (
             <div className="relative h-14 w-14 rounded-md overflow-hidden">
               <img
-                src={watch("courseImagePreview")}
+                src={watch("thumbnailImagePreview")}
                 alt="Course thumbnail"
                 className="h-full w-full object-cover"
               />
@@ -166,8 +166,8 @@ const CourseInformation = () => {
                 className="absolute top-1 right-1 bg-richblack-800 rounded-full p-1"
                 onClick={(e) => {
                   e.preventDefault();
-                  setValue("courseImage", null);
-                  setValue("courseImagePreview", null);
+                  setValue("thumbnailImage", null);
+                  setValue("thumbnailImagePreview", null);
                 }}
               >
                 <FaTimes className="text-pink-200 text-xs" />
@@ -175,9 +175,9 @@ const CourseInformation = () => {
             </div>
           )}
         </div>
-        {errors.courseImage && (
+        {errors.thumbnailImage && (
           <p className="text-pink-200 text-sm mt-1">
-            {errors.courseImage.message}
+            {errors.thumbnailImage.message}
           </p>
         )}
       </label>
@@ -190,14 +190,14 @@ const CourseInformation = () => {
         <textarea
           rows="3"
           placeholder="Enter benefits of taking the course"
-          {...register("courseBenefit", {
+          {...register("whatYouWillLearn", {
             required: "Course benefit is required",
           })}
           className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
         />
-        {errors.courseBenefit && (
+        {errors.whatYouWillLearn && (
           <p className="text-pink-200 text-sm mt-1">
-            {errors.courseBenefit.message}
+            {errors.whatYouWillLearn.message}
           </p>
         )}
       </label>
@@ -223,10 +223,11 @@ const CourseInformation = () => {
         {isEditCourse && (
           <SubmitButton
             buttonContent="Continue Without Saving"
+            onClick={() => dispatch(setStep(2))}
+            buttonType="button"
             width="w-fit"
             background="bg-richblack-900 border border-richblack-700"
             text="text-richblack-300"
-            onClick={() => setStep(2)}
           />
         )}
         <SubmitButton
