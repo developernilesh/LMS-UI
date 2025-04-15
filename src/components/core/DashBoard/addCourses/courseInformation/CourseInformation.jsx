@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import InputField from "../../../../Form/InputField";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,15 +22,45 @@ const CourseInformation = () => {
 
   const [instructionsList, setInstructionsList] = useState([]);
   const [tagsList, setTagsList] = useState([]);
-  
+
   const { categories, isEditCourse, course } = useSelector(
     (state) => state.course
   );
   const dispatch = useDispatch();
 
   const submitAddCourseForm = (data) => {
-    console.log("form-data",data)
+    console.log("form-data", data);
     // dispatch(setStep(2));
+  };
+
+  useEffect(() => {
+    if (isEditCourse) {
+      setValue("courseName", course.courseName);
+      setValue("courseDescription", course.courseDescription);
+      setValue("price", course.price);
+      setValue("tags", course.tags);
+      setValue("whatYouWillLearn", course.whatYouWillLearn);
+      setValue("category", course.category);
+      setValue("instructions", course.instructions);
+      setValue("thumbnailImage", course.thumbnailImage);
+    }
+  });
+
+  const isFormUpdated = () => {
+    const currentValues = getValues();
+    if (
+      currentValues.courseName !== course.courseName ||
+      currentValues.courseDescription !== course.courseDescription ||
+      currentValues.price !== course.price ||
+      //currentValues.tags.toString() !== course.tags.toString() ||
+      currentValues.whatYouWillLearn !== course.whatYouWillLearn ||
+      currentValues.category._id !== course.category._id ||
+      //currentValues.thumbnailImage !== course.thumbnailImage ||
+      currentValues.instructions.toString() !==
+        course.instructions.toString()
+    )
+      return true;
+    else return false;
   };
 
   return (
