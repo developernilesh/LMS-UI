@@ -62,7 +62,7 @@ export default function EditProfile() {
         presentUser.image = response.data.userDetails.image;
         presentUser.additionalDetails = { ...response.data.profileDetails };
         dispatch(setUser(presentUser));
-        navigate("/dashboard/my-profile")
+        navigate("/dashboard/my-profile");
       }
     } catch (error) {
       console.log("error : ", error);
@@ -219,6 +219,7 @@ export default function EditProfile() {
           </div>
           <div className="flex justify-end gap-2">
             <button
+              type="button"
               onClick={() => {
                 navigate("/dashboard/my-profile");
               }}
