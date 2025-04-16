@@ -17,6 +17,7 @@ import ChangePassword from "./pages/ChangePassword.jsx";
 import EnrolledCourse from "./components/core/DashBoard/enrolledCourses/EnrolledCourse.jsx";
 import MyWishlist from "./components/core/DashBoard/myWishlist/MyWishlist.jsx";
 import AddCourse from "./components/core/DashBoard/addCourses/AddCourse.jsx";
+import ShowInstructorCourses from "./components/core/DashBoard/instructorCourse/ShowInstructorCourses.jsx";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/add-course",
             element: <AddCourse />,
+          },
+          {
+            path: "dashboard/my-courses",
+            element: <ShowInstructorCourses />,
           },
         ],
       },
