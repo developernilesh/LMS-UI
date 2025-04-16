@@ -33,6 +33,8 @@ const CourseInformation = () => {
   const [instructionsList, setInstructionsList] = useState([]);
   const [tagsList, setTagsList] = useState([]);
   const [previewSource, setPreviewSource] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageError, setImageError] = useState(null);
 
   const { categories, isEditCourse, course } = useSelector(
     (state) => state.course
@@ -68,15 +70,48 @@ const CourseInformation = () => {
     else return false;
   };
 
-  const handleFileInputClick = () => {
-    fileInputRef.current.click();
+  const handleFileChange = (e) => {
+    setImageError(null);
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      previewFile(file);
+    }
+  };
+
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewSource(reader.result);
+    };
   };
 
   const submitAddCourseForm = (data) => {
-    if (isEditCourse && isFormUpdated(data)) {
-      // call edit-course api
-    } else if (isEditCourse && !isFormUpdated(data)) {
-      toast.error("No changes made so far");
+    if (!imageFile) {
+      setImageError("Course thumbnail is required");
+      return;
+    }
+    if (!imageFile.type.includes("image")) {
+      setImageError("Please upload an image file");
+      return;
+    }
+    const supportedTypes = ["jpg", "jpeg", "png"];
+    const fileType = imageFile.type.split("/")[1];
+    if (!supportedTypes.includes(fileType)) {
+      setImageError("Image file type not supported");
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append("thumbnail", imageFile);
+
+    if (isEditCourse) {
+      if (isFormUpdated(data)) {
+        // call edit-course api
+      } else {
+        toast.error("No changes made so far");
+      }
     } else {
       console.log("form-data", data);
       // call add course api
@@ -179,28 +214,9 @@ const CourseInformation = () => {
         <div className="h-[206px] w-full bg-richblack-700 rounded-lg border border-dashed border-richblack-400 flex justify-center items-center">
           <input
             type="file"
-            {...register("thumbnailImage", {
-              required: "Course thumbnail is required",
-              validate: (value) => {
-                if (!value[0]) return "Course thumbnail is required";
-                const fileType = value[0]?.type;
-                if (!fileType.includes("image")) {
-                  return "Please upload an image file";
-                }
-                return true;
-              },
-            })}
             className="hidden"
             accept="image/png, image/jpeg, image/jpg"
-            onChange={(e) => {
-              if (e.target.files[0]) {
-                const fileReader = new FileReader();
-                fileReader.readAsDataURL(e.target.files[0]);
-                fileReader.onload = () => {
-                  setPreviewSource(fileReader.result);
-                };
-              }
-            }}
+            onChange={(e) => handleFileChange(e)}
           />
           {previewSource ? (
             <div className="relative h-full">
@@ -222,29 +238,24 @@ const CourseInformation = () => {
               </button>
             </div>
           ) : (
-            <div
-              onClick={handleFileInputClick}
-              className="flex flex-col items-center gap-3 cursor-pointer"
-            >
+            <div className="flex flex-col items-center gap-3 cursor-pointer">
               <FaCloudUploadAlt className="text-4xl" />
-              <p className="text-center">
+              <p className="text-center text-richblack-200">
                 Drag and drop an image, or&nbsp;
                 <span className="text-yellow-100 font-semibold">Browse</span>
               </p>
-              <p className="text-center text-sm">
+              <p className="text-center text-sm text-richblack-300">
                 Upload a .jpg, .jpeg, or .png File (Maximum 6MB)
               </p>
-              <p className="flex gap-5 text-sm">
+              <p className="flex gap-5 text-sm text-richblack-300">
                 <span>Aspect ratio 16:9</span>
                 <span>Recommended size 1024x576</span>
               </p>
             </div>
           )}
         </div>
-        {errors.thumbnailImage && (
-          <p className="text-pink-200 text-sm mt-1">
-            {errors.thumbnailImage.message}
-          </p>
+        {imageError && (
+          <p className="text-pink-200 text-sm mt-1">{imageError}</p>
         )}
       </label>
 
