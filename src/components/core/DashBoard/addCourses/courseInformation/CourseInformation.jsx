@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import InputField from "../../../../Form/InputField";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,14 @@ import CoursePriceInput from "./CoursePriceInput";
 import TagsInputField from "./TagsInputField";
 import RequirementsInputField from "./RequirementsInputField";
 import SubmitButton from "../../../../Form/SubmitButton";
-import { FaAngleRight, FaTimes, FaUpload } from "react-icons/fa";
+import {
+  FaAngleRight,
+  FaCloudUploadAlt,
+  FaTimes,
+  FaUpload,
+} from "react-icons/fa";
 import { setStep } from "../../../../../redux/slices/courseSlice";
+import toast from "react-hot-toast";
 
 const CourseInformation = () => {
   const {
@@ -16,38 +22,38 @@ const CourseInformation = () => {
     reset,
     watch,
     setValue,
+    getValues,
     control,
     formState: { errors },
   } = useForm();
 
+  const fileInputRef = useRef(null);
+  const dispatch = useDispatch();
+
   const [instructionsList, setInstructionsList] = useState([]);
   const [tagsList, setTagsList] = useState([]);
+  const [previewSource, setPreviewSource] = useState(null);
 
   const { categories, isEditCourse, course } = useSelector(
     (state) => state.course
   );
-  const dispatch = useDispatch();
-
-  const submitAddCourseForm = (data) => {
-    console.log("form-data", data);
-    // dispatch(setStep(2));
-  };
 
   useEffect(() => {
-    if (isEditCourse) {
-      setValue("courseName", course.courseName);
-      setValue("courseDescription", course.courseDescription);
-      setValue("price", course.price);
-      setValue("tags", course.tags);
-      setValue("whatYouWillLearn", course.whatYouWillLearn);
-      setValue("category", course.category);
-      setValue("instructions", course.instructions);
-      setValue("thumbnailImage", course.thumbnailImage);
+    if (course) {
+      reset({
+        courseName: course?.courseName,
+        courseDescription: course?.courseDescription,
+        price: course?.price,
+        tags: course?.tags,
+        whatYouWillLearn: course?.whatYouWillLearn,
+        category: course?.category,
+        instructions: course?.instructions,
+        thumbnailImage: course?.thumbnailImage,
+      });
     }
-  });
+  }, [course]);
 
-  const isFormUpdated = () => {
-    const currentValues = getValues();
+  const isFormUpdated = (currentValues) => {
     if (
       currentValues.courseName !== course.courseName ||
       currentValues.courseDescription !== course.courseDescription ||
@@ -56,11 +62,26 @@ const CourseInformation = () => {
       currentValues.whatYouWillLearn !== course.whatYouWillLearn ||
       currentValues.category._id !== course.category._id ||
       //currentValues.thumbnailImage !== course.thumbnailImage ||
-      currentValues.instructions.toString() !==
-        course.instructions.toString()
+      currentValues.instructions.toString() !== course.instructions.toString()
     )
       return true;
     else return false;
+  };
+
+  const handleFileInputClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const submitAddCourseForm = (data) => {
+    if (isEditCourse && isFormUpdated(data)) {
+      // call edit-course api
+    } else if (isEditCourse && !isFormUpdated(data)) {
+      toast.error("No changes made so far");
+    } else {
+      console.log("form-data", data);
+      // call add course api
+    }
+    // dispatch(setStep(2));
   };
 
   return (
@@ -151,63 +172,72 @@ const CourseInformation = () => {
       />
 
       {/* Course ThumbNail */}
-      <label className="relative w-full text-richblack-5">
+      <label>
         <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
           Course Thumbnail<sup className="text-pink-200">*</sup>
         </p>
-        <div className="flex items-center gap-3">
-          <label
-            htmlFor="thumbnailImage"
-            className="flex items-center gap-2 bg-richblack-700 rounded-[0.5rem] py-3 px-4 border-b border-richblack-500 cursor-pointer"
-          >
-            <FaUpload className="text-richblack-300" />
-            <span className="text-richblack-200">Upload Thumbnail</span>
-            <input
-              type="file"
-              id="thumbnailImage"
-              accept="image/png, image/jpeg, image/jpg"
-              {...register("thumbnailImage", {
-                required: "Course thumbnail is required",
-                validate: (value) => {
-                  if (!value[0]) return "Course thumbnail is required";
-                  const fileType = value[0]?.type;
-                  if (!fileType.includes("image")) {
-                    return "Please upload an image file";
-                  }
-                  return true;
-                },
-              })}
-              className="hidden"
-              onChange={(e) => {
-                register("thumbnailImage").onChange(e);
-                if (e.target.files[0]) {
-                  const fileReader = new FileReader();
-                  fileReader.readAsDataURL(e.target.files[0]);
-                  fileReader.onload = () => {
-                    setValue("thumbnailImagePreview", fileReader.result);
-                  };
+        <div className="h-[206px] w-full bg-richblack-700 rounded-lg border border-dashed border-richblack-400 flex justify-center items-center">
+          <input
+            type="file"
+            {...register("thumbnailImage", {
+              required: "Course thumbnail is required",
+              validate: (value) => {
+                if (!value[0]) return "Course thumbnail is required";
+                const fileType = value[0]?.type;
+                if (!fileType.includes("image")) {
+                  return "Please upload an image file";
                 }
-              }}
-            />
-          </label>
-          {watch("thumbnailImagePreview") && (
-            <div className="relative h-14 w-14 rounded-md overflow-hidden">
+                return true;
+              },
+            })}
+            className="hidden"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={(e) => {
+              if (e.target.files[0]) {
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(e.target.files[0]);
+                fileReader.onload = () => {
+                  setPreviewSource(fileReader.result);
+                };
+              }
+            }}
+          />
+          {previewSource ? (
+            <div className="relative h-full">
               <img
-                src={watch("thumbnailImagePreview")}
+                src={previewSource}
                 alt="Course thumbnail"
-                className="h-full w-full object-cover"
+                className="h-full w-[371.5px] object-cover"
               />
               <button
                 type="button"
-                className="absolute top-1 right-1 bg-richblack-800 rounded-full p-1"
+                className="absolute top-2 right-2 bg-richblack-800 rounded-full p-2"
                 onClick={(e) => {
                   e.preventDefault();
                   setValue("thumbnailImage", null);
-                  setValue("thumbnailImagePreview", null);
+                  setPreviewSource(null);
                 }}
               >
-                <FaTimes className="text-pink-200 text-xs" />
+                <FaTimes className="text-pink-200" />
               </button>
+            </div>
+          ) : (
+            <div
+              onClick={handleFileInputClick}
+              className="flex flex-col items-center gap-3 cursor-pointer"
+            >
+              <FaCloudUploadAlt className="text-4xl" />
+              <p className="text-center">
+                Drag and drop an image, or&nbsp;
+                <span className="text-yellow-100 font-semibold">Browse</span>
+              </p>
+              <p className="text-center text-sm">
+                Upload a .jpg, .jpeg, or .png File (Maximum 6MB)
+              </p>
+              <p className="flex gap-5 text-sm">
+                <span>Aspect ratio 16:9</span>
+                <span>Recommended size 1024x576</span>
+              </p>
             </div>
           )}
         </div>
