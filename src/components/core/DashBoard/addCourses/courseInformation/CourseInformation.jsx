@@ -58,9 +58,9 @@ const CourseInformation = () => {
   }, [course]);
 
   const handleFileChange = (e) => {
-    const file = e.target.files;
+    const file = e.target.files[0];
     console.log(file);
-    
+
     if (file) {
       // checking if image file or not
       if (!file.type.includes("image")) {
@@ -93,15 +93,21 @@ const CourseInformation = () => {
       toast.error("Course thumbnail is required");
       return;
     }
-    // const formData = new FormData();
-    // formData.append("thumbnail", imageFile);
-    const payload = { ...data, "thumbnail": imageFile };
+    const formData = new FormData();
+    formData.append("thumbnail", imageFile);
+    formData.append("courseName", data.courseName);
+    formData.append("courseDescription", data.courseDescription);
+    formData.append("price", data.price);
+    formData.append("tags", data.tags);
+    formData.append("whatYouWillLearn", data.whatYouWillLearn);
+    formData.append("category", data.category);
+    formData.append("instructions", data.instructions);
     if (isEditCourse) {
       // call edit-course api
     } else {
       try {
         dispatch(setLoading(true));
-        const response = await apiConnector("POST", CREATE_COURSE, payload);
+        const response = await apiConnector("POST", CREATE_COURSE, formData);
         if (response?.data?.success) {
           toast.success(response.data.message);
           dispatch(setCourse(response.data.courseInfo));
@@ -204,7 +210,7 @@ const CourseInformation = () => {
           />
         )}
       />
-<div>{JSON.stringify(imageFile)}</div>
+      <div>{JSON.stringify(imageFile)}</div>
       {/* Course ThumbNail */}
       <label>
         <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
