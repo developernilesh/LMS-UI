@@ -12,8 +12,13 @@ import {
   FaTimes,
   FaUpload,
 } from "react-icons/fa";
-import { setStep } from "../../../../../redux/slices/courseSlice";
+import { setCourse, setStep } from "../../../../../redux/slices/courseSlice";
 import toast from "react-hot-toast";
+import { setLoading } from "../../../../../redux/slices/loaderSlice";
+import apiConnector from "../../../../../services/apiConnector";
+import endpoints from "../../../../../services/apiEndpoints";
+
+const { CREATE_COURSE } = endpoints;
 
 const CourseInformation = () => {
   const {
@@ -47,13 +52,15 @@ const CourseInformation = () => {
       });
       setImageFile(course?.thumbNail);
       setPreviewSource(course?.thumbNail);
-      setTagsList(course?.tags)
-      setInstructionsList(course?.instructions)
+      setTagsList(course?.tags);
+      setInstructionsList(course?.instructions);
     }
   }, [course]);
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files;
+    console.log(file);
+    
     if (file) {
       // checking if image file or not
       if (!file.type.includes("image")) {
@@ -81,21 +88,34 @@ const CourseInformation = () => {
     };
   };
 
-  const submitAddCourseForm = (data) => {
+  const submitAddCourseForm = async (data) => {
     if (!imageFile) {
       toast.error("Course thumbnail is required");
       return;
     }
-    const formData = new FormData();
-    formData.append("thumbnail", imageFile);
-
+    // const formData = new FormData();
+    // formData.append("thumbnail", imageFile);
+    const payload = { ...data, "thumbnail": imageFile };
     if (isEditCourse) {
       // call edit-course api
     } else {
-      console.log("form-data", data);
-      // call add course api
+      try {
+        dispatch(setLoading(true));
+        const response = await apiConnector("POST", CREATE_COURSE, payload);
+        if (response?.data?.success) {
+          toast.success(response.data.message);
+          dispatch(setCourse(response.data.courseInfo));
+          reset();
+          setImageFile(null);
+          setPreviewSource(null);
+          dispatch(setStep(2));
+        }
+      } catch (error) {
+        toast.error(error?.message || error?.response?.data?.message);
+      } finally {
+        dispatch(setLoading(false));
+      }
     }
-    // dispatch(setStep(2));
   };
 
   return (
@@ -184,7 +204,7 @@ const CourseInformation = () => {
           />
         )}
       />
-
+<div>{JSON.stringify(imageFile)}</div>
       {/* Course ThumbNail */}
       <label>
         <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
@@ -209,7 +229,7 @@ const CourseInformation = () => {
                 className="absolute top-2 right-2 bg-richblack-800 rounded-full p-2"
                 onClick={(e) => {
                   e.preventDefault();
-                  setImageFile(null)
+                  setImageFile(null);
                   setPreviewSource(null);
                 }}
               >

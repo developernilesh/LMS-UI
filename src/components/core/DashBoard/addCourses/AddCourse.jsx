@@ -1,5 +1,6 @@
 import React from "react";
 import CourseInformation from "./courseInformation/CourseInformation";
+import CourseBuilder from "./courseBuilder/CourseBuilder";
 import CourseUploadTips from "./CourseUploadTips";
 import { useSelector } from "react-redux";
 import RenderSteps from "./RenderSteps";
@@ -12,6 +13,7 @@ const AddCourse = () => {
         <h3 className="text-3xl text-richblack-5 font-medium">Add Course</h3>
         <RenderSteps />
         {step === 1 && <CourseInformation />}
+        {step === 2 && <CourseBuilder />}
       </div>
       <CourseUploadTips />
     </div>

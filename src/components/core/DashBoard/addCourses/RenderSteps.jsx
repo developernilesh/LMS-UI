@@ -9,8 +9,8 @@ const steps = [
 ];
 
 const RenderSteps = () => {
-    const { step } = useSelector((state) => state.course);
-    // const step = 2;
+  const { step } = useSelector((state) => state.course);
+  // const step = 2;
   return (
     <div className="flex flex-col justify-center items-center gap-1 my-7">
       <div className="flex">
@@ -45,7 +45,9 @@ const RenderSteps = () => {
       </div>
       <div className="flex gap-20">
         {steps.map((item) => (
-          <div className="text-sm text-richblack-200 -ml-3" key={item.id}>{item.step}</div>
+          <div className="text-sm text-richblack-200 -ml-3" key={item.id}>
+            {item.step}
+          </div>
         ))}
       </div>
     </div>

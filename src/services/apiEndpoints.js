@@ -18,6 +18,7 @@ export const endpoints = {
   // #region categories
   VIEW_ALL_CATEGORIES: `${BASE_URL}/course/get-all-categories`,
   VIEW_ALL_COURSES: `${BASE_URL}/course/get-all-courses`,
+  CREATE_COURSE: `${BASE_URL}/course/create-course`,
 };
 
 export default endpoints;
