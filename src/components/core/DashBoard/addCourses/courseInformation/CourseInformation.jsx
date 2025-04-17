@@ -20,25 +20,19 @@ const CourseInformation = () => {
     register,
     handleSubmit,
     reset,
-    watch,
-    setValue,
-    getValues,
     control,
     formState: { errors },
   } = useForm();
 
-  const fileInputRef = useRef(null);
   const dispatch = useDispatch();
+  const { categories, isEditCourse, course } = useSelector(
+    (state) => state.course
+  );
 
   const [instructionsList, setInstructionsList] = useState([]);
   const [tagsList, setTagsList] = useState([]);
   const [previewSource, setPreviewSource] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [imageError, setImageError] = useState(null);
-
-  const { categories, isEditCourse, course } = useSelector(
-    (state) => state.course
-  );
 
   useEffect(() => {
     if (course) {
@@ -50,30 +44,30 @@ const CourseInformation = () => {
         whatYouWillLearn: course?.whatYouWillLearn,
         category: course?.category,
         instructions: course?.instructions,
-        thumbnailImage: course?.thumbnailImage,
       });
+      setImageFile(course?.thumbNail);
+      setPreviewSource(course?.thumbNail);
+      setTagsList(course?.tags)
+      setInstructionsList(course?.instructions)
     }
   }, [course]);
 
-  const isFormUpdated = (currentValues) => {
-    if (
-      currentValues.courseName !== course.courseName ||
-      currentValues.courseDescription !== course.courseDescription ||
-      currentValues.price !== course.price ||
-      //currentValues.tags.toString() !== course.tags.toString() ||
-      currentValues.whatYouWillLearn !== course.whatYouWillLearn ||
-      currentValues.category._id !== course.category._id ||
-      //currentValues.thumbnailImage !== course.thumbnailImage ||
-      currentValues.instructions.toString() !== course.instructions.toString()
-    )
-      return true;
-    else return false;
-  };
-
   const handleFileChange = (e) => {
-    setImageError(null);
     const file = e.target.files[0];
     if (file) {
+      // checking if image file or not
+      if (!file.type.includes("image")) {
+        toast.error("Please upload an image file");
+        return;
+      }
+      // checking if image file type supported
+      const supportedTypes = ["jpg", "jpeg", "png"];
+      const fileType = file.type.split("/")[1];
+      if (!supportedTypes.includes(fileType)) {
+        toast.error("Image file type not supported");
+        return;
+      }
+      // setting image file and preview-source
       setImageFile(file);
       previewFile(file);
     }
@@ -89,29 +83,14 @@ const CourseInformation = () => {
 
   const submitAddCourseForm = (data) => {
     if (!imageFile) {
-      setImageError("Course thumbnail is required");
+      toast.error("Course thumbnail is required");
       return;
     }
-    if (!imageFile.type.includes("image")) {
-      setImageError("Please upload an image file");
-      return;
-    }
-    const supportedTypes = ["jpg", "jpeg", "png"];
-    const fileType = imageFile.type.split("/")[1];
-    if (!supportedTypes.includes(fileType)) {
-      setImageError("Image file type not supported");
-      return;
-    }
-    
     const formData = new FormData();
     formData.append("thumbnail", imageFile);
 
     if (isEditCourse) {
-      if (isFormUpdated(data)) {
-        // call edit-course api
-      } else {
-        toast.error("No changes made so far");
-      }
+      // call edit-course api
     } else {
       console.log("form-data", data);
       // call add course api
@@ -222,15 +201,15 @@ const CourseInformation = () => {
             <div className="relative h-full">
               <img
                 src={previewSource}
-                alt="Course thumbnail"
-                className="h-full w-[371.5px] object-cover"
+                alt="Course-thumbnail"
+                className="h-full w-[371.5px]"
               />
               <button
                 type="button"
                 className="absolute top-2 right-2 bg-richblack-800 rounded-full p-2"
                 onClick={(e) => {
                   e.preventDefault();
-                  setValue("thumbnailImage", null);
+                  setImageFile(null)
                   setPreviewSource(null);
                 }}
               >
@@ -254,9 +233,6 @@ const CourseInformation = () => {
             </div>
           )}
         </div>
-        {imageError && (
-          <p className="text-pink-200 text-sm mt-1">{imageError}</p>
-        )}
       </label>
 
       {/* Benefits of Course Field */}
