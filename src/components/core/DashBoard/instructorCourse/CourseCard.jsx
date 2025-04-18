@@ -13,7 +13,7 @@ const CourseCard = ({ course, key }) => {
           alt={course.courseName}
           className="w-full h-56 object-cover rounded-t-lg"
         />
-        <div className="absolute bottom-2 right-2 bg-richblack-900 text-yellow-50 px-2 py-1 rounded text-sm">
+        <div className="absolute bottom-2 right-2 bg-richblack-900 text-yellow-50 px-2 py-1 rounded">
           ₹{course.price}
         </div>
       </div>
@@ -22,10 +22,13 @@ const CourseCard = ({ course, key }) => {
         <h3 className="text-lg text-richblack-5 font-semibold">
           {course.courseName}
         </h3>
-        <p className="text-richblack-100 mb-2 truncate">
+        <p className="text-richblack-200 mb-2 truncate">
           {course.courseDescription}
         </p>
-        <div className="text-richblack-200 text-sm flex justify-between mb-2">
+        <div className="text-richblack-200">
+          Status: <span>{course.status}</span>
+        </div>
+        <div className="text-richblack-200  flex justify-between mb-2">
           <p>
             Students Enrolled:&nbsp;
             <span className="text-richblack-50">
@@ -39,11 +42,11 @@ const CourseCard = ({ course, key }) => {
             </span>
           </p>
         </div>
-        <div className="flex justify-end items-center text-richblack-300 text-sm gap-2">
-          <button className="bg-yellow-50 text-richblack-900 px-3 py-1 rounded-md text-sm">
+        <div className="flex justify-end items-center text-richblack-300 gap-2">
+          <button className="bg-yellow-50 text-richblack-900 px-3 py-1 rounded-md ">
             Edit
           </button>
-          <button className="bg-pink-200 text-richblack-900 px-3 py-1 rounded-md text-sm">
+          <button className="bg-pink-200 text-richblack-900 px-3 py-1 rounded-md ">
             Delete
           </button>
         </div>
