@@ -7,7 +7,7 @@ const CourseCard = ({ course, key }) => {
   return (
     <div
       key={key}
-      className="w-full max-w-sm border rounded-lg shadow-sm bg-richblack-800 border-richblack-700 hover:scale-105 
+      className="w-full max-w-sm border rounded-lg shadow-sm bg-richblack-800 border-richblack-700 hover:scale-[1.01] 
         transtion-all duration-200 ease-in-out cursor-pointer"
     >
       <img
@@ -20,7 +20,9 @@ const CourseCard = ({ course, key }) => {
           <h4 className="text-xl font-medium text-richblack-5 truncate">
             {course.courseName}
           </h4>
-          <p className="text-richblack-200 truncate">{course.courseDescription}</p>
+          <p className="text-richblack-200 truncate">
+            {course.courseDescription}
+          </p>
         </div>
         <ProgressBar progress={course.progress} />
         <div className="flex justify-between items-center">
