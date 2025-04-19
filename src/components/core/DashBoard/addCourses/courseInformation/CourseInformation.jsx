@@ -98,10 +98,10 @@ const CourseInformation = () => {
     formData.append("courseName", data.courseName);
     formData.append("courseDescription", data.courseDescription);
     formData.append("price", data.price);
-    formData.append("tags", data.tags);
+    formData.append("tags", JSON.stringify(data.tags));
     formData.append("whatYouWillLearn", data.whatYouWillLearn);
     formData.append("category", data.category);
-    formData.append("instructions", data.instructions);
+    formData.append("instructions", JSON.stringify(data.instructions));
     if (isEditCourse) {
       // call edit-course api
     } else {
