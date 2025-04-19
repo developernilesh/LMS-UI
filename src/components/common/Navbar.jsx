@@ -32,7 +32,7 @@ const Navbar = () => {
     if (!route) return false;
     return matchPath({ path: route }, location.pathname);
   };
-  const {categories} = useSelector(state=>state.course)
+  const { categories } = useSelector((state) => state.course);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
     useState(false);
@@ -111,11 +111,7 @@ const Navbar = () => {
                         <ul className="flex flex-col gap-2">
                           {categories.map((category) => (
                             <li key={category._id}>
-                              <Link
-                                to={`/catalog/${category.name
-                                  .split(" ")
-                                  .join("-")}`}
-                              >
+                              <Link to={`/catalog/${category._id}`}>
                                 {category.name}
                               </Link>
                             </li>
@@ -261,9 +257,7 @@ const Navbar = () => {
                                 {categories.map((category) => (
                                   <li key={category._id}>
                                     <Link
-                                      to={`/catalog/${category.name
-                                        .split(" ")
-                                        .join("-")}`}
+                                      to={`/catalog/${category._id}`}
                                       onClick={() => {
                                         setIsMenuOpen(false);
                                         setIsNavbarCatalogOpenInMobile(false);
