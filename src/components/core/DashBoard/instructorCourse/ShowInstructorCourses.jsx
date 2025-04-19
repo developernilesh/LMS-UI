@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../redux/slices/loaderSlice";
 import CourseCard from "./CourseCard";
 import CourseCardSkeleton from "./CourseCardSkeleton";
+import toast from "react-hot-toast";
 
 const ShowInstructorCourses = () => {
   const { VIEW_ENROLLED_COURSES_API } = endpoints;
@@ -17,10 +18,11 @@ const ShowInstructorCourses = () => {
     try {
       const response = await apiConnector("GET", VIEW_ENROLLED_COURSES_API);
       if (response?.data?.success) {
+        toast.success("Courses fetched successfully");
         setAllCourses(response.data.data);
       }
     } catch (error) {
-      console.error(error);
+      toast.error(error?.message || error?.response?.data?.message);
     } finally {
       dispatch(setLoading(false));
     }
@@ -32,9 +34,7 @@ const ShowInstructorCourses = () => {
 
   return (
     <div className="w-11/12 mx-auto">
-      <h2 className="text-3xl text-richblack-5 font-medium py-6">
-        My Courses
-      </h2>
+      <h2 className="text-3xl text-richblack-5 font-medium py-6">My Courses</h2>
       {loading ? (
         <div className="w-full flex flex-wrap justify-center gap-6">
           {[...Array(2)].map((_, index) => (
