@@ -18,6 +18,7 @@ import EnrolledCourse from "./components/core/DashBoard/enrolledCourses/Enrolled
 import MyWishlist from "./components/core/DashBoard/myWishlist/MyWishlist.jsx";
 import AddCourse from "./components/core/DashBoard/addCourses/AddCourse.jsx";
 import ShowInstructorCourses from "./components/core/DashBoard/instructorCourse/ShowInstructorCourses.jsx";
+import EditInstructorCourse from "./components/core/DashBoard/instructorCourse/EditInstructorCourse.jsx";
 
 const router = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
           {
             path: "dashboard/my-courses",
             element: <ShowInstructorCourses />,
+          },
+          {
+            path: "dashboard/edit-instructor-course/:courseId",
+            element: <EditInstructorCourse />,
           },
         ],
       },

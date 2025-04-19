@@ -6,6 +6,7 @@ import { setLoading } from "../../../../redux/slices/loaderSlice";
 import CourseCard from "./CourseCard";
 import CourseCardSkeleton from "./CourseCardSkeleton";
 import toast from "react-hot-toast";
+import { setStep } from "../../../../redux/slices/courseSlice";
 
 const ShowInstructorCourses = () => {
   const { VIEW_ENROLLED_COURSES_API } = endpoints;
@@ -18,7 +19,6 @@ const ShowInstructorCourses = () => {
     try {
       const response = await apiConnector("GET", VIEW_ENROLLED_COURSES_API);
       if (response?.data?.success) {
-        toast.success("Courses fetched successfully");
         setAllCourses(response.data.data);
       }
     } catch (error) {
@@ -52,9 +52,9 @@ const ShowInstructorCourses = () => {
           <p className="text-2xl text-pink-200 mb-4">
             You haven't created any courses yet
           </p>
-          <button className="bg-yellow-50 text-richblack-900 px-4 py-2 rounded-md font-medium">
+          {/* <button className="bg-yellow-50 text-richblack-900 px-4 py-2 rounded-md font-medium">
             Create a Course
-          </button>
+          </button> */}
         </div>
       )}
     </div>

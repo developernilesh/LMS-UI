@@ -17,11 +17,15 @@ const Dashboard = () => {
         const isLast = index === array.length - 1;
         return (
           <div key={index}>
-            {index > 0 && <span>/ </span>}
-            <span className={`capitalize ${isLast ? "text-yellow-50" : ""}`}>
-              {/* onClick={() => !isLast && navigate(routePath)}> */}
-              {path.split("-").join(" ")}
-            </span>
+            {index === 1 && <span>/ </span>}
+            {index < 2 && (
+              <span
+                className={`capitalize ${index === 1 ? "text-yellow-50" : ""}`}
+              >
+                {/* onClick={() => !isLast && navigate(routePath)}> */}
+                {path.split("-").join(" ")}
+              </span>
+            )}
           </div>
         );
       });
