@@ -5,13 +5,13 @@ const SubmitButton = ({
   buttonType,
   onClick,
   width = "w-full",
-  background = "bg-yellow-100",
+  background = "bg-yellow-50",
   text = "text-richblack-900",
   hoverState,
 }) => {
   return (
     <button
-      className={`${width} ${background} ${hoverState} rounded-md font-medium ${text} px-[12px] py-[8px]`}
+      className={`${width} ${background} ${hoverState} rounded-md font-medium ${text} px-3 py-1`}
       type={buttonType ? buttonType : "submit"}
       onClick={onClick}
     >

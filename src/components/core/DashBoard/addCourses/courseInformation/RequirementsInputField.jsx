@@ -73,8 +73,10 @@ const RequirementsInputField = ({
               key={index}
               className="flex items-center gap-2 text-sm text-richblack-50"
             >
-              <span>{index + 1}.</span>
-              <span>{item}</span>
+              <div className="flex gap-1">
+                <span>{index + 1}.</span>
+                <span>{item}</span>
+              </div>
               <span
                 onClick={() => handleRemoverInstruction(index)}
                 className="text-richblack-5 text-xs cursor-pointer bg-pink-700 px-1 rounded-full"

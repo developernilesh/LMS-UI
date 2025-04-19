@@ -210,7 +210,6 @@ const CourseInformation = () => {
           />
         )}
       />
-      <div>{JSON.stringify(imageFile)}</div>
       {/* Course ThumbNail */}
       <label>
         <p className="text-[0.875rem] mb-1 leading-[1.375rem]">

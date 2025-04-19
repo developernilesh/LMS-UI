@@ -1,6 +1,9 @@
 import React from "react";
+import SubmitButton from "../../../Form/SubmitButton";
+import { useNavigate } from "react-router-dom";
 
 const CourseCard = ({ course }) => {
+  const navigate = useNavigate()
   return (
     <div
       className="w-full max-w-sm border rounded-lg shadow-sm bg-richblack-800 border-richblack-700 hover:scale-[1.01] 
@@ -48,12 +51,20 @@ const CourseCard = ({ course }) => {
           ))}
         </div>
         <div className="flex justify-end items-center text-richblack-300 gap-2">
-          <button className="bg-yellow-50 text-richblack-900 px-3 py-1 rounded-md ">
-            Edit
-          </button>
-          <button className="bg-pink-200 text-richblack-900 px-3 py-1 rounded-md ">
-            Delete
-          </button>
+          <SubmitButton
+            buttonContent="Edit"
+            onClick={() => navigate(`/dashboard/edit-instructor-course/${course._id}`)}
+            buttonType="button"
+            width="w-fit"
+          />
+          <SubmitButton
+            buttonContent="Delete"
+            // onClick={() => dispatch(setStep(2))}
+            buttonType="button"
+            width="w-fit"
+            background="bg-pink-200"
+            text="text-richblack-800"
+          />
         </div>
       </div>
     </div>
