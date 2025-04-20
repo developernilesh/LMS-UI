@@ -20,7 +20,7 @@ const ConfirmationModal = ({ modalData }) => {
         <div className="flex gap-4 justify-end mt-8">
           <button
             onClick={modalData.btn2handler}
-            className="bg-transparent hover:bg-richblack-800 rounded-lg font-medium text-richblack-300 px-5 py-2.5 border border-richblack-600 transition-all duration-200 hover:text-white"
+            className="bg-transparent hover:bg-richblack-800 rounded-lg font-medium text-richblack-300 px-3 py-1 border border-richblack-600 transition-all duration-200 hover:text-white"
           >
             {modalData.btn2text}
           </button>
