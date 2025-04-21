@@ -8,6 +8,7 @@ import RequirementsInputField from "./RequirementsInputField";
 import SubmitButton from "../../../../Form/SubmitButton";
 import {
   FaAngleRight,
+  FaChevronRight,
   FaCloudUploadAlt,
   FaTimes,
   FaUpload,
@@ -306,8 +307,8 @@ const CourseInformation = () => {
             onClick={() => dispatch(setStep(2))}
             buttonType="button"
             width="w-fit"
-            background="bg-richblack-900 border border-richblack-700"
-            text="text-richblack-300"
+            background="bg-richblack-900 border border-richblack-600"
+            text="text-richblack-200"
           />
         )}
         <SubmitButton
@@ -316,8 +317,8 @@ const CourseInformation = () => {
               "Save Changes"
             ) : (
               <div className="flex gap-1 items-center">
-                <span>Next</span>
-                <FaAngleRight />
+                <span className="pl-2">Next</span>
+                <FaChevronRight className="h-3" />
               </div>
             )
           }
