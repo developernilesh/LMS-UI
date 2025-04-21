@@ -71,7 +71,10 @@ const CourseCard = ({ course }) => {
                   text2: "Course can have enrolled students!",
                   btn1text: "Delete",
                   btn2text: "Cancel",
-                  btn1handler: () => console.log(course._id),
+                  btn1handler: () => {
+                    console.log(course._id);
+                    setConfirmationModalData(null);
+                  },
                   btn2handler: () => setConfirmationModalData(null),
                 })
               }
