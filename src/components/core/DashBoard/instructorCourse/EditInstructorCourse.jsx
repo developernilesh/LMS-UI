@@ -21,7 +21,6 @@ const EditInstructorCourse = () => {
   const fetchSpecificCourse = async () => {
     dispatch(setLoading(true));
     try {
-      //   const payload = { courseId: courseId };
       const response = await apiConnector(
         "GET",
         GET_SPECIFIC_COURSE_API + `/${courseId}`
