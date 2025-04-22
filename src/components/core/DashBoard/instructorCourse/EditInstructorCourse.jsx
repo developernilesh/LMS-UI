@@ -10,7 +10,7 @@ import {
 import apiConnector from "../../../../services/apiConnector";
 import Loader from "../../../Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import AddCourse from "../addCourses/AddCourse";
+import CourseForm from "../addCourses/CourseForm";
 
 const EditInstructorCourse = () => {
   const courseId = useParams().courseId;
@@ -47,7 +47,7 @@ const EditInstructorCourse = () => {
       </div>
     );
 
-  return <AddCourse />;
+  return <CourseForm />;
 };
 
 export default EditInstructorCourse;
