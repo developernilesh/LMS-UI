@@ -5,6 +5,7 @@ import SubmitButton from "../../../../Form/SubmitButton";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setCourse,
   setIsEditCourse,
   setStep,
 } from "../../../../../redux/slices/courseSlice";
@@ -18,12 +19,11 @@ const CourseBuilder = () => {
     register,
     handleSubmit,
     reset,
-    control,
     setValue,
     formState: { errors },
   } = useForm();
 
-  const { ADD_SECTION_API } = endpoints;
+  const { ADD_SECTION_API, GET_SPECIFIC_COURSE_API } = endpoints;
   const { course } = useSelector((state) => state.course);
   const dispatch = useDispatch();
 
@@ -56,18 +56,21 @@ const CourseBuilder = () => {
     setIsEditSection(true);
     setSectionInfo(item);
     setValue("sectionName", item.sectionName);
-    console.log("item", item);
   };
 
   const createSection = async (data) => {
     setIsLoading(true);
     if (isEditSection) {
-      // call edit-course api
+      // call edit-section api
+      const payload = { courseId: sectionInfo._id, ...data };
+      console.log("payload", payload);
     } else {
       try {
-        const response = await apiConnector("POST", ADD_SECTION_API, data);
+        const payload = { courseId: course?._id, ...data };
+        const response = await apiConnector("POST", ADD_SECTION_API, payload);
         if (response?.data?.success) {
           toast.success(response.data.message);
+          fetchSpecificCourse(course?._id)
           reset();
         }
       } catch (error) {
@@ -75,6 +78,23 @@ const CourseBuilder = () => {
       } finally {
         setIsLoading(false);
       }
+    }
+  };
+
+  const fetchSpecificCourse = async (courseId) => {
+    setIsLoading(true);
+    try {
+      const response = await apiConnector(
+        "GET",
+        GET_SPECIFIC_COURSE_API + `/${courseId}`
+      );
+      if (response?.data?.success) {
+        dispatch(setCourse(response.data.data));
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -124,7 +144,10 @@ const CourseBuilder = () => {
       {course?.courseContent?.length > 0 && (
         <div>
           {course.courseContent.map((item) => (
-            <div className="mb-1 italic text-blue-100 flex items-center gap-2">
+            <div
+              className="mb-1 italic text-blue-100 flex items-center gap-2"
+              key={item._id}
+            >
               <span>{item.sectionName}</span>
               <span onClick={() => editSection(item)}>
                 <FaEdit />
