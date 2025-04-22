@@ -1,25 +1,31 @@
-import React from "react";
-import CourseInformation from "./courseInformation/CourseInformation";
-import CourseBuilder from "./courseBuilder/CourseBuilder";
-import CourseUploadTips from "./CourseUploadTips";
-import { useSelector } from "react-redux";
-import RenderSteps from "./RenderSteps";
+import React, { useEffect } from "react";
 import Loader from "../../../Loader/Loader";
+import CourseForm from "./CourseForm";
+import {
+  setCourse,
+  setIsEditCourse,
+  setStep,
+} from "../../../../redux/slices/courseSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const AddCourse = () => {
-  const { step, isEditCourse } = useSelector((state) => state.course);
+  const dispatch = useDispatch();
+  const {loading} = useSelector(state => state.loader)
 
-  return (
-    <div className="flex flex-col-reverse xl:flex-row gap-6 w-11/12 mt-4 justify-center">
-      <div className="w-full max-w-[665px]">
-        <h3 className="text-3xl text-richblack-5 font-medium">{isEditCourse ? 'Edit' : 'Add'} Course</h3>
-        <RenderSteps />
-        {step === 1 && <CourseInformation />}
-        {step === 2 && <CourseBuilder />}
+  useEffect(() => {
+    dispatch(setCourse(null));
+    dispatch(setIsEditCourse(false));
+    dispatch(setStep(1));
+  }, []);
+
+  if (loading)
+    return (
+      <div className="fixed bottom-0 z-50">
+        <Loader />
       </div>
-      <CourseUploadTips />
-    </div>
-  );
+    );
+
+  return <CourseForm />;
 };
 
 export default AddCourse;
