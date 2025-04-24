@@ -13,6 +13,7 @@ import { FaChevronLeft, FaChevronRight, FaEdit } from "react-icons/fa";
 import toast from "react-hot-toast";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
+import NestedContent from "./NestedContent";
 
 const CourseBuilder = () => {
   const {
@@ -23,7 +24,8 @@ const CourseBuilder = () => {
     formState: { errors },
   } = useForm();
 
-  const { ADD_SECTION_API, GET_SPECIFIC_COURSE_API } = endpoints;
+  const { ADD_SECTION_API, UPDATE_SECTION_API, GET_SPECIFIC_COURSE_API } =
+    endpoints;
   const { course } = useSelector((state) => state.course);
   const dispatch = useDispatch();
 
@@ -32,6 +34,10 @@ const CourseBuilder = () => {
   const [sectionInfo, setSectionInfo] = useState(false);
 
   const gotoNextStep = () => {
+    if (!course || Object.keys(course).length === 0) {
+      toast.error("Course Not Found!");
+      return;
+    }
     if (course?.courseContent?.length === 0) {
       toast.error("Please add atleast one section!");
       return;
@@ -60,24 +66,26 @@ const CourseBuilder = () => {
 
   const createSection = async (data) => {
     setIsLoading(true);
-    if (isEditSection) {
-      // call edit-section api
-      const payload = { courseId: sectionInfo._id, ...data };
-      console.log("payload", payload);
-    } else {
-      try {
-        const payload = { courseId: course?._id, ...data };
-        const response = await apiConnector("POST", ADD_SECTION_API, payload);
-        if (response?.data?.success) {
-          toast.success(response.data.message);
-          fetchSpecificCourse(course?._id)
-          reset();
-        }
-      } catch (error) {
-        toast.error(error?.message || error?.response?.data?.message);
-      } finally {
-        setIsLoading(false);
+    try {
+      const payload = isEditSection
+        ? { sectionId: sectionInfo._id, ...data }
+        : { courseId: course?._id, ...data };
+
+      const endpoint = isEditSection ? UPDATE_SECTION_API : ADD_SECTION_API;
+      const method = isEditSection ? "PUT" : "POST";
+
+      const response = await apiConnector(method, endpoint, payload);
+
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        fetchSpecificCourse(course?._id);
+        setIsEditSection(false)
+        reset();
       }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -140,7 +148,7 @@ const CourseBuilder = () => {
           )}
         </div>
       </form>
-      {/* {course.courseContent.length>0 && <NestedContent/> } */}
+      {course.courseContent.length>0 && <NestedContent/> }
       {course?.courseContent?.length > 0 && (
         <div>
           {course.courseContent.map((item) => (
