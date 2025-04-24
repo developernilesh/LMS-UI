@@ -15,7 +15,7 @@ const AddCourse = () => {
   useEffect(() => {
     dispatch(setCourse(null));
     dispatch(setIsEditCourse(false));
-    dispatch(setStep(1));
+    // dispatch(setStep(1));
   }, []);
 
   if (loading)
