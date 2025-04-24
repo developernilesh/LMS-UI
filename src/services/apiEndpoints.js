@@ -21,6 +21,7 @@ export const endpoints = {
   CREATE_COURSE: `${BASE_URL}/course/create-course`,
   GET_SPECIFIC_COURSE_API: `${BASE_URL}/course/get-courses-details`,
   ADD_SECTION_API: `${BASE_URL}/course/add-section`,
+  UPDATE_SECTION_API: `${BASE_URL}/course/update-section`,
 };
 
 export default endpoints;
