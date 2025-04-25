@@ -79,7 +79,7 @@ const CourseBuilder = () => {
       if (response?.data?.success) {
         toast.success(response.data.message);
         fetchSpecificCourse(course?._id);
-        setIsEditSection(false)
+        setIsEditSection(false);
         reset();
       }
     } catch (error) {
@@ -148,21 +148,8 @@ const CourseBuilder = () => {
           )}
         </div>
       </form>
-      {course?.courseContent?.length>0 && <NestedContent/> }
       {course?.courseContent?.length > 0 && (
-        <div>
-          {course.courseContent.map((item) => (
-            <div
-              className="mb-1 italic text-blue-100 flex items-center gap-2"
-              key={item._id}
-            >
-              <span>{item.sectionName}</span>
-              <span onClick={() => editSection(item)}>
-                <FaEdit />
-              </span>
-            </div>
-          ))}
-        </div>
+        <NestedContent editSection={editSection} />
       )}
       <div className="flex justify-end items-center gap-3">
         <SubmitButton
