@@ -148,7 +148,7 @@ const CourseBuilder = () => {
           )}
         </div>
       </form>
-      {course.courseContent.length>0 && <NestedContent/> }
+      {course?.courseContent?.length>0 && <NestedContent/> }
       {course?.courseContent?.length > 0 && (
         <div>
           {course.courseContent.map((item) => (
