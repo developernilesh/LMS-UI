@@ -19,7 +19,7 @@ import { setLoading } from "../../../../../redux/slices/loaderSlice";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 
-const { CREATE_COURSE } = endpoints;
+const { CREATE_COURSE_API } = endpoints;
 
 const CourseInformation = () => {
   const {
@@ -108,7 +108,7 @@ const CourseInformation = () => {
     } else {
       try {
         dispatch(setLoading(true));
-        const response = await apiConnector("POST", CREATE_COURSE, formData);
+        const response = await apiConnector("POST", CREATE_COURSE_API, formData);
         if (response?.data?.success) {
           toast.success(response.data.message);
           dispatch(setCourse(response.data.courseInfo));
