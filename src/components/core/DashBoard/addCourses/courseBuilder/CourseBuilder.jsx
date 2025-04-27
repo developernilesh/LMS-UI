@@ -43,7 +43,7 @@ const CourseBuilder = () => {
       return;
     }
     if (
-      course?.courseContent?.some(
+      course?.courseContent?.some( 
         (section) => section?.subSection?.length === 0
       )
     ) {
@@ -106,6 +106,8 @@ const CourseBuilder = () => {
     }
   };
 
+  if(isLoading) return <div>Loading...</div>
+
   return (
     <div className="w-full flex flex-col gap-6 rounded-md bg-richblack-800 p-6">
       <form
@@ -149,7 +151,7 @@ const CourseBuilder = () => {
         </div>
       </form>
       {course?.courseContent?.length > 0 && (
-        <NestedContent editSection={editSection} />
+        <NestedContent editSection={editSection} fetchSpecificCourse={fetchSpecificCourse} />
       )}
       <div className="flex justify-end items-center gap-3">
         <SubmitButton
