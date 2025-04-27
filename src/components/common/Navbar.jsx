@@ -24,7 +24,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
 
-  const { VIEW_ALL_CATEGORIES, USER_DETAILS_API } = endpoints;
+  const { VIEW_ALL_CATEGORIES_API, USER_DETAILS_API } = endpoints;
 
   // matching the route with the current path
   const location = useLocation();
@@ -40,7 +40,7 @@ const Navbar = () => {
   const fetchAllCategories = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", VIEW_ALL_CATEGORIES);
+      const response = await apiConnector("GET", VIEW_ALL_CATEGORIES_API);
       if (response?.data?.success) {
         dispatch(setCategories(response.data.data));
       }
