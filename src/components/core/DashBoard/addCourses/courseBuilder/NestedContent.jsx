@@ -1,20 +1,40 @@
 import React, { useRef, useState } from "react";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
-import { MdDelete, MdEdit } from "react-icons/md";
-import { RiMenuFold2Fill } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { FaCaretDown, FaRegPlusSquare } from "react-icons/fa";
+import { MdDelete, MdEdit, MdOutlineSlowMotionVideo } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../../../../common/ConfirmationModal";
+import { setLoading } from "../../../../../redux/slices/loaderSlice";
+import apiConnector from "../../../../../services/apiConnector";
+import endpoints from "../../../../../services/apiEndpoints";
+import toast from "react-hot-toast";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import SubmitButton from "../../../../Form/SubmitButton";
 
-const NestedContent = ({ editSection }) => {
-  const detailsRef = useRef(null);
+const { DELETE_SECTION_API } = endpoints;
+
+const NestedContent = ({ editSection, fetchSpecificCourse }) => {
   const { course } = useSelector((state) => state.course);
-  const [confirmationModalData, setConfirmationModalData] = useState(null);
+  const dispatch = useDispatch();
 
-  const handleCaretClick = (e) => {
-    e.preventDefault();
-    if (detailsRef.current) {
-      detailsRef.current.open = !detailsRef.current.open;
+  const [confirmationModalData, setConfirmationModalData] = useState(null);
+  const [addSubSection, setAddSubSection] = useState(null);
+  const [editSubSection, setEditSubSection] = useState(null);
+  const [viewSubSection, setViewSubSection] = useState(null);
+
+  const deleteSectionHandler = async (sectionId) => {
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("DELETE", DELETE_SECTION_API, {
+        sectionId,
+      });
+      if (response?.data?.success) {
+        fetchSpecificCourse(course?._id);
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -23,10 +43,7 @@ const NestedContent = ({ editSection }) => {
       <div className="bg-richblack-700 px-6 pb-2 rounded-lg border border-richblack-500 text-richblack-200">
         {course?.courseContent?.map((item) => (
           <details className="group" key={item._id}>
-            <summary
-              className="list-none cursor-pointer"
-              // onClick={(e) => e.preventDefault()}
-            >
+            <summary className="list-none cursor-pointer">
               <div className="flex justify-between items-center py-3 border-b border-richblack-500">
                 <div className="flex gap-1 items-center">
                   <AiOutlineMenuUnfold />
@@ -41,46 +58,54 @@ const NestedContent = ({ editSection }) => {
                       }}
                     />
                     <MdDelete
-                      onClick={() =>
+                      onClick={(e) => {
+                        e.preventDefault();
                         setConfirmationModalData({
                           text1: "Are you sure?",
                           text2: "This section may contain video contents!",
                           btn1text: "Delete",
                           btn2text: "Cancel",
                           btn1handler: () => {
-                            console.log(course._id);
+                            deleteSectionHandler(item._id);
                             setConfirmationModalData(null);
                           },
                           btn2handler: () => setConfirmationModalData(null),
-                        })
-                      }
+                        });
+                      }}
                     />
                   </div>
-                  <FaCaretDown
-                    className="group-open:rotate-180 transition-transform cursor-pointer duration-300 ease-linear"
-                    // onClick={handleCaretClick}
-                  />
+                  <FaCaretDown className="group-open:rotate-180 transition-transform cursor-pointer duration-300 ease-linear" />
                 </div>
               </div>
             </summary>
             <div>
-              {[1, 2, 3, 4].map((_, idx) => (
+              {item?.subSection?.map((subItem, idx) => (
                 <div
-                  className="flex justify-between items-center py-3 border-b border-richblack-500 pl-5"
+                  className="flex justify-between items-center py-3 border-b border-richblack-500 pl-5 cursor-pointer"
                   key={idx}
                 >
-                  <div className="flex gap-1 items-center">
-                    <RiMenuFold2Fill />
-                    <span>Lesson 1</span>
+                  {/* <div>{JSON.stringify(viewSubSection)}</div> */}
+                  <div
+                    className="flex gap-1 items-center"
+                    onClick={() => setViewSubSection(subItem)}
+                  >
+                    <MdOutlineSlowMotionVideo />
+                    <span>{subItem.title}</span>
                   </div>
                   <div className="flex gap-1 items-center">
-                    {/* <div className="flex gap-1 items-center border-r border-richblack-300 pr-2"> */}
                     <MdEdit />
                     <MdDelete />
-                    {/* </div> */}
                   </div>
                 </div>
               ))}
+              <SubmitButton
+                buttonContent=<div className="flex gap-1 items-center">
+                  <FaRegPlusSquare /> <span>Add Lecture</span>
+                </div>
+                width="w-fit"
+                background="bg-richblack-700 my-2"
+                text="text-yellow-100"
+              />
             </div>
           </details>
         ))}
