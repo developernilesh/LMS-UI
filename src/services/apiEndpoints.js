@@ -16,12 +16,13 @@ export const endpoints = {
   VIEW_ENROLLED_COURSES_API: `${BASE_URL}/profile/get-enrolled-courses`,
 
   // #region categories
-  VIEW_ALL_CATEGORIES: `${BASE_URL}/course/get-all-categories`,
-  VIEW_ALL_COURSES: `${BASE_URL}/course/get-all-courses`,
-  CREATE_COURSE: `${BASE_URL}/course/create-course`,
+  VIEW_ALL_CATEGORIES_API: `${BASE_URL}/course/get-all-categories`,
+  VIEW_ALL_COURSES_API: `${BASE_URL}/course/get-all-courses`,
+  CREATE_COURSE_API: `${BASE_URL}/course/create-course`,
   GET_SPECIFIC_COURSE_API: `${BASE_URL}/course/get-courses-details`,
   ADD_SECTION_API: `${BASE_URL}/course/add-section`,
   UPDATE_SECTION_API: `${BASE_URL}/course/update-section`,
+  DELETE_SECTION_API: `${BASE_URL}/course/delete-section`,
 };
 
 export default endpoints;
