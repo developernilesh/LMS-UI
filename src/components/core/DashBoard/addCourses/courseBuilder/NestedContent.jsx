@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import SubmitButton from "../../../../Form/SubmitButton";
 
-const { DELETE_SECTION_API } = endpoints;
+const { DELETE_SECTION_API, DELETE_SUB_SECTION_API } = endpoints;
 
 const NestedContent = ({ editSection, fetchSpecificCourse }) => {
   const { course } = useSelector((state) => state.course);
@@ -27,6 +27,23 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
     try {
       const response = await apiConnector("DELETE", DELETE_SECTION_API, {
         sectionId,
+      });
+      if (response?.data?.success) {
+        fetchSpecificCourse(course?._id);
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const deleteSubSectionHandler = async (subSectionId) => {
+    console.log(subSectionId);
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("DELETE", DELETE_SUB_SECTION_API, {
+        subSectionId,
       });
       if (response?.data?.success) {
         fetchSpecificCourse(course?._id);
@@ -84,17 +101,30 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
                   className="flex justify-between items-center py-3 border-b border-richblack-500 pl-5 cursor-pointer"
                   key={idx}
                 >
-                  {/* <div>{JSON.stringify(viewSubSection)}</div> */}
                   <div
-                    className="flex gap-1 items-center"
+                    className="flex gap-1 items-center w-full"
                     onClick={() => setViewSubSection(subItem)}
                   >
                     <MdOutlineSlowMotionVideo />
                     <span>{subItem.title}</span>
                   </div>
                   <div className="flex gap-1 items-center">
-                    <MdEdit />
-                    <MdDelete />
+                    <MdEdit onClick={() => setEditSubSection(subItem)} />
+                    <MdDelete
+                      onClick={() => {
+                        setConfirmationModalData({
+                          text1: "Are you sure?",
+                          text2: "This lecture will be no more available!",
+                          btn1text: "Delete",
+                          btn2text: "Cancel",
+                          btn1handler: () => {
+                            deleteSubSectionHandler(subItem._id);
+                            setConfirmationModalData(null);
+                          },
+                          btn2handler: () => setConfirmationModalData(null),
+                        });
+                      }}
+                    />
                   </div>
                 </div>
               ))}
