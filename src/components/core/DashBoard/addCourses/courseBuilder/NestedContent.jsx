@@ -10,6 +10,7 @@ import endpoints from "../../../../../services/apiEndpoints";
 import toast from "react-hot-toast";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import SubmitButton from "../../../../Form/SubmitButton";
+import SubSectionModal from "./SubSectionModal";
 
 const { DELETE_SECTION_API, DELETE_SUB_SECTION_API } = endpoints;
 
@@ -133,6 +134,7 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
                   <FaRegPlusSquare /> <span>Add Lecture</span>
                 </div>
                 width="w-fit"
+                onClick={() => setAddSubSection(item._id)}
                 background="bg-richblack-700 my-2"
                 text="text-yellow-100"
               />
@@ -142,6 +144,27 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
       </div>
       {confirmationModalData && (
         <ConfirmationModal modalData={confirmationModalData} />
+      )}
+      {addSubSection && (
+        <SubSectionModal
+          modalData={addSubSection}
+          setModalData={setAddSubSection}
+          add={true}
+        />
+      )}
+      {editSubSection && (
+        <SubSectionModal
+          modalData={editSubSection}
+          setModalData={setEditSubSection}
+          edit={true}
+        />
+      )}
+      {viewSubSection && (
+        <SubSectionModal
+          modalData={viewSubSection}
+          setModalData={setViewSubSection}
+          view={true}
+        />
       )}
     </>
   );
