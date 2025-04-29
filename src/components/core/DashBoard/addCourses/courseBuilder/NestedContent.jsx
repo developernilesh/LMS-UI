@@ -150,6 +150,7 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
           modalData={addSubSection}
           setModalData={setAddSubSection}
           add={true}
+          fetchCourseData={() => fetchSpecificCourse(course?._id)}
         />
       )}
       {editSubSection && (
@@ -157,6 +158,7 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
           modalData={editSubSection}
           setModalData={setEditSubSection}
           edit={true}
+          fetchCourseData={() => fetchSpecificCourse(course?._id)}
         />
       )}
       {viewSubSection && (
