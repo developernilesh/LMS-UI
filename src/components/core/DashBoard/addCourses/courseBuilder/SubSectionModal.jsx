@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
 import { FaCloudUploadAlt, FaTimes } from "react-icons/fa";
 import InputField from "../../../../Form/InputField";
 import SubmitButton from "../../../../Form/SubmitButton";
+import apiConnector from "../../../../../services/apiConnector";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../../../../redux/slices/loaderSlice";
+import endpoints from "../../../../../services/apiEndpoints";
+
+const { ADD_SUB_SECTION_API } = endpoints;
 
 const SubSectionModal = ({
   modalData,
@@ -12,22 +18,22 @@ const SubSectionModal = ({
   add = false,
   edit = false,
   view = false,
+  fetchCourseData,
 }) => {
   const {
     register,
     handleSubmit,
     reset,
-    control,
     formState: { errors },
   } = useForm();
 
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.loader);
   const [previewSource, setPreviewSource] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-
     if (file) {
       // checking if video file or not
       if (!file.type.includes("video")) {
@@ -35,11 +41,11 @@ const SubSectionModal = ({
         return;
       }
       // checking if video file type supported
-      const supportedTypes = ["mp4", "webm", "ogg"];
+      const supportedTypes = ["mp4", "webm", "ogg", "mpg"];
       const fileType = file.type.split("/")[1];
       if (!supportedTypes.includes(fileType)) {
         toast.error(
-          "Video file type not supported. Please upload MP4, WebM, or OGG"
+          "Video file type not supported. Please upload MP4, WebM, OGG, or MPG"
         );
         return;
       }
@@ -62,24 +68,70 @@ const SubSectionModal = ({
     };
   };
 
+  useEffect(() => {
+    if (view || edit) {
+      reset({
+        description: modalData?.description,
+        title: modalData?.title,
+      });
+      setVideoFile(modalData?.SubSectionVideo);
+      setPreviewSource(modalData?.SubSectionVideo?.secure_url);
+    }
+  }, []);
+
   const submitAddCourseForm = async (data) => {
-    console.log("data", data);
+    if (!videoFile) {
+      toast.error("Lecture video is required");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("videoFile", videoFile);
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("sectionId", modalData);
+    if (edit) {
+      // call edit-course api
+    } else if (add) {
+      try {
+        dispatch(setLoading(true));
+        const response = await apiConnector(
+          "POST",
+          ADD_SUB_SECTION_API,
+          formData
+        );
+        if (response?.data?.success) {
+          toast.success(response.data.message);
+          reset();
+          setVideoFile(null);
+          setPreviewSource(null);
+          setModalData(null);
+          fetchCourseData();
+        }
+      } catch (error) {
+        toast.error(error?.message || error?.response?.data?.message);
+      } finally {
+        dispatch(setLoading(false));
+      }
+    }
   };
 
   return (
     <div
-      className="fixed inset-0 bg-richblack-700/50 flex justify-center items-center backdrop-blur-md z-50"
-      onClick={() => setModalData(null)}
+      className="fixed inset-0 bg-richblack-800/50 flex justify-center items-center backdrop-blur-md z-50"
+      // onClick={() => setModalData(null)}
     >
       <div
-        className="w-11/12 max-w-[665px] border border-richblack-600 rounded-lg"
+        className="w-11/12 max-w-[600px] border border-richblack-600 rounded-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-6 py-3 flex justify-between items-center bg-richblack-700 rounded-t-lg border-b border-richblack-600">
           <span>
             {add ? "Add" : edit ? "Edit" : view ? "View" : ""} Lecture
           </span>
-          <IoClose />
+          <IoClose
+            className="cursor-pointer"
+            onClick={() => setModalData(null)}
+          />
         </div>
         <div className="bg-richblack-800 px-6 py-3 rounded-b-lg">
           <form
@@ -94,19 +146,23 @@ const SubSectionModal = ({
                 <input
                   type="file"
                   className="hidden"
-                  accept="video/mp4,video/webm,video/ogg"
+                  accept="video/mp4,video/webm,video/ogg,video/mpg"
                   onChange={(e) => handleFileChange(e)}
+                  disabled={view ? true : false}
                 />
                 {previewSource ? (
                   <div className="relative h-full w-full">
                     <video
                       src={previewSource}
-                      controls
+                      controls={view ? true : false}
+                      // autoPlay={(add || edit) ? true : false}
                       className="h-full w-[371.5px] mx-auto"
                     />
                     <button
                       type="button"
-                      className="absolute top-2 right-2 bg-richblack-800 rounded-full p-2"
+                      className={`absolute top-2 right-2 bg-richblack-800 rounded-full p-2 ${
+                        view ? "hidden" : ""
+                      }`}
                       onClick={(e) => {
                         e.preventDefault();
                         setVideoFile(null);
@@ -126,11 +182,10 @@ const SubSectionModal = ({
                       </span>
                     </p>
                     <p className="text-center text-sm text-richblack-300">
-                      Upload a .mp4, .webm, or .ogg File (Maximum 100MB)
+                      Upload a .mp4, .webm, .mpg or .ogg File (Maximum 100MB)
                     </p>
-                    <p className="flex gap-5 text-sm text-richblack-300">
-                      <span>Recommended resolution: 1080p</span>
-                      <span>Duration: 5-15 minutes</span>
+                    <p className="flex text-sm text-richblack-300 justify-center items-center">
+                      <span>Recommended resolution: 720p / 1080p</span>
                     </p>
                   </div>
                 )}
@@ -145,6 +200,7 @@ const SubSectionModal = ({
               validation={{ required: "Lecture title is required" }}
               error={errors.title}
               background="bg-richblack-700"
+              disabled={add || edit ? false : true}
             />
 
             <label className="relative w-full text-richblack-5">
@@ -157,7 +213,12 @@ const SubSectionModal = ({
                 {...register("description", {
                   required: "Lecture description is required",
                 })}
-                className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
+                className={`bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500 ${
+                  add || edit
+                    ? "text-richblack-5"
+                    : "text-richblack-200 cursor-not-allowed"
+                }`}
+                disabled={add || edit ? false : true}
               />
               {errors.description && (
                 <p className="text-pink-200 text-sm mt-1">
@@ -167,7 +228,7 @@ const SubSectionModal = ({
             </label>
             <div className="flex justify-end gap-3">
               <SubmitButton
-                buttonContent={(add || edit) ? "Cancel" : "Close"}
+                buttonContent={add || edit ? "Cancel" : "Close"}
                 onClick={() => setModalData(null)}
                 buttonType="button"
                 width="w-fit"
@@ -176,7 +237,9 @@ const SubSectionModal = ({
               />
               {(add || edit) && (
                 <SubmitButton
-                  buttonContent={add ? "Save" : "Update"}
+                  buttonContent={
+                    loading ? "Uploading..." : add ? "Save" : "Update"
+                  }
                   width="w-fit"
                 />
               )}
