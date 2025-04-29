@@ -28,7 +28,7 @@ const InputField = ({
         onKeyDown={(e) => {
           if (e.key === "Enter") e.preventDefault();
         }}
-        className={`${background} rounded-[0.5rem] w-full p-3 border-b border-richblack-500 ${disabled ? 'text-richblack-200 cursor-not-allowed' : 'text-richblack-5'}`}
+        className={`${background} rounded-[0.5rem] w-full p-3 border-b border-richblack-500 ${disabled ? 'text-richblack-200' : 'text-richblack-5'}`}
       />
       {error && <p className="text-pink-200 text-sm mt-1">{error.message}</p>}
     </label>
