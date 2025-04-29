@@ -27,8 +27,7 @@ const SubSectionModal = ({
     formState: { errors },
   } = useForm();
 
-  const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.loader);
+  const [loading, setLoading] = useState(null);
   const [previewSource, setPreviewSource] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
 
@@ -93,7 +92,7 @@ const SubSectionModal = ({
       // call edit-course api
     } else if (add) {
       try {
-        dispatch(setLoading(true));
+        setLoading(true);
         const response = await apiConnector(
           "POST",
           ADD_SUB_SECTION_API,
@@ -110,7 +109,7 @@ const SubSectionModal = ({
       } catch (error) {
         toast.error(error?.message || error?.response?.data?.message);
       } finally {
-        dispatch(setLoading(false));
+        setLoading(false);
       }
     }
   };
@@ -214,9 +213,7 @@ const SubSectionModal = ({
                   required: "Lecture description is required",
                 })}
                 className={`bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500 ${
-                  add || edit
-                    ? "text-richblack-5"
-                    : "text-richblack-200 cursor-not-allowed"
+                  add || edit ? "text-richblack-5" : "text-richblack-200"
                 }`}
                 disabled={add || edit ? false : true}
               />
