@@ -58,7 +58,7 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
 
   return (
     <>
-      <div className="bg-richblack-700 px-6 pb-2 rounded-lg border border-richblack-500 text-richblack-200">
+      <div className="bg-richblack-700 px-6 rounded-lg border border-richblack-500 text-richblack-200">
         {course?.courseContent?.map((item) => (
           <details className="group" key={item._id}>
             <summary className="list-none cursor-pointer">
