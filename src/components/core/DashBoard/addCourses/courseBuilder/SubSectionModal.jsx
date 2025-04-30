@@ -6,11 +6,9 @@ import { FaCloudUploadAlt, FaTimes } from "react-icons/fa";
 import InputField from "../../../../Form/InputField";
 import SubmitButton from "../../../../Form/SubmitButton";
 import apiConnector from "../../../../../services/apiConnector";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../../../../../redux/slices/loaderSlice";
 import endpoints from "../../../../../services/apiEndpoints";
 
-const { ADD_SUB_SECTION_API } = endpoints;
+const { ADD_SUB_SECTION_API, EDIT_SUB_SECTION_API } = endpoints;
 
 const SubSectionModal = ({
   modalData,
@@ -27,7 +25,7 @@ const SubSectionModal = ({
     formState: { errors },
   } = useForm();
 
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [previewSource, setPreviewSource] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
 
@@ -87,42 +85,35 @@ const SubSectionModal = ({
     formData.append("videoFile", videoFile);
     formData.append("title", data.title);
     formData.append("description", data.description);
-    formData.append("sectionId", modalData);
-    if (edit) {
-      // call edit-course api
-    } else if (add) {
-      try {
-        setLoading(true);
-        const response = await apiConnector(
-          "POST",
-          ADD_SUB_SECTION_API,
-          formData
-        );
-        if (response?.data?.success) {
-          toast.success(response.data.message);
-          reset();
-          setVideoFile(null);
-          setPreviewSource(null);
-          setModalData(null);
-          fetchCourseData();
-        }
-      } catch (error) {
-        toast.error(error?.message || error?.response?.data?.message);
-      } finally {
-        setLoading(false);
+
+    const method = edit ? "PUT" : "POST";
+    const url = edit ? EDIT_SUB_SECTION_API : ADD_SUB_SECTION_API;
+    const idField = edit ? "subSectionId" : "sectionId";
+    const idValue = edit ? modalData._id : modalData;
+
+    formData.append(idField, idValue);
+    try {
+      setLoading(true);
+      const response = await apiConnector(method, url, formData);
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        reset();
+        setVideoFile(null);
+        setPreviewSource(null);
+        setModalData(null);
+        fetchCourseData();
       }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message;
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-richblack-800/50 flex justify-center items-center backdrop-blur-md z-50"
-      // onClick={() => setModalData(null)}
-    >
-      <div
-        className="w-11/12 max-w-[600px] border border-richblack-600 rounded-lg"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 bg-richblack-800/50 flex justify-center items-center backdrop-blur-md z-50">
+      <div className="w-11/12 max-w-[600px] border border-richblack-600 rounded-lg">
         <div className="px-6 py-3 flex justify-between items-center bg-richblack-700 rounded-t-lg border-b border-richblack-600">
           <span>
             {add ? "Add" : edit ? "Edit" : view ? "View" : ""} Lecture
@@ -224,14 +215,16 @@ const SubSectionModal = ({
               )}
             </label>
             <div className="flex justify-end gap-3">
-              <SubmitButton
-                buttonContent={add || edit ? "Cancel" : "Close"}
+              <button
+                type="button"
                 onClick={() => setModalData(null)}
-                buttonType="button"
-                width="w-fit"
-                background="bg-richblack-900 border border-richblack-600"
-                text="text-richblack-200"
-              />
+                disabled={loading}
+                className={`rounded-md font-medium px-3 py-1 w-fit text-richblack-200 bg-richblack-900 border border-richblack-600 ${
+                  loading ? "cursor-not-allowed" : ""
+                }`}
+              >
+                {add || edit ? "Cancel" : "Close"}
+              </button>
               {(add || edit) && (
                 <SubmitButton
                   buttonContent={
