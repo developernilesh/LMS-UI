@@ -1,26 +1,43 @@
 import React, { useState } from "react";
 import SubmitButton from "../../../../Form/SubmitButton";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { setStep } from "../../../../../redux/slices/courseSlice";
+import { FaChevronLeft } from "react-icons/fa";
+import {
+  setCourse,
+  setIsEditCourse,
+  setStep,
+} from "../../../../../redux/slices/courseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const PublishCourse = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { course } = useSelector((state) => state.course);
-
-  const handleCheckboxChange = (event) => {
-    console.log(event.target.checked);
-    setIsChecked(event.target.checked);
-  };
 
   useEffect(() => {
     if (course.status === "Published") {
       setIsPublished(true);
     }
   }, []);
+
+  const resetFunction = () => {
+    dispatch(setStep(1));
+    dispatch(setCourse(null));
+    dispatch(setIsEditCourse(false));
+    navigate("/dashboard/my-courses");
+  };
+
+  const publishCourse = async () => {
+    if (!isChecked) {
+      toast.error("Please Make the Course Public to Publish!");
+      return;
+    }
+    toast.success("Successfully Published");
+  };
 
   return (
     <>
@@ -38,7 +55,7 @@ const PublishCourse = () => {
             <input
               type="checkbox"
               checked={isChecked}
-              onChange={handleCheckboxChange}
+              onChange={(e) => setIsChecked(e.target.checked)}
               className="hidden"
             />
 
@@ -87,7 +104,7 @@ const PublishCourse = () => {
             {isPublished ? (
               <SubmitButton
                 buttonContent="Go To Your Courses"
-                // onClick={gotoNextStep}
+                onClick={resetFunction}
                 buttonType="button"
                 width="w-fit"
               />
@@ -95,10 +112,7 @@ const PublishCourse = () => {
               <>
                 <SubmitButton
                   buttonContent="Save as Draft"
-                  // onClick={() => {
-                  //   dispatch(setStep(1));
-                  //   dispatch(setIsEditCourse(true));
-                  // }}
+                  onClick={resetFunction}
                   buttonType="button"
                   width="w-fit"
                   background="bg-richblack-900 border border-richblack-600"
@@ -106,7 +120,7 @@ const PublishCourse = () => {
                 />
                 <SubmitButton
                   buttonContent="Save and Publish"
-                  // onClick={gotoNextStep}
+                  onClick={publishCourse}
                   buttonType="button"
                   width="w-fit"
                 />
