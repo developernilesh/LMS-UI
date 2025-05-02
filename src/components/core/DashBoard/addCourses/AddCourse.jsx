@@ -10,22 +10,22 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AddCourse = () => {
   const dispatch = useDispatch();
-  const {loading} = useSelector(state => state.loader)
+  const { loading } = useSelector((state) => state.loader);
+  const { course } = useSelector((state) => state.course);
 
   useEffect(() => {
     dispatch(setCourse(null));
     dispatch(setIsEditCourse(false));
-    // dispatch(setStep(1));
-  }, []);
+    dispatch(setStep(1));
+  }, [course]);
 
-  if (loading)
+  if (!loading && !course) return <CourseForm />;
+  else
     return (
       <div className="fixed bottom-0 z-50">
         <Loader />
       </div>
     );
-
-  return <CourseForm />;
 };
 
 export default AddCourse;
