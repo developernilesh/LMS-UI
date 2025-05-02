@@ -60,8 +60,6 @@ const CourseInformation = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
-
     if (file) {
       // checking if image file or not
       if (!file.type.includes("image")) {
