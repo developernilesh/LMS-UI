@@ -10,10 +10,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import apiConnector from "../../../../../services/apiConnector";
+import endpoints from "../../../../../services/apiEndpoints";
+
+const { PUBLISH_COURSE_API } = endpoints;
 
 const PublishCourse = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { course } = useSelector((state) => state.course);
@@ -36,7 +41,21 @@ const PublishCourse = () => {
       toast.error("Please Make the Course Public to Publish!");
       return;
     }
-    toast.success("Successfully Published");
+    try {
+      setLoading(true);
+      const response = await apiConnector("POST", PUBLISH_COURSE_API, {
+        courseId: course?._id,
+        status: "Published",
+      });
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        resetFunction();
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -95,6 +114,7 @@ const PublishCourse = () => {
             onClick={() => {
               dispatch(setStep(2));
             }}
+            disabled={loading ? true : false}
             buttonType="button"
             width="w-fit"
             background="bg-richblack-900 border border-richblack-600"
@@ -115,12 +135,16 @@ const PublishCourse = () => {
                   onClick={resetFunction}
                   buttonType="button"
                   width="w-fit"
+                  disabled={loading ? true : false}
                   background="bg-richblack-900 border border-richblack-600"
                   text="text-richblack-200"
                 />
                 <SubmitButton
-                  buttonContent="Save and Publish"
+                  buttonContent={
+                    loading ? "Publishing Course..." : "Save and Publish"
+                  }
                   onClick={publishCourse}
+                  disabled={loading ? true : false}
                   buttonType="button"
                   width="w-fit"
                 />
