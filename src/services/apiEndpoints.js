@@ -19,7 +19,7 @@ export const endpoints = {
   VIEW_ALL_CATEGORIES_API: `${BASE_URL}/course/get-all-categories`,
   VIEW_ALL_COURSES_API: `${BASE_URL}/course/get-all-courses`,
   CREATE_COURSE_API: `${BASE_URL}/course/create-course`,
-  PUBLISH_COURSE_API: `${BASE_URL}/course/create-course`,
+  PUBLISH_COURSE_API: `${BASE_URL}/course/publish-course`,
   GET_SPECIFIC_COURSE_API: `${BASE_URL}/course/get-courses-details`,
   ADD_SECTION_API: `${BASE_URL}/course/add-section`,
   UPDATE_SECTION_API: `${BASE_URL}/course/update-section`,
