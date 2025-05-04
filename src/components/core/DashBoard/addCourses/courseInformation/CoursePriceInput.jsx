@@ -59,9 +59,10 @@ const CoursePriceInput = ({ register, errors }) => {
         {...register("price", {
           required: "Course price is required",
           validate: (value) => {
-            if (value.includes(".") && value.split(".")[0]?.length < 1)
+            console.log(value)
+            if (String(value)?.includes(".") && String(value)?.split(".")[0]?.length < 1)
               return "Missing leading zero";
-            if (value.includes(".") && value.split(".")[1]?.length < 1)
+            if (String(value)?.includes(".") && String(value)?.split(".")[1]?.length < 1)
               return "Invalid format";
             return true;
           },
