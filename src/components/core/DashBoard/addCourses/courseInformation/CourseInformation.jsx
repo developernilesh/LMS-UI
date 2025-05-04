@@ -19,7 +19,7 @@ import { setLoading } from "../../../../../redux/slices/loaderSlice";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 
-const { CREATE_COURSE_API } = endpoints;
+const { CREATE_COURSE_API, EDIT_COURSE_API } = endpoints;
 
 const CourseInformation = () => {
   const {
@@ -101,12 +101,37 @@ const CourseInformation = () => {
     formData.append("whatYouWillLearn", data.whatYouWillLearn);
     formData.append("category", data.category);
     formData.append("instructions", JSON.stringify(data.instructions));
+    isEditCourse && formData.append("courseId", course?._id);
     if (isEditCourse) {
-      // call edit-course api
+      try {
+        dispatch(setLoading(true));
+        const response = await apiConnector(
+          "PUT",
+          EDIT_COURSE_API,
+          formData
+        );
+        if (response?.data?.success) {
+          toast.success(response.data.message);
+          console.log("respns",response.data.courseInfo)
+          // dispatch(setCourse(response.data.courseInfo));
+          // reset();
+          // setImageFile(null);
+          // setPreviewSource(null);
+          // dispatch(setStep(2));
+        }
+      } catch (error) {
+        toast.error(error?.message || error?.response?.data?.message);
+      } finally {
+        dispatch(setLoading(false));
+      }
     } else {
       try {
         dispatch(setLoading(true));
-        const response = await apiConnector("POST", CREATE_COURSE_API, formData);
+        const response = await apiConnector(
+          "POST",
+          CREATE_COURSE_API,
+          formData
+        );
         if (response?.data?.success) {
           toast.success(response.data.message);
           dispatch(setCourse(response.data.courseInfo));
