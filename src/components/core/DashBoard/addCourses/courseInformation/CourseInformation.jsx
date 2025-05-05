@@ -6,20 +6,15 @@ import CoursePriceInput from "./CoursePriceInput";
 import TagsInputField from "./TagsInputField";
 import RequirementsInputField from "./RequirementsInputField";
 import SubmitButton from "../../../../Form/SubmitButton";
-import {
-  FaAngleRight,
-  FaChevronRight,
-  FaCloudUploadAlt,
-  FaTimes,
-  FaUpload,
-} from "react-icons/fa";
+import { FaChevronRight, FaCloudUploadAlt, FaTimes } from "react-icons/fa";
 import { setCourse, setStep } from "../../../../../redux/slices/courseSlice";
 import toast from "react-hot-toast";
-import { setLoading } from "../../../../../redux/slices/loaderSlice";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
+import Loader from "../../../../Loader/Loader";
 
-const { CREATE_COURSE_API, EDIT_COURSE_API } = endpoints;
+const { CREATE_COURSE_API, EDIT_COURSE_API, GET_SPECIFIC_COURSE_API } =
+  endpoints;
 
 const CourseInformation = () => {
   const {
@@ -35,6 +30,7 @@ const CourseInformation = () => {
     (state) => state.course
   );
 
+  const [loading, setLoading] = useState(false);
   const [instructionsList, setInstructionsList] = useState([]);
   const [tagsList, setTagsList] = useState([]);
   const [previewSource, setPreviewSource] = useState(null);
@@ -52,11 +48,28 @@ const CourseInformation = () => {
         instructions: course?.instructions,
       });
       setImageFile(course?.thumbNail);
-      setPreviewSource(course?.thumbNail);
+      setPreviewSource(course?.thumbNail?.secure_url);
       setTagsList(course?.tags);
       setInstructionsList(course?.instructions);
     }
   }, [course]);
+
+  const fetchSpecificCourse = async (courseId) => {
+    setLoading(true);
+    try {
+      const response = await apiConnector(
+        "GET",
+        GET_SPECIFIC_COURSE_API + `/${courseId}`
+      );
+      if (response?.data?.success) {
+        dispatch(setCourse(response.data.data));
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -101,52 +114,39 @@ const CourseInformation = () => {
     formData.append("whatYouWillLearn", data.whatYouWillLearn);
     formData.append("category", data.category);
     formData.append("instructions", JSON.stringify(data.instructions));
-    isEditCourse && formData.append("courseId", course?._id);
-    if (isEditCourse) {
-      try {
-        dispatch(setLoading(true));
-        const response = await apiConnector(
-          "PUT",
-          EDIT_COURSE_API,
-          formData
-        );
-        if (response?.data?.success) {
-          toast.success(response.data.message);
-          console.log("respns",response.data.courseInfo)
-          // dispatch(setCourse(response.data.courseInfo));
-          // reset();
-          // setImageFile(null);
-          // setPreviewSource(null);
-          // dispatch(setStep(2));
-        }
-      } catch (error) {
-        toast.error(error?.message || error?.response?.data?.message);
-      } finally {
-        dispatch(setLoading(false));
-      }
-    } else {
-      try {
-        dispatch(setLoading(true));
-        const response = await apiConnector(
-          "POST",
-          CREATE_COURSE_API,
-          formData
-        );
-        if (response?.data?.success) {
-          toast.success(response.data.message);
-          dispatch(setCourse(response.data.courseInfo));
-          reset();
-          setImageFile(null);
-          setPreviewSource(null);
+    if (isEditCourse && course?._id) {
+      formData.append("courseId", course._id);
+    }
+    try {
+      setLoading(true);
+      const endpoint = isEditCourse ? EDIT_COURSE_API : CREATE_COURSE_API;
+      const method = isEditCourse ? "PUT" : "POST";
+
+      const response = await apiConnector(method, endpoint, formData);
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        reset();
+        setImageFile(null);
+        setPreviewSource(null);
+        fetchSpecificCourse(response.data.courseInfo._id);
+        if (!isEditCourse) {
           dispatch(setStep(2));
         }
-      } catch (error) {
-        toast.error(error?.message || error?.response?.data?.message);
-      } finally {
-        dispatch(setLoading(false));
       }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error?.message);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="w-full rounded-md bg-richblack-900 p-6 -mt-36">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <form

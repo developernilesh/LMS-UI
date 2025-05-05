@@ -4,19 +4,21 @@ import { FaCaretDown, FaRegPlusSquare } from "react-icons/fa";
 import { MdDelete, MdEdit, MdOutlineSlowMotionVideo } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "../../../../common/ConfirmationModal";
-import { setLoading } from "../../../../../redux/slices/loaderSlice";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import toast from "react-hot-toast";
-import { IoMdAddCircleOutline } from "react-icons/io";
 import SubmitButton from "../../../../Form/SubmitButton";
 import SubSectionModal from "./SubSectionModal";
 
 const { DELETE_SECTION_API, DELETE_SUB_SECTION_API } = endpoints;
 
-const NestedContent = ({ editSection, fetchSpecificCourse }) => {
+const NestedContent = ({
+  editSection,
+  fetchSpecificCourse,
+  loading,
+  setLoading,
+}) => {
   const { course } = useSelector((state) => state.course);
-  const dispatch = useDispatch();
 
   const [confirmationModalData, setConfirmationModalData] = useState(null);
   const [addSubSection, setAddSubSection] = useState(null);
@@ -24,7 +26,7 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
   const [viewSubSection, setViewSubSection] = useState(null);
 
   const deleteSectionHandler = async (sectionId) => {
-    dispatch(setLoading(true));
+    setLoading(true);
     try {
       const response = await apiConnector("DELETE", DELETE_SECTION_API, {
         sectionId,
@@ -32,16 +34,16 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
       if (response?.data?.success) {
         fetchSpecificCourse(course?._id);
       }
+      setConfirmationModalData(null);
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
     } finally {
-      dispatch(setLoading(false));
+      setLoading(false);
     }
   };
 
   const deleteSubSectionHandler = async (subSectionId) => {
-    console.log(subSectionId);
-    dispatch(setLoading(true));
+    setLoading(true);
     try {
       const response = await apiConnector("DELETE", DELETE_SUB_SECTION_API, {
         subSectionId,
@@ -49,10 +51,11 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
       if (response?.data?.success) {
         fetchSpecificCourse(course?._id);
       }
+      setConfirmationModalData(null);
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
     } finally {
-      dispatch(setLoading(false));
+      setLoading(false);
     }
   };
 
@@ -81,12 +84,10 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
                         setConfirmationModalData({
                           text1: "Are you sure?",
                           text2: "This section may contain video contents!",
-                          btn1text: "Delete",
+                          btn1text: loading ? "Deleting..." : "Delete",
                           btn2text: "Cancel",
-                          btn1handler: () => {
-                            deleteSectionHandler(item._id);
-                            setConfirmationModalData(null);
-                          },
+                          buttonDisbaled: loading ? true : false,
+                          btn1handler: () => deleteSectionHandler(item._id),
                           btn2handler: () => setConfirmationModalData(null),
                         });
                       }}
@@ -116,12 +117,11 @@ const NestedContent = ({ editSection, fetchSpecificCourse }) => {
                         setConfirmationModalData({
                           text1: "Are you sure?",
                           text2: "This lecture will be no more available!",
-                          btn1text: "Delete",
+                          btn1text: loading ? "Deleting..." : "Delete",
                           btn2text: "Cancel",
-                          btn1handler: () => {
-                            deleteSubSectionHandler(subItem._id);
-                            setConfirmationModalData(null);
-                          },
+                          buttonDisbaled: loading ? true : false,
+                          btn1handler: () =>
+                            deleteSubSectionHandler(subItem._id),
                           btn2handler: () => setConfirmationModalData(null),
                         });
                       }}

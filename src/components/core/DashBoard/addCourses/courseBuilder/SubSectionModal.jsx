@@ -138,14 +138,14 @@ const SubSectionModal = ({
                   className="hidden"
                   accept="video/mp4,video/webm,video/ogg,video/mpg"
                   onChange={(e) => handleFileChange(e)}
-                  disabled={view ? true : false}
+                  disabled={view || loading ? true : false}
                 />
                 {previewSource ? (
                   <div className="relative h-full w-full">
                     <video
                       src={previewSource}
                       controls={view ? true : false}
-                      // autoPlay={(add || edit) ? true : false}
+                      // autoPlay={view ? false : true}
                       className="h-full w-[371.5px] mx-auto"
                     />
                     <button
@@ -190,7 +190,7 @@ const SubSectionModal = ({
               validation={{ required: "Lecture title is required" }}
               error={errors.title}
               background="bg-richblack-700"
-              disabled={add || edit ? false : true}
+              disabled={view || loading ? true : false}
             />
 
             <label className="relative w-full text-richblack-5">
@@ -204,9 +204,9 @@ const SubSectionModal = ({
                   required: "Lecture description is required",
                 })}
                 className={`bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500 ${
-                  add || edit ? "text-richblack-5" : "text-richblack-200"
+                  view || loading ? "text-richblack-200" : "text-richblack-5"
                 }`}
-                disabled={add || edit ? false : true}
+                disabled={view || loading ? true : false}
               />
               {errors.description && (
                 <p className="text-pink-200 text-sm mt-1">
@@ -223,13 +223,14 @@ const SubSectionModal = ({
                   loading ? "cursor-not-allowed" : ""
                 }`}
               >
-                {add || edit ? "Cancel" : "Close"}
+                {view ? "Close" : "Cancel"}
               </button>
               {(add || edit) && (
                 <SubmitButton
                   buttonContent={
                     loading ? "Uploading..." : add ? "Save" : "Update"
                   }
+                  disabled={loading}
                   width="w-fit"
                 />
               )}

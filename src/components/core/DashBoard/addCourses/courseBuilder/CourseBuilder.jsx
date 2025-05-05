@@ -9,11 +9,13 @@ import {
   setIsEditCourse,
   setStep,
 } from "../../../../../redux/slices/courseSlice";
-import { FaChevronLeft, FaChevronRight, FaEdit } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import toast from "react-hot-toast";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import NestedContent from "./NestedContent";
+import { setLoading } from "../../../../../redux/slices/loaderSlice";
+import Loader from "../../../../Loader/Loader";
 
 const CourseBuilder = () => {
   const {
@@ -29,9 +31,9 @@ const CourseBuilder = () => {
   const { course } = useSelector((state) => state.course);
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isEditSection, setIsEditSection] = useState(false);
   const [sectionInfo, setSectionInfo] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const gotoNextStep = () => {
     if (!course || Object.keys(course).length === 0) {
@@ -43,7 +45,7 @@ const CourseBuilder = () => {
       return;
     }
     if (
-      course?.courseContent?.some( 
+      course?.courseContent?.some(
         (section) => section?.subSection?.length === 0
       )
     ) {
@@ -65,7 +67,7 @@ const CourseBuilder = () => {
   };
 
   const createSection = async (data) => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       const payload = isEditSection
         ? { sectionId: sectionInfo._id, ...data }
@@ -85,12 +87,12 @@ const CourseBuilder = () => {
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   const fetchSpecificCourse = async (courseId) => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       const response = await apiConnector(
         "GET",
@@ -102,11 +104,17 @@ const CourseBuilder = () => {
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  if(isLoading) return <div>Loading...</div>
+  if (loading) {
+    return (
+      <div className="w-full rounded-md bg-richblack-900 p-6 -mt-36">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col gap-6 rounded-md bg-richblack-800 p-6">
@@ -151,7 +159,12 @@ const CourseBuilder = () => {
         </div>
       </form>
       {course?.courseContent?.length > 0 && (
-        <NestedContent editSection={editSection} fetchSpecificCourse={fetchSpecificCourse} />
+        <NestedContent
+          editSection={editSection}
+          fetchSpecificCourse={fetchSpecificCourse}
+          setLoading={setLoading}
+          loading={loading}
+        />
       )}
       <div className="flex justify-end items-center gap-3">
         <SubmitButton

@@ -2,10 +2,34 @@ import React, { useState } from "react";
 import SubmitButton from "../../../Form/SubmitButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../../common/ConfirmationModal";
+import apiConnector from "../../../../services/apiConnector";
+import endpoints from "../../../../services/apiEndpoints";
+import toast from "react-hot-toast";
 
-const CourseCard = ({ course }) => {
+const { DELETE_COURSE_API } = endpoints;
+
+const CourseCard = ({ course, fetchAllCourses }) => {
   const navigate = useNavigate();
   const [confirmationModalData, setConfirmationModalData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const deleteCourse = async (courseId) => {
+    try {
+      setLoading(true);
+      const response = await apiConnector("DELETE", DELETE_COURSE_API, {
+        courseId,
+      });
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        setConfirmationModalData(null);
+        fetchAllCourses();
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -15,7 +39,7 @@ const CourseCard = ({ course }) => {
       >
         <div className="relative">
           <img
-            src={course.thumbNail}
+            src={course.thumbNail?.secure_url}
             alt={course.courseName}
             className="w-full h-56 object-cover rounded-t-lg"
           />
@@ -69,12 +93,10 @@ const CourseCard = ({ course }) => {
                 setConfirmationModalData({
                   text1: "Are you sure?",
                   text2: "Course can have enrolled students!",
-                  btn1text: "Delete",
+                  btn1text: loading ? "Deleting..." : "Delete",
                   btn2text: "Cancel",
-                  btn1handler: () => {
-                    console.log(course._id);
-                    setConfirmationModalData(null);
-                  },
+                  buttonDisbaled: loading ? true : false,
+                  btn1handler: () => deleteCourse(course._id),
                   btn2handler: () => setConfirmationModalData(null),
                 })
               }

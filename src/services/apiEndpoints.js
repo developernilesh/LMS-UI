@@ -1,7 +1,7 @@
 const BASE_URL = `${import.meta.env.VITE_BASE_URL}/api/v1`;
 
 export const endpoints = {
-  // #region authEndpoints
+  // #region auth endpoints
   SEND_OTP_API: `${BASE_URL}/auth/send-otp`,
   SIGNUP_API: `${BASE_URL}/auth/signup`,
   LOGIN_API: `${BASE_URL}/auth/login`,
@@ -9,17 +9,18 @@ export const endpoints = {
   RESET_PASSWORD_API: `${BASE_URL}/auth/reset-password`,
   CHANGE_PASSWORD_API: `${BASE_URL}/auth/change-password`,
   
-  // #region profile
+  // #region profile endpoints
   USER_DETAILS_API: `${BASE_URL}/profile/get-user-details`,
   PROFILE_UPDATE_API: `${BASE_URL}/profile/update-profile`,
   UPLOAD_PROFILE_PICTURE_API: `${BASE_URL}/profile/update-display-picture`,
   VIEW_ENROLLED_COURSES_API: `${BASE_URL}/profile/get-enrolled-courses`,
 
-  // #region categories
+  // #region course endpoints
   VIEW_ALL_CATEGORIES_API: `${BASE_URL}/course/get-all-categories`,
   VIEW_ALL_COURSES_API: `${BASE_URL}/course/get-all-courses`,
   CREATE_COURSE_API: `${BASE_URL}/course/create-course`,
   EDIT_COURSE_API: `${BASE_URL}/course/edit-course`,
+  DELETE_COURSE_API: `${BASE_URL}/course/delete-course`,
   PUBLISH_COURSE_API: `${BASE_URL}/course/publish-course`,
   GET_SPECIFIC_COURSE_API: `${BASE_URL}/course/get-courses-details`,
   ADD_SECTION_API: `${BASE_URL}/course/add-section`,

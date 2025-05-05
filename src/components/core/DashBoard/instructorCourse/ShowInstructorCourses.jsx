@@ -8,16 +8,20 @@ import CourseCardSkeleton from "./CourseCardSkeleton";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import SubmitButton from "../../../Form/SubmitButton";
+import {
+  setCourse,
+  setIsEditCourse,
+  setStep,
+} from "../../../../redux/slices/courseSlice";
 
 const ShowInstructorCourses = () => {
   const { VIEW_ENROLLED_COURSES_API } = endpoints;
-  const { loading } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const [allCourses, setAllCourses] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchAllCourses = async () => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       const response = await apiConnector("GET", VIEW_ENROLLED_COURSES_API);
       if (response?.data?.success) {
@@ -26,18 +30,21 @@ const ShowInstructorCourses = () => {
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
+    dispatch(setCourse(null));
+    dispatch(setIsEditCourse(false));
+    dispatch(setStep(1));
     fetchAllCourses();
   }, []);
 
   return (
     <div className="w-11/12 mx-auto">
       <h2 className="text-3xl text-richblack-5 font-medium py-6">My Courses</h2>
-      {isLoading ? (
+      {loading ? (
         <div className="w-full flex flex-wrap justify-center gap-6">
           {[...Array(2)].map((_, index) => (
             <CourseCardSkeleton key={index} />
@@ -46,7 +53,11 @@ const ShowInstructorCourses = () => {
       ) : allCourses.length > 0 ? (
         <div className="w-full flex flex-wrap justify-center gap-6">
           {allCourses.map((course) => (
-            <CourseCard key={course._id} course={course} />
+            <CourseCard
+              key={course._id}
+              course={course}
+              fetchAllCourses={fetchAllCourses}
+            />
           ))}
         </div>
       ) : (
