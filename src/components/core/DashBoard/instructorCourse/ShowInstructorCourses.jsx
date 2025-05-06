@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import endpoints from "../../../../services/apiEndpoints";
 import apiConnector from "../../../../services/apiConnector";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../../../../redux/slices/loaderSlice";
+import { useDispatch } from "react-redux";
 import CourseCard from "./CourseCard";
 import CourseCardSkeleton from "./CourseCardSkeleton";
 import toast from "react-hot-toast";
