@@ -18,6 +18,7 @@ export const endpoints = {
   // #region course endpoints
   VIEW_ALL_CATEGORIES_API: `${BASE_URL}/course/get-all-categories`,
   VIEW_ALL_COURSES_API: `${BASE_URL}/course/get-all-courses`,
+  VIEW_CATEGORY_PAGE_DETAILS_API: `${BASE_URL}/course/get-category-page-details`,
   CREATE_COURSE_API: `${BASE_URL}/course/create-course`,
   EDIT_COURSE_API: `${BASE_URL}/course/edit-course`,
   DELETE_COURSE_API: `${BASE_URL}/course/delete-course`,
