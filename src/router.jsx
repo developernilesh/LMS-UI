@@ -19,6 +19,7 @@ import MyWishlist from "./components/core/DashBoard/myWishlist/MyWishlist.jsx";
 import AddCourse from "./components/core/DashBoard/addCourses/AddCourse.jsx";
 import ShowInstructorCourses from "./components/core/DashBoard/instructorCourse/ShowInstructorCourses.jsx";
 import EditInstructorCourse from "./components/core/DashBoard/instructorCourse/EditInstructorCourse.jsx";
+import Catalog from "./pages/Catalog.jsx";
 
 const router = createBrowserRouter([
   {
@@ -58,43 +59,75 @@ const router = createBrowserRouter([
         element: <VerifyOtp />,
       },
       {
-        element: (
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        ),
+        path: "catalog/:categoryId",
+        element: <Catalog />,
+      },
+      {
+        element: <Dashboard />,
         children: [
           {
             path: "dashboard/my-profile",
-            element: <MyProfile />,
+            element: (
+              <ProtectedRoute>
+                <MyProfile />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "dashboard/settings",
-            element: <Settings />,
+            element: (
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "dashboard/change-password",
-            element: <ChangePassword />,
+            element: (
+              <ProtectedRoute>
+                <ChangePassword />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "dashboard/enrolled-courses",
-            element: <EnrolledCourse />,
+            element: (
+              <ProtectedRoute>
+                <EnrolledCourse />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "dashboard/my-wishlist",
-            element: <MyWishlist />,
+            element: (
+              <ProtectedRoute>
+                <MyWishlist />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "dashboard/add-course",
-            element: <AddCourse />,
+            element: (
+              <ProtectedRoute>
+                <AddCourse />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "dashboard/my-courses",
-            element: <ShowInstructorCourses />,
+            element: (
+              <ProtectedRoute>
+                <ShowInstructorCourses />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "dashboard/edit-instructor-course/:courseId",
-            element: <EditInstructorCourse />,
+            element: (
+              <ProtectedRoute>
+                <EditInstructorCourse />
+              </ProtectedRoute>
+            ),
           },
         ],
       },
