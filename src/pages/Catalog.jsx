@@ -4,11 +4,13 @@ import { useParams } from "react-router-dom";
 import { setLoading } from "../redux/slices/loaderSlice";
 import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
+import Loader from "../components/Loader/Loader";
+import Footer from "../components/common/Footer";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
 const Catalog = () => {
-  const { categories } = useSelector((state) => state.course);
+  const { loading } = useSelector((state) => state.loader);
   const param = useParams();
   const dispatch = useDispatch();
 
@@ -16,11 +18,6 @@ const Catalog = () => {
   const [activeTab, setActiveTab] = useState("Most Popular");
   const [categoryPageDetails, setCategoryPageDetails] =
     useState("Most Popular");
-
-  useEffect(() => {
-    categories.length > 0 &&
-      setCategoryInfo(categories?.find((cat) => cat._id === param.categoryId));
-  }, [categories, param]);
 
   const fetchCategoryPageDetails = async () => {
     dispatch(setLoading(true));
@@ -31,6 +28,7 @@ const Catalog = () => {
       );
       if (response?.data?.success) {
         setCategoryPageDetails(response.data.data);
+        setCategoryInfo(response.data.data.categoryDetails);
       }
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
@@ -41,7 +39,9 @@ const Catalog = () => {
 
   useEffect(() => {
     fetchCategoryPageDetails();
-  }, []);
+  }, [param.categoryId]);
+
+  if (loading) return <Loader />;
 
   return (
     <>
@@ -78,11 +78,26 @@ const Catalog = () => {
           </div>
 
           {/* Tab content */}
-          <div className="flex items-center justify-center text-richblack-5 text-xl">
-            {activeTab}
+          <div className="flex flex-wrap items-center justify-between text-richblack-5 text-xl min-h-[calc(100vh/2)]">
+            {categoryInfo?.courses?.map((item) => (
+              <div
+                className="flex flex-col gap-5 w-[384px] bg-richblack-800"
+                key={item._id}
+              >
+                <img
+                  src={item.thumbNail.secure_url}
+                  alt={item.courseName}
+                  className="w-full h-[216px] rounded-t-lg"
+                />
+                <p>{item.courseName}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+      <footer className="w-full bg-richblack-800 text-richblack-200">
+        <Footer />
+      </footer>
     </>
   );
 };
