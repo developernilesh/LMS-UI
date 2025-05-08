@@ -10,6 +10,20 @@ import StarRatings from "react-star-ratings";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
+function formatNumberWithCommas(number) {
+  // Ensure the number is treated as a number type
+  number = Number(number);
+
+  // Check if the number is valid
+  if (isNaN(number)) return;
+
+  // Format the number with commas and two decimal places
+  return number.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
 const Catalog = () => {
   const { loading } = useSelector((state) => state.loader);
   const param = useParams();
@@ -82,7 +96,7 @@ const Catalog = () => {
           <div className="flex flex-wrap items-center justify-between text-richblack-5 min-h-[calc(100vh/2)]">
             {categoryInfo?.courses?.map((item) => (
               <div
-                className="flex flex-col gap-2 w-[360px] bg-richblack-800 rounded-b-lg"
+                className="flex flex-col w-[360px] bg-richblack-800 rounded-b-lg"
                 key={item._id}
               >
                 <img
@@ -100,7 +114,7 @@ const Catalog = () => {
                     </p>
                   </div>
                   <div className="flex gap-2 items-center">
-                    <div className="text-yellow-100">4.5</div>
+                    <div className="text-yellow-100">3.4</div>
                     <StarRatings
                       rating={3.4}
                       starDimension="16px"
@@ -114,7 +128,7 @@ const Catalog = () => {
                     <div className="text-richblack-300">(Review Count)</div>
                   </div>
                   <div className="text-lg font-medium text-richblack-5">
-                    Rs. {item.price.toFixed(2)}
+                    Rs. {formatNumberWithCommas(item.price)}
                   </div>
                 </div>
               </div>
