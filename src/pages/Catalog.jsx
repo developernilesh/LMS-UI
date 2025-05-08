@@ -65,7 +65,7 @@ const Catalog = () => {
             {["Most Popular", "New", "Trending"].map((tab, index) => (
               <button
                 key={index}
-                className={`px-4 py-2 text-lg font-medium ${
+                className={`px-4 py-2 font-medium ${
                   activeTab === tab
                     ? "text-yellow-50 border-b-2 border-yellow-50"
                     : "text-richblack-50"
@@ -78,10 +78,10 @@ const Catalog = () => {
           </div>
 
           {/* Tab content */}
-          <div className="flex flex-wrap items-center justify-between text-richblack-5 text-xl min-h-[calc(100vh/2)]">
+          <div className="flex flex-wrap items-center justify-between text-richblack-5 min-h-[calc(100vh/2)]">
             {categoryInfo?.courses?.map((item) => (
               <div
-                className="flex flex-col gap-5 w-[384px] bg-richblack-800"
+                className="flex flex-col gap-2 w-[384px] bg-richblack-800 rounded-b-lg"
                 key={item._id}
               >
                 <img
@@ -89,7 +89,12 @@ const Catalog = () => {
                   alt={item.courseName}
                   className="w-full h-[216px] rounded-t-lg"
                 />
-                <p>{item.courseName}</p>
+                <div className="p-4 flex flex-col gap-2">
+                  <p className="text-richblack-100">{item.courseName}</p>
+                  <div className="text-lg font-medium text-richblack-5">
+                    Rs. {item.price.toFixed(2)}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
