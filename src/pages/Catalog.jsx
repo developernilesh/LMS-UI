@@ -6,6 +6,7 @@ import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
 import Loader from "../components/Loader/Loader";
 import Footer from "../components/common/Footer";
+import StarRatings from "react-star-ratings";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
@@ -81,16 +82,37 @@ const Catalog = () => {
           <div className="flex flex-wrap items-center justify-between text-richblack-5 min-h-[calc(100vh/2)]">
             {categoryInfo?.courses?.map((item) => (
               <div
-                className="flex flex-col gap-2 w-[384px] bg-richblack-800 rounded-b-lg"
+                className="flex flex-col gap-2 w-[360px] bg-richblack-800 rounded-b-lg"
                 key={item._id}
               >
                 <img
                   src={item.thumbNail.secure_url}
                   alt={item.courseName}
-                  className="w-full h-[216px] rounded-t-lg"
+                  className="w-full h-[203px] rounded-t-lg"
                 />
                 <div className="p-4 flex flex-col gap-2">
-                  <p className="text-richblack-100">{item.courseName}</p>
+                  <div>
+                    <p className="text-richblack-5 font-medium">
+                      {item.courseName}
+                    </p>
+                    <p className="text-richblack-200 text-sm truncate">
+                      {item.courseDescription}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <div className="text-yellow-100">4.5</div>
+                    <StarRatings
+                      rating={3.4}
+                      starDimension="16px"
+                      starSpacing="2px"
+                      starRatedColor="#E7C009"
+                      starEmptyColor="#424854"
+                      // changeRating={changeRating}
+                      numberOfStars={5}
+                      name="rating"
+                    />
+                    <div className="text-richblack-300">(Review Count)</div>
+                  </div>
                   <div className="text-lg font-medium text-richblack-5">
                     Rs. {item.price.toFixed(2)}
                   </div>
