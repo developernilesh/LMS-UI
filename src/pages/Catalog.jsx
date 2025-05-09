@@ -11,13 +11,8 @@ import StarRatings from "react-star-ratings";
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
 function formatNumberWithCommas(number) {
-  // Ensure the number is treated as a number type
   number = Number(number);
-
-  // Check if the number is valid
   if (isNaN(number)) return;
-
-  // Format the number with commas and two decimal places
   return number.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
