@@ -91,7 +91,7 @@ const Catalog = () => {
           <div className="flex flex-wrap items-center justify-between text-richblack-5 min-h-[calc(100vh/2)]">
             {categoryInfo?.courses?.map((item) => (
               <div
-                className="flex flex-col w-[360px] bg-richblack-800 rounded-b-lg"
+                className="flex flex-col w-[360px] rounded-b-lg"
                 key={item._id}
               >
                 <img
@@ -99,7 +99,7 @@ const Catalog = () => {
                   alt={item.courseName}
                   className="w-full h-[203px] rounded-t-lg"
                 />
-                <div className="p-4 flex flex-col gap-2">
+                <div className="py-4 flex flex-col gap-2">
                   <div>
                     <p className="text-richblack-5 font-medium">
                       {item.courseName}
