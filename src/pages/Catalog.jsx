@@ -72,7 +72,7 @@ const Catalog = () => {
         <div>
           {/* Tabs for course filtering */}
           <div className="flex flex-wrap gap-4 mt-4 mb-6 border-b border-richblack-600">
-            {["Most Popular", "New", "Trending"].map((tab, index) => (
+            {["Most Popular", "Newest", "All"].map((tab, index) => (
               <button
                 key={index}
                 className={`px-4 py-2 font-medium ${
@@ -89,45 +89,58 @@ const Catalog = () => {
 
           {/* Tab content */}
           <div className="flex flex-wrap items-center justify-between text-richblack-5 min-h-[calc(100vh/2)]">
-            {categoryInfo?.courses?.map((item) => (
-              <div
-                className="flex flex-col w-[360px] rounded-b-lg bg-richblack-800"
-                key={item._id}
-              >
-                <img
-                  src={item.thumbNail.secure_url}
-                  alt={item.courseName}
-                  className="w-full h-[203px] rounded-t-lg"
-                />
-                <div className="p-4 flex flex-col gap-2">
-                  <div>
-                    <p className="text-richblack-5 font-medium">
-                      {item.courseName}
-                    </p>
-                    <p className="text-richblack-200 text-sm truncate">
-                      {item.courseDescription}
-                    </p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="text-yellow-100">3.4</div>
-                    <StarRatings
-                      rating={3.4}
-                      starDimension="16px"
-                      starSpacing="2px"
-                      starRatedColor="#E7C009"
-                      starEmptyColor="#424854"
-                      // changeRating={changeRating}
-                      numberOfStars={5}
-                      name="rating"
-                    />
-                    <div className="text-richblack-300">({item.ratingAndReview?.length} reviews)</div>
-                  </div>
-                  <div className="text-lg font-medium text-richblack-5">
-                    Rs. {formatNumberWithCommas(item.price)}
+            {categoryInfo?.courses?.map((item) => {
+              const avgRating =
+                item.ratingAndReview?.reduce(
+                  (acc, curr) => acc + curr.rating,
+                  0
+                ) / item.ratingAndReview?.length;
+              return (
+                <div
+                  className="flex flex-col w-[360px] rounded-b-lg bg-richblack-800"
+                  key={item._id}
+                >
+                  <img
+                    src={item.thumbNail.secure_url}
+                    alt={item.courseName}
+                    className="w-full h-[203px] rounded-t-lg"
+                  />
+                  <div className="p-4 flex flex-col gap-2">
+                    <div>
+                      <p className="text-richblack-5 font-medium">
+                        {item.courseName}
+                      </p>
+                      <p className="text-richblack-200 text-sm truncate">
+                        {item.courseDescription}
+                      </p>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <div className="text-yellow-100">{avgRating}</div>
+                      <StarRatings
+                        rating={avgRating}
+                        starDimension="16px"
+                        starSpacing="2px"
+                        starRatedColor="#E7C009"
+                        starEmptyColor="#424854"
+                        // changeRating={changeRating}
+                        numberOfStars={5}
+                        name="rating"
+                      />
+                      <div className="text-richblack-300">
+                        ({item.ratingAndReview?.length}{" "}
+                        {item.ratingAndReview?.length > 1
+                          ? "reviews"
+                          : "review"}
+                        )
+                      </div>
+                    </div>
+                    <div className="text-lg font-medium text-richblack-5">
+                      Rs. {formatNumberWithCommas(item.price)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
