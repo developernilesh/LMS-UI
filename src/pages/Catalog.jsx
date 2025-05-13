@@ -7,24 +7,15 @@ import endpoints from "../services/apiEndpoints";
 import Loader from "../components/Loader/Loader";
 import Footer from "../components/common/Footer";
 import StarRatings from "react-star-ratings";
+import CategoryCourseCard from "../components/core/catalogPage/CategoryCourseCard";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
-
-function formatNumberWithCommas(number) {
-  number = Number(number);
-  if (isNaN(number)) return;
-  return number.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
 
 const Catalog = () => {
   const { loading } = useSelector((state) => state.loader);
   const param = useParams();
   const dispatch = useDispatch();
 
-  const [categoryInfo, setCategoryInfo] = useState(null);
   const [activeTab, setActiveTab] = useState("Most Popular");
   const [categoryPageDetails, setCategoryPageDetails] =
     useState("Most Popular");
@@ -38,7 +29,6 @@ const Catalog = () => {
       );
       if (response?.data?.success) {
         setCategoryPageDetails(response.data.data);
-        setCategoryInfo(response.data.data.categoryDetails);
       }
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
@@ -58,10 +48,10 @@ const Catalog = () => {
       <div className="bg-richblack-800 w-full py-8">
         <div className="w-11/12 mx-auto">
           <h2 className="text-3xl font-semibold text-richblack-5">
-            {categoryInfo?.name}
+            {categoryPageDetails?.categoryDetails?.name}
           </h2>
           <div className="text-richblack-200 mt-3">
-            {categoryInfo?.description}
+            {categoryPageDetails?.categoryDetails?.description}
           </div>
         </div>
       </div>
@@ -89,58 +79,15 @@ const Catalog = () => {
 
           {/* Tab content */}
           <div className="flex flex-wrap items-center justify-between text-richblack-5 min-h-[calc(100vh/2)]">
-            {categoryInfo?.courses?.map((item) => {
-              const avgRating =
-                item.ratingAndReview?.reduce(
-                  (acc, curr) => acc + curr.rating,
-                  0
-                ) / item.ratingAndReview?.length;
-              return (
-                <div
-                  className="flex flex-col w-[360px] rounded-b-lg bg-richblack-800"
-                  key={item._id}
-                >
-                  <img
-                    src={item.thumbNail.secure_url}
-                    alt={item.courseName}
-                    className="w-full h-[203px] rounded-t-lg"
-                  />
-                  <div className="p-4 flex flex-col gap-2">
-                    <div>
-                      <p className="text-richblack-5 font-medium">
-                        {item.courseName}
-                      </p>
-                      <p className="text-richblack-200 text-sm truncate">
-                        {item.courseDescription}
-                      </p>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                      <div className="text-yellow-100">{avgRating}</div>
-                      <StarRatings
-                        rating={avgRating}
-                        starDimension="16px"
-                        starSpacing="2px"
-                        starRatedColor="#E7C009"
-                        starEmptyColor="#424854"
-                        // changeRating={changeRating}
-                        numberOfStars={5}
-                        name="rating"
-                      />
-                      <div className="text-richblack-300">
-                        ({item.ratingAndReview?.length}{" "}
-                        {item.ratingAndReview?.length > 1
-                          ? "reviews"
-                          : "review"}
-                        )
-                      </div>
-                    </div>
-                    <div className="text-lg font-medium text-richblack-5">
-                      Rs. {formatNumberWithCommas(item.price)}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {activeTab === "Most Popular" &&
+              categoryPageDetails?.mostPopular?.courses?.map((item) => (
+                <CategoryCourseCard data={item} key={item._id} />
+              ))}
+            {activeTab === "Newest" && <div>Newest Courses</div>}
+            {activeTab === "All" &&
+              categoryPageDetails?.categoryDetails?.courses?.map((item) => (
+                <CategoryCourseCard data={item} key={item._id} />
+              ))}
           </div>
         </div>
       </div>
