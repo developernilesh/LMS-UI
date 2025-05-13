@@ -70,42 +70,66 @@ const Footer = () => {
                 <h3 className="text-white font-semibold">Resources</h3>
                 <ul className="space-y-2">
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Articles
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Blog
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Chart Sheet
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Code challenges
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Docs
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Projects
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Videos
                     </Link>
                   </li>
                   <li>
-                    <Link href="#" className="hover:text-white transition-colors">
+                    <Link
+                      href="#"
+                      className="hover:text-white transition-colors"
+                    >
                       Workspaces
                     </Link>
                   </li>
@@ -198,13 +222,11 @@ const Footer = () => {
                   <h3 className="text-white font-semibold">{item.title}</h3>
                   <ul className="space-y-2">
                     {item.links.map((elem, idx) => (
-                      <li key={idx}>
-                        <Link
-                          to={elem.link}
-                          className="hover:text-white transition-colors"
-                        >
-                          {elem.title}
-                        </Link>
+                      <li
+                        key={idx}
+                        className="hover:text-white transition-colors"
+                      >
+                        <Link href="#">{elem.title}</Link>
                       </li>
                     ))}
                   </ul>
