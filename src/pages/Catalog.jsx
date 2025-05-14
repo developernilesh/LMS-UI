@@ -8,6 +8,7 @@ import Loader from "../components/Loader/Loader";
 import Footer from "../components/common/Footer";
 import StarRatings from "react-star-ratings";
 import CategoryCourseCard from "../components/core/catalogPage/CategoryCourseCard";
+import FrequentlyBoughtCourseCard from "../components/core/catalogPage/FrequentlyBoughtCourseCard";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
@@ -78,7 +79,7 @@ const Catalog = () => {
           </div>
 
           {/* Tab content */}
-          <div className="flex flex-wrap items-center justify-between text-richblack-5 min-h-[calc(100vh/2)]">
+          <div className="flex flex-wrap items-center gap-6 text-richblack-5 min-h-[calc(100vh/2)]">
             {activeTab === "Most Popular" &&
               categoryPageDetails?.mostPopular?.courses?.map((item) => (
                 <CategoryCourseCard data={item} key={item._id} />
@@ -91,6 +92,33 @@ const Catalog = () => {
           </div>
         </div>
       </div>
+      {categoryPageDetails?.differentCategories?.length > 0 && (
+        <div className="w-11/12 mx-auto my-8">
+          <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
+            Most Popular Courses in Other Categories
+          </h3>
+          {/* Courses in Other Categories */}
+          <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
+            {categoryPageDetails?.differentCategories?.map((item) => (
+              <CategoryCourseCard data={item} key={item._id} />
+            ))}
+          </div>
+        </div>
+      )}
+      {categoryPageDetails?.topSellingCourses?.length > 0 && (
+        <div className="w-11/12 mx-auto my-8">
+          <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
+            Frequently Bought Courses
+          </h3>
+          {/* Courses in Other Categories */}
+          <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
+            {categoryPageDetails?.topSellingCourses?.map((item) => (
+              <FrequentlyBoughtCourseCard data={item} key={item._id} />
+            ))}
+          </div>
+        </div>
+      )}
+      {/* topSellingCourses */}
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
