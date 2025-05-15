@@ -6,7 +6,6 @@ import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
 import Loader from "../components/Loader/Loader";
 import Footer from "../components/common/Footer";
-import StarRatings from "react-star-ratings";
 import CategoryCourseCard from "../components/core/catalogPage/CategoryCourseCard";
 import FrequentlyBoughtCourseCard from "../components/core/catalogPage/FrequentlyBoughtCourseCard";
 
@@ -30,6 +29,7 @@ const Catalog = () => {
       );
       if (response?.data?.success) {
         setCategoryPageDetails(response.data.data);
+        setActiveTab("Most Popular")
       }
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
@@ -79,15 +79,31 @@ const Catalog = () => {
           </div>
 
           {/* Tab content */}
-          <div className="flex flex-wrap items-center gap-6 text-richblack-5 min-h-[calc(100vh/2)]">
+          <div className="flex flex-wrap items-center gap-6 text-richblack-5">
             {activeTab === "Most Popular" &&
-              categoryPageDetails?.mostPopular?.courses?.map((item) => (
-                <CategoryCourseCard data={item} key={item._id} />
+              (categoryPageDetails?.mostPopular?.courses.length > 0 ? (
+                categoryPageDetails?.mostPopular?.courses?.map((item) => (
+                  <CategoryCourseCard data={item} key={item._id} />
+                ))
+              ) : (
+                <div className="w-full text-pink-400 text-center mb-2">
+                  No Course Found.
+                </div>
               ))}
-            {activeTab === "Newest" && <div>Newest Courses</div>}
+            {activeTab === "Newest" && (
+              <div className="w-full text-pink-400 text-center mb-2">
+                No Course Found.
+              </div>
+            )}
             {activeTab === "All" &&
-              categoryPageDetails?.categoryDetails?.courses?.map((item) => (
-                <CategoryCourseCard data={item} key={item._id} />
+              (categoryPageDetails?.categoryDetails?.courses.length > 0 ? (
+                categoryPageDetails?.categoryDetails?.courses?.map((item) => (
+                  <CategoryCourseCard data={item} key={item._id} />
+                ))
+              ) : (
+                <div className="w-full text-pink-400 text-center mb-2">
+                  No Course Found.
+                </div>
               ))}
           </div>
         </div>
