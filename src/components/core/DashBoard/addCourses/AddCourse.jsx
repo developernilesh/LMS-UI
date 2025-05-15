@@ -17,15 +17,15 @@ const AddCourse = () => {
     dispatch(setCourse(null));
     dispatch(setIsEditCourse(false));
     dispatch(setStep(1));
-  }, [course]);
+  }, []);
 
-  if (!loading && !course) return <CourseForm />;
-  else
+  if (loading)
     return (
       <div className="fixed bottom-0 z-50">
         <Loader />
       </div>
     );
+  return <CourseForm />;
 };
 
 export default AddCourse;

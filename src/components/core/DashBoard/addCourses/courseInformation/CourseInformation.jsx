@@ -129,9 +129,7 @@ const CourseInformation = () => {
         setImageFile(null);
         setPreviewSource(null);
         fetchSpecificCourse(response.data.courseInfo._id);
-        if (!isEditCourse) {
-          dispatch(setStep(2));
-        }
+        dispatch(setStep(2));
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || error?.message);

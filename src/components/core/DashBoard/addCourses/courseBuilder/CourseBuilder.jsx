@@ -14,7 +14,6 @@ import toast from "react-hot-toast";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import NestedContent from "./NestedContent";
-import { setLoading } from "../../../../../redux/slices/loaderSlice";
 import Loader from "../../../../Loader/Loader";
 
 const CourseBuilder = () => {
