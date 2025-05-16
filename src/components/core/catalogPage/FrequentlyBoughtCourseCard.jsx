@@ -30,9 +30,11 @@ const FrequentlyBoughtCourseCard = ({ data }) => {
       />
       <div className="pt-4 flex flex-col gap-2">
         <div>
-          <p className="text-richblack-5 font-medium">{data.courseName}</p>
+          <p className="text-richblack-5 font-medium truncate">
+            {data.courseName}
+          </p>
           <p className="text-richblack-200 text-sm truncate">
-            {data.courseDescription}
+            {`${data.instructor.firstName} ${data.instructor.lastName}`}
           </p>
         </div>
         <div className="flex gap-2 items-center">
