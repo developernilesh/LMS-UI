@@ -14,10 +14,11 @@ const CategoryCourseCard = ({ data }) => {
   const [avgRating, setAvgRating] = useState(0);
 
   useEffect(() => {
-    data.ratingAndReview?.length >=1 && setAvgRating(
-      data.ratingAndReview?.reduce((acc, curr) => acc + curr.rating, 0) /
-        data.ratingAndReview?.length
-    );
+    data.ratingAndReview?.length >= 1 &&
+      setAvgRating(
+        data.ratingAndReview?.reduce((acc, curr) => acc + curr.rating, 0) /
+          data.ratingAndReview?.length
+      );
   }, []);
 
   return (
@@ -29,9 +30,11 @@ const CategoryCourseCard = ({ data }) => {
       />
       <div className="p-4 flex flex-col gap-2">
         <div>
-          <p className="text-richblack-5 font-medium">{data.courseName}</p>
+          <p className="text-richblack-5 font-medium">
+            {data.courseName?.length < 75 ? data.courseName : `${data.courseName?.slice(0, 73)}...`}
+          </p>
           <p className="text-richblack-200 text-sm truncate">
-            {data.courseDescription}
+            {`${data.instructor.firstName} ${data.instructor.lastName}`}
           </p>
         </div>
         <div className="flex gap-2 items-center">
