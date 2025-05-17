@@ -5,6 +5,7 @@ import ConfirmationModal from "../../../common/ConfirmationModal";
 import apiConnector from "../../../../services/apiConnector";
 import endpoints from "../../../../services/apiEndpoints";
 import toast from "react-hot-toast";
+import StarRatings from "react-star-ratings";
 
 const { DELETE_COURSE_API } = endpoints;
 
@@ -48,9 +49,9 @@ const CourseCard = ({ course, fetchAllCourses }) => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between px-4 pt-4 min-h-[220px]">
+        <div className="flex flex-col gap-3 px-4 pt-4">
           <div>
-            <h3 className="text-lg text-richblack-5 font-semibold">
+            <h3 className="text-lg text-richblack-5 font-semibold line-clamp-2 overflow-hidden">
               {course.courseName}
             </h3>
             <p className="text-richblack-200 truncate">
@@ -76,10 +77,22 @@ const CourseCard = ({ course, fetchAllCourses }) => {
                 {course.studentsEnrolled?.length || 0}
               </span>
             </p>
-            <div className="flex flex-wrap gap-x-2 text-blue-100">
-              {course.tags?.map((tag, index) => (
-                <span key={index}>#{tag}</span>
-              ))}
+            <div className="flex gap-2 items-center">
+              <div className="text-yellow-100">{4.4}</div>
+              <StarRatings
+                rating={4.4}
+                starDimension="16px"
+                starSpacing="2px"
+                starRatedColor="#E7C009"
+                starEmptyColor="#424854"
+                // changeRating={changeRating}
+                numberOfStars={5}
+                name="rating"
+              />
+              <div className="text-richblack-300">
+                ({course.ratingAndReview?.length}{" "}
+                {course.ratingAndReview?.length > 1 ? "reviews" : "review"})
+              </div>
             </div>
           </div>
         </div>
