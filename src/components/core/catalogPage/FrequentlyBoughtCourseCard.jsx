@@ -22,7 +22,7 @@ const FrequentlyBoughtCourseCard = ({ data }) => {
   }, []);
 
   return (
-    <div className="flex flex-col w-[565px] rounded-b-lg mb-2">
+    <div className="flex flex-col w-[565px] rounded-b-lg mb-2 hover:cursor-pointer hover:scale-[1.01] transtion-all duration-200 ease-in-out">
       <img
         src={data.thumbNail.secure_url}
         alt={data.courseName}
