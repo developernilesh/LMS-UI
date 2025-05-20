@@ -8,6 +8,10 @@ import Loader from "../components/Loader/Loader";
 import Footer from "../components/common/Footer";
 import CategoryCourseCard from "../components/core/catalogPage/CategoryCourseCard";
 import FrequentlyBoughtCourseCard from "../components/core/catalogPage/FrequentlyBoughtCourseCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
@@ -29,7 +33,7 @@ const Catalog = () => {
       );
       if (response?.data?.success) {
         setCategoryPageDetails(response.data.data);
-        setActiveTab("Most Popular")
+        setActiveTab("Most Popular");
       }
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
@@ -47,93 +51,115 @@ const Catalog = () => {
   return (
     <>
       <div className="bg-richblack-800 w-full py-8">
-        <div className="w-11/12 mx-auto">
-          <h2 className="text-3xl font-semibold text-richblack-5">
-            {categoryPageDetails?.categoryDetails?.name}
-          </h2>
-          <div className="text-richblack-200 mt-3">
-            {categoryPageDetails?.categoryDetails?.description}
+        <div className="container mx-auto">
+          <div className="w-11/12 mx-auto">
+            <h2 className="text-3xl font-semibold text-richblack-5">
+              {categoryPageDetails?.categoryDetails?.name}
+            </h2>
+            <div className="text-richblack-200 mt-3">
+              {categoryPageDetails?.categoryDetails?.description}
+            </div>
           </div>
         </div>
       </div>
-      <div className="w-11/12 mx-auto my-8">
-        <h3 className="text-2xl font-semibold text-richblack-50">
-          Courses to get you started
-        </h3>
-        <div>
-          {/* Tabs for course filtering */}
-          <div className="flex flex-wrap gap-4 mt-4 mb-6 border-b border-richblack-600">
-            {["Most Popular", "Newest", "All"].map((tab, index) => (
-              <button
-                key={index}
-                className={`px-4 py-2 font-medium ${
-                  activeTab === tab
-                    ? "text-yellow-50 border-b-2 border-yellow-50"
-                    : "text-richblack-50"
-                }`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+      <div className="container mx-auto">
+        <div className="w-11/12 mx-auto my-8">
+          <h3 className="text-2xl font-semibold text-richblack-50">
+            Courses to get you started
+          </h3>
+          <div>
+            {/* Tabs for course filtering */}
+            <div className="flex flex-wrap gap-4 mt-4 mb-6 border-b border-richblack-600">
+              {["Most Popular", "Newest", "All"].map((tab, index) => (
+                <button
+                  key={index}
+                  className={`px-4 py-2 font-medium ${
+                    activeTab === tab
+                      ? "text-yellow-50 border-b-2 border-yellow-50"
+                      : "text-richblack-50"
+                  }`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
 
-          {/* Tab content */}
-          <div className="flex flex-wrap items-center gap-6 text-richblack-5">
-            {activeTab === "Most Popular" &&
-              (categoryPageDetails?.mostPopular?.courses.length > 0 ? (
-                categoryPageDetails?.mostPopular?.courses?.map((item) => (
-                  <CategoryCourseCard data={item} key={item._id} />
-                ))
-              ) : (
+            {/* Tab content */}
+            <div className="flex flex-wrap items-center gap-6 text-richblack-5">
+              {activeTab === "Most Popular" &&
+                (categoryPageDetails?.mostPopular?.courses.length > 0 ? (
+                  categoryPageDetails?.mostPopular?.courses?.map((item) => (
+                    <CategoryCourseCard data={item} key={item._id} />
+                  ))
+                ) : (
+                  <div className="w-full text-pink-400 text-center mb-2">
+                    No Course Found.
+                  </div>
+                ))}
+              {activeTab === "Newest" && (
                 <div className="w-full text-pink-400 text-center mb-2">
                   No Course Found.
                 </div>
-              ))}
-            {activeTab === "Newest" && (
-              <div className="w-full text-pink-400 text-center mb-2">
-                No Course Found.
-              </div>
-            )}
-            {activeTab === "All" &&
-              (categoryPageDetails?.categoryDetails?.courses.length > 0 ? (
-                categoryPageDetails?.categoryDetails?.courses?.map((item) => (
-                  <CategoryCourseCard data={item} key={item._id} />
-                ))
-              ) : (
-                <div className="w-full text-pink-400 text-center mb-2">
-                  No Course Found.
-                </div>
-              ))}
+              )}
+              {activeTab === "All" &&
+                (categoryPageDetails?.categoryDetails?.courses.length > 0 ? (
+                  categoryPageDetails?.categoryDetails?.courses?.map((item) => (
+                    <CategoryCourseCard data={item} key={item._id} />
+                  ))
+                ) : (
+                  <div className="w-full text-pink-400 text-center mb-2">
+                    No Course Found.
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
+        {categoryPageDetails?.differentCategories?.length > 0 && (
+          <div className="w-11/12 mx-auto my-8">
+            <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
+              Most Popular Courses in Other Categories
+            </h3>
+            {/* Courses in Other Categories */}
+            {/* <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
+              {categoryPageDetails?.differentCategories?.map((item) => (
+                <CategoryCourseCard data={item} key={item._id} />
+              ))}
+            </div> */}
+            <Swiper
+              spaceBetween={30}
+              slidesPerView={1}
+              loop={true}
+              onSlideChange={() => console.log("slide change")}
+              onSwiper={(swiper) => console.log(swiper)}
+              navigation={true}
+              modules={[Navigation]}
+              // className="mySwiper"
+            >
+              {categoryPageDetails?.differentCategories?.map((item) => (
+                <>
+                  <SwiperSlide>
+                    <CategoryCourseCard data={item} />
+                  </SwiperSlide>
+                </>
+              ))}
+            </Swiper>
+          </div>
+        )}
+        {categoryPageDetails?.topSellingCourses?.length > 0 && (
+          <div className="w-11/12 mx-auto my-8">
+            <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
+              Frequently Bought Courses
+            </h3>
+            {/* Courses in Other Categories */}
+            <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
+              {categoryPageDetails?.topSellingCourses?.map((item) => (
+                <FrequentlyBoughtCourseCard data={item} key={item._id} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-      {categoryPageDetails?.differentCategories?.length > 0 && (
-        <div className="w-11/12 mx-auto my-8">
-          <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
-            Most Popular Courses in Other Categories
-          </h3>
-          {/* Courses in Other Categories */}
-          <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
-            {categoryPageDetails?.differentCategories?.map((item) => (
-              <CategoryCourseCard data={item} key={item._id} />
-            ))}
-          </div>
-        </div>
-      )}
-      {categoryPageDetails?.topSellingCourses?.length > 0 && (
-        <div className="w-11/12 mx-auto my-8">
-          <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
-            Frequently Bought Courses
-          </h3>
-          {/* Courses in Other Categories */}
-          <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
-            {categoryPageDetails?.topSellingCourses?.map((item) => (
-              <FrequentlyBoughtCourseCard data={item} key={item._id} />
-            ))}
-          </div>
-        </div>
-      )}
       {/* topSellingCourses */}
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />

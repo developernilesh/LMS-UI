@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SubmitButton from "../../../Form/SubmitButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../../common/ConfirmationModal";
@@ -13,6 +13,15 @@ const CourseCard = ({ course, fetchAllCourses }) => {
   const navigate = useNavigate();
   const [confirmationModalData, setConfirmationModalData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [avgRating, setAvgRating] = useState(0);
+
+  useEffect(() => {
+    course.ratingAndReview?.length >= 1 &&
+      setAvgRating(
+        course.ratingAndReview?.reduce((acc, curr) => acc + curr.rating, 0) /
+          course.ratingAndReview?.length
+      );
+  }, []);
 
   const deleteCourse = async (courseId) => {
     try {
@@ -78,9 +87,9 @@ const CourseCard = ({ course, fetchAllCourses }) => {
               </span>
             </p>
             <div className="flex gap-2 items-center">
-              <div className="text-yellow-100">{4.4}</div>
+              <div className="text-yellow-100">{avgRating}</div>
               <StarRatings
-                rating={4.4}
+                rating={avgRating}
                 starDimension="16px"
                 starSpacing="2px"
                 starRatedColor="#E7C009"
