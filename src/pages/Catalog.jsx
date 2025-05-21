@@ -122,31 +122,27 @@ const Catalog = () => {
             </h3>
             <div className="relative overflow-hidden">
               <Swiper
-                modules={[Navigation, Autoplay]}
+                modules={[Navigation]}
+                loop={true}
                 navigation={{
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-                }}
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false,
+                  nextEl: ".swiper-button-next",
+                  prevEl: ".swiper-button-prev",
                 }}
                 breakpoints={{
-                  320: { slidesPerView: 1, spaceBetween: 20 },
-                  640: { slidesPerView: 2, spaceBetween: 24 },
-                  1024: { slidesPerView: 3, spaceBetween: 32 },
+                  320: { slidesPerView: 1 },
+                  640: { slidesPerView: 2 },
+                  1024: { slidesPerView: 3 },
                 }}
-                className="!pb-12"
+                spaceBetween={10}
               >
                 {categoryPageDetails?.differentCategories?.map((item) => (
-                  <SwiperSlide 
-                    key={item._id}
-                    className="transition-transform duration-300 hover:scale-[1.02]"
-                  >
-                    <CategoryCourseCard data={item} />
+                  <SwiperSlide key={item._id}>
+                    <div className="w-full flex justify-center">
+                      <CategoryCourseCard data={item} />
+                    </div>
                   </SwiperSlide>
                 ))}
-                
+
                 {/* Custom Navigation Buttons */}
                 <div className="swiper-button-prev !text-yellow-50 after:!text-2xl"></div>
                 <div className="swiper-button-next !text-yellow-50 after:!text-2xl"></div>
