@@ -22,14 +22,14 @@ const CategoryCourseCard = ({ data }) => {
   }, []);
 
   return (
-    <div className="flex flex-col w-[360px] rounded-b-lg bg-richblack-800 hover:cursor-pointer hover:scale-[1.01] transtion-all duration-200 ease-in-out">
+    <div className="flex flex-col w-[360px] rounded-b-lg my-2 bg-richblack-800 hover:cursor-pointer hover:scale-[1.01] transtion-all duration-200 ease-in-out">
       <img
         src={data.thumbNail.secure_url}
         alt={data.courseName}
         className="w-full h-[203px] rounded-t-lg"
       />
       <div className="p-4 flex flex-col gap-2">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 min-h-[81px]">
           <p className="text-richblack-5 font-medium line-clamp-2 overflow-hidden">
             {data.courseName}
           </p>
