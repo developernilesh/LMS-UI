@@ -11,7 +11,7 @@ import FrequentlyBoughtCourseCard from "../components/core/catalogPage/Frequentl
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
@@ -120,30 +120,38 @@ const Catalog = () => {
             <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
               Most Popular Courses in Other Categories
             </h3>
-            {/* Courses in Other Categories */}
-            {/* <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
-              {categoryPageDetails?.differentCategories?.map((item) => (
-                <CategoryCourseCard data={item} key={item._id} />
-              ))}
-            </div> */}
-            <Swiper
-              spaceBetween={30}
-              slidesPerView={1}
-              loop={true}
-              onSlideChange={() => console.log("slide change")}
-              onSwiper={(swiper) => console.log(swiper)}
-              navigation={true}
-              modules={[Navigation]}
-              // className="mySwiper"
-            >
-              {categoryPageDetails?.differentCategories?.map((item) => (
-                <>
-                  <SwiperSlide>
+            <div className="relative overflow-hidden">
+              <Swiper
+                modules={[Navigation, Autoplay]}
+                navigation={{
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+                }}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                }}
+                breakpoints={{
+                  320: { slidesPerView: 1, spaceBetween: 20 },
+                  640: { slidesPerView: 2, spaceBetween: 24 },
+                  1024: { slidesPerView: 3, spaceBetween: 32 },
+                }}
+                className="!pb-12"
+              >
+                {categoryPageDetails?.differentCategories?.map((item) => (
+                  <SwiperSlide 
+                    key={item._id}
+                    className="transition-transform duration-300 hover:scale-[1.02]"
+                  >
                     <CategoryCourseCard data={item} />
                   </SwiperSlide>
-                </>
-              ))}
-            </Swiper>
+                ))}
+                
+                {/* Custom Navigation Buttons */}
+                <div className="swiper-button-prev !text-yellow-50 after:!text-2xl"></div>
+                <div className="swiper-button-next !text-yellow-50 after:!text-2xl"></div>
+              </Swiper>
+            </div>
           </div>
         )}
         {categoryPageDetails?.topSellingCourses?.length > 0 && (
