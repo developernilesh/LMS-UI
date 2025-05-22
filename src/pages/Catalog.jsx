@@ -8,10 +8,7 @@ import Loader from "../components/Loader/Loader";
 import Footer from "../components/common/Footer";
 import CategoryCourseCard from "../components/core/catalogPage/CategoryCourseCard";
 import FrequentlyBoughtCourseCard from "../components/core/catalogPage/FrequentlyBoughtCourseCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Autoplay, Navigation } from "swiper/modules";
+import CourseSlider from "../components/core/catalogPage/CourseSlider";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
@@ -86,33 +83,33 @@ const Catalog = () => {
             </div>
 
             {/* Tab content */}
-            <div className="flex flex-wrap items-center gap-6 text-richblack-5">
-              {activeTab === "Most Popular" &&
-                (categoryPageDetails?.mostPopular?.courses.length > 0 ? (
-                  categoryPageDetails?.mostPopular?.courses?.map((item) => (
-                    <CategoryCourseCard data={item} key={item._id} />
-                  ))
-                ) : (
-                  <div className="w-full text-pink-400 text-center mb-2">
-                    No Course Found.
-                  </div>
-                ))}
-              {activeTab === "Newest" && (
+            {/* <div className="flex flex-wrap items-center gap-6 text-richblack-5"> */}
+            {activeTab === "Most Popular" &&
+              (categoryPageDetails?.mostPopular?.courses.length > 0 ? (
+                <CourseSlider
+                  courses={categoryPageDetails?.mostPopular?.courses}
+                />
+              ) : (
                 <div className="w-full text-pink-400 text-center mb-2">
                   No Course Found.
                 </div>
-              )}
-              {activeTab === "All" &&
-                (categoryPageDetails?.categoryDetails?.courses.length > 0 ? (
-                  categoryPageDetails?.categoryDetails?.courses?.map((item) => (
-                    <CategoryCourseCard data={item} key={item._id} />
-                  ))
-                ) : (
-                  <div className="w-full text-pink-400 text-center mb-2">
-                    No Course Found.
-                  </div>
-                ))}
-            </div>
+              ))}
+            {activeTab === "Newest" && (
+              <div className="w-full text-pink-400 text-center mb-2">
+                No Course Found.
+              </div>
+            )}
+            {activeTab === "All" &&
+              (categoryPageDetails?.categoryDetails?.courses.length > 0 ? (
+                <CourseSlider
+                  courses={categoryPageDetails?.categoryDetails?.courses}
+                />
+              ) : (
+                <div className="w-full text-pink-400 text-center mb-2">
+                  No Course Found.
+                </div>
+              ))}
+            {/* </div> */}
           </div>
         </div>
         {categoryPageDetails?.differentCategories?.length > 0 && (
@@ -120,34 +117,7 @@ const Catalog = () => {
             <h3 className="text-2xl font-semibold text-richblack-50 mb-6">
               Most Popular Courses in Other Categories
             </h3>
-            <div className="relative overflow-hidden">
-              <Swiper
-                modules={[Navigation]}
-                loop={true}
-                navigation={{
-                  nextEl: ".swiper-button-next",
-                  prevEl: ".swiper-button-prev",
-                }}
-                breakpoints={{
-                  320: { slidesPerView: 1 },
-                  640: { slidesPerView: 2 },
-                  1024: { slidesPerView: 3 },
-                }}
-                spaceBetween={10}
-              >
-                {categoryPageDetails?.differentCategories?.map((item) => (
-                  <SwiperSlide key={item._id}>
-                    <div className="w-full flex justify-center">
-                      <CategoryCourseCard data={item} />
-                    </div>
-                  </SwiperSlide>
-                ))}
-
-                {/* Custom Navigation Buttons */}
-                <div className="swiper-button-prev !text-yellow-50 after:!text-2xl"></div>
-                <div className="swiper-button-next !text-yellow-50 after:!text-2xl"></div>
-              </Swiper>
-            </div>
+            <CourseSlider courses={categoryPageDetails?.differentCategories} />
           </div>
         )}
         {categoryPageDetails?.topSellingCourses?.length > 0 && (
