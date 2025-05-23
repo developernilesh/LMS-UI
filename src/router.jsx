@@ -20,6 +20,7 @@ import AddCourse from "./components/core/DashBoard/addCourses/AddCourse.jsx";
 import ShowInstructorCourses from "./components/core/DashBoard/instructorCourse/ShowInstructorCourses.jsx";
 import EditInstructorCourse from "./components/core/DashBoard/instructorCourse/EditInstructorCourse.jsx";
 import Catalog from "./pages/Catalog.jsx";
+import SpecificCourse from "./pages/SpecificCourse.jsx";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "catalog/:categoryId",
         element: <Catalog />,
+      },
+      {
+        path: "course/:courseId",
+        element: <SpecificCourse />,
       },
       {
         element: <Dashboard />,
