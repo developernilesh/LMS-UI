@@ -94,11 +94,16 @@ const Catalog = () => {
                   No Course Found.
                 </div>
               ))}
-            {activeTab === "Newest" && (
-              <div className="w-full text-pink-400 text-center mb-2">
-                No Course Found.
-              </div>
-            )}
+            {activeTab === "Newest" &&
+              (categoryPageDetails?.newestCourses?.courses.length > 0 ? (
+                <CourseSlider
+                  courses={categoryPageDetails?.mostPopular?.courses}
+                />
+              ) : (
+                <div className="w-full text-pink-400 text-center mb-2">
+                  No Course Found.
+                </div>
+              ))}
             {activeTab === "All" &&
               (categoryPageDetails?.categoryDetails?.courses.length > 0 ? (
                 <CourseSlider
@@ -126,10 +131,12 @@ const Catalog = () => {
               Frequently Bought Courses
             </h3>
             {/* Courses in Other Categories */}
-            <div className="flex flex-wrap items-center gap-6 text-richblack-5]">
-              {categoryPageDetails?.topSellingCourses?.map((item) => (
-                <FrequentlyBoughtCourseCard data={item} key={item._id} />
-              ))}
+            <div className="flex flex-wrap md:justify-center items-center gap-6 text-richblack-5]">
+              {categoryPageDetails?.topSellingCourses
+                ?.filter((course) => course.status === "Published")
+                ?.map((item) => (
+                  <FrequentlyBoughtCourseCard data={item} key={item._id} />
+                ))}
             </div>
           </div>
         )}
