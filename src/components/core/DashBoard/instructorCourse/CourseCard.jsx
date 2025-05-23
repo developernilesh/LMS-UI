@@ -58,8 +58,8 @@ const CourseCard = ({ course, fetchAllCourses }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 px-4 pt-4">
-          <div>
+        <div className="flex flex-col px-4 pt-4">
+          <div className="min-h-[88px]">
             <h3 className="text-lg text-richblack-5 font-semibold line-clamp-2 overflow-hidden">
               {course.courseName}
             </h3>
@@ -68,17 +68,26 @@ const CourseCard = ({ course, fetchAllCourses }) => {
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
-            <div className="text-richblack-200">
-              Status:{" "}
-              <span
-                className={`text-sm ${
-                  course.status === "Published"
-                    ? "bg-caribbeangreen-500"
-                    : "bg-pink-600"
-                } rounded-full px-2 text-white`}
-              >
-                {course.status}
-              </span>
+            <div className="flex flex-wrap gap-2">
+              <div className="text-richblack-200">
+                Status:{" "}
+                <span
+                  className={`text-sm ${
+                    course.status === "Published"
+                      ? "bg-caribbeangreen-500"
+                      : "bg-pink-600"
+                  } rounded-full px-2 text-white`}
+                >
+                  {course.status}
+                </span>
+              </div>
+              <p className="text-richblack-200">
+                Created:&nbsp;
+                <span className="text-richblack-50">
+                  {formatDateTime(course.createdAt)?.date || ""},&nbsp;
+                  {formatDateTime(course.createdAt)?.time || ""}
+                </span>
+              </p>
             </div>
             <p className="text-richblack-200">
               Students Enrolled:&nbsp;
@@ -142,3 +151,29 @@ const CourseCard = ({ course, fetchAllCourses }) => {
 };
 
 export default CourseCard;
+
+function formatDateTime(dateTimeString) {
+  const date = new Date(dateTimeString);
+
+  // Format date as dd-mm-yy
+  const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
+    date.getMonth() + 1
+  )
+    .toString()
+    .padStart(2, "0")}-${date.getFullYear().toString().substr(-2)}`;
+
+  // Format time as am/pm
+  let hours = date.getHours();
+  const ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // Handle midnight
+  const formattedTime = `${hours.toString().padStart(2, "0")}:${date
+    .getMinutes()
+    .toString()
+    .padStart(2, "0")} ${ampm}`;
+
+  return {
+    date: formattedDate,
+    time: formattedTime,
+  };
+}
