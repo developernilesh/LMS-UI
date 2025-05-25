@@ -16,6 +16,7 @@ const SpecificCourse = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.loader);
+  const { user } = useSelector((state) => state.profile);
 
   const [courseinfo, setCourseInfo] = useState(null);
   const [avgRating, setAvgRating] = useState(0);
@@ -56,7 +57,7 @@ const SpecificCourse = () => {
       <div className="w-full bg-richblack-800">
         <div className="container mx-auto">
           <div className="w-11/12 mx-auto flex flex-col lg:flex-row gap-3 justify-between lg:items-end">
-            <div className="flex flex-col gap-3 pr-3 py-6">
+            <div className="flex flex-col gap-3 lg:pr-3 py-6">
               <h2 className="text-richblack-5 text-3xl font-medium">
                 {courseinfo?.courseName}
               </h2>
@@ -117,20 +118,41 @@ const SpecificCourse = () => {
       <div className="w-full bg-richblack-900">
         <div className="container mx-auto">
           <div className="w-11/12 mx-auto flex flex-col-reverse lg:flex-row gap-3 justify-between items-start pb-6">
-            <div className="flex flex-col gap-3 pr-3 py-6">
+            <div className="flex flex-col gap-3 lg:pr-3 py-6 w-full">
               <div className="p-6 border border-richblack-600 w-full">
-                <h3 className="text-2xl font-medium text-richblack-50 mb-3">
+                <h3 className="text-2xl font-medium text-richblack-25 mb-3">
                   What you'll learn
                 </h3>
                 <div className="flex flex-col gap-1 text-richblack-200">
-                  {courseinfo?.instructions?.map((item,index) => (
+                  {courseinfo?.instructions?.map((item, index) => (
                     <p key={index}>&#8226;&nbsp;{item}</p>
                   ))}
                 </div>
               </div>
+              <div className="mt-6">
+                <h3 className="text-2xl font-medium text-richblack-25 mb-3">
+                  Course Content
+                </h3>
+                <div className="flex justify-between">
+                  <div className="flex gap-3">
+                    <div>{courseinfo?.courseContent?.length}&nbsp;Sections</div>
+                    <div>&nbsp;&#8226;&nbsp;</div>
+                    <div>
+                      {courseinfo?.courseContent?.reduce(
+                        (acc, curr) => acc + curr?.subSection?.length,
+                        0
+                      )}
+                      &nbsp;Lectures
+                    </div>
+                  </div>
+                  <div className="text-sm font-medium text-yellow-25">
+                    Collapse all sections
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="w-full max-w-[384px] bg-richblack-700 px-6 py-3 flex flex-col gap-3 rounded-b-lg">
-              <SubmitButton buttonContent="Add to Cart" buttonType="button" />
+              <SubmitButton buttonContent={user?.accountType} buttonType="button" />
               <SubmitButton
                 buttonContent="Buy Now"
                 buttonType="button"
