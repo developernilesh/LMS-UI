@@ -24,7 +24,7 @@ const CategoryCourseCard = ({ data }) => {
 
   return (
     <Link to={`/course/${data._id}`}>
-      <div className="flex flex-col w-full max-w-[360px] rounded-lg my-2 bg-richblack-800 hover:cursor-pointer hover:scale-[1.01] transtion-all duration-200 ease-in-out">
+      <div className="flex flex-col w-full min-[408px]:w-[360px] rounded-lg my-2 bg-richblack-800 hover:cursor-pointer hover:scale-[1.01] transtion-all duration-200 ease-in-out">
         <img
           src={data.thumbNail.secure_url}
           alt={data.courseName}
