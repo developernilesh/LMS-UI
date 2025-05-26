@@ -9,6 +9,7 @@ import Loader from "../components/Loader/Loader";
 import StarRatings from "react-star-ratings";
 import SubmitButton from "../components/Form/SubmitButton";
 import Footer from "../components/common/Footer";
+import AccordionContent from "../components/core/specificCourse/AccordionContent";
 
 const { GET_SPECIFIC_COURSE_API } = endpoints;
 
@@ -133,35 +134,28 @@ const SpecificCourse = () => {
                 <h3 className="text-2xl font-medium text-richblack-25 mb-3">
                   Course Content
                 </h3>
-                <div className="flex justify-between">
-                  <div className="flex gap-3">
-                    <div>{courseinfo?.courseContent?.length}&nbsp;Sections</div>
-                    <div>&nbsp;&#8226;&nbsp;</div>
-                    <div>
-                      {courseinfo?.courseContent?.reduce(
-                        (acc, curr) => acc + curr?.subSection?.length,
-                        0
-                      )}
-                      &nbsp;Lectures
-                    </div>
-                  </div>
-                  <div className="text-sm font-medium text-yellow-25">
-                    Collapse all sections
-                  </div>
-                </div>
+                <AccordionContent content={courseinfo?.courseContent}/>
+                
               </div>
             </div>
             <div className="w-full max-w-[384px] bg-richblack-700 px-6 py-3 flex flex-col gap-3 rounded-b-lg">
-              <SubmitButton buttonContent={user?.accountType} buttonType="button" />
-              <SubmitButton
-                buttonContent="Buy Now"
-                buttonType="button"
-                background="bg-richblack-800 border-b-2 border-r border-richblack-600"
-                text="text-richblack-100 font-medium"
-              />
-              <p className="text-richblack-100 italic text-center text-sm">
-                30-Day Money-Back Guarantee
-              </p>
+              {(!user || user.accountType === "Student") && (
+                <div className="flex flex-col gap-3">
+                  <SubmitButton
+                    buttonContent="Add to Cart"
+                    buttonType="button"
+                  />
+                  <SubmitButton
+                    buttonContent="Enroll For Free"
+                    buttonType="button"
+                    background="bg-richblack-800 border-b border-r border-richblack-400"
+                    text="text-richblack-100 font-medium"
+                  />
+                  <p className="text-richblack-100 italic text-center text-sm">
+                    30-Day Money-Back Guarantee
+                  </p>
+                </div>
+              )}
               <p className="text-richblack-100">This course includes:</p>
               <div className="flex flex-col gap-1 text-caribbeangreen-300">
                 <p>Full lifetime access</p>
