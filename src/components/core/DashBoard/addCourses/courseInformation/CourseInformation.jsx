@@ -43,7 +43,7 @@ const CourseInformation = () => {
         courseDescription: course?.courseDescription,
         price: course?.price,
         tags: course?.tags,
-        whatYouWillLearn: course?.whatYouWillLearn,
+        instructorPromise: course?.instructorPromise,
         category: course?.category,
         instructions: course?.instructions,
       });
@@ -111,7 +111,7 @@ const CourseInformation = () => {
     formData.append("courseDescription", data.courseDescription);
     formData.append("price", data.price);
     formData.append("tags", JSON.stringify(data.tags));
-    formData.append("whatYouWillLearn", data.whatYouWillLearn);
+    formData.append("instructorPromise", data.instructorPromise);
     formData.append("category", data.category);
     formData.append("instructions", JSON.stringify(data.instructions));
     if (isEditCourse && course?._id) {
@@ -213,25 +213,26 @@ const CourseInformation = () => {
         )}
       </label>
 
-      {/* Course Tags Field */}
+      {/* What will you learn */}
       <Controller
-        name="tags"
+        name="instructions"
         control={control}
         rules={{
-          required: "At least one tag is required",
+          required: "At least one point is required",
           validate: (value) =>
-            value.length > 0 || "Minimum one tag is required",
+            value.length > 0 || "At least one point is required",
         }}
         render={({ field, fieldState: { error } }) => (
-          <TagsInputField
+          <RequirementsInputField
             value={field.value || []} // Ensure array is always defined
             onChange={field.onChange}
             error={error}
-            tagsList={tagsList}
-            setTagsList={setTagsList}
+            instructionsList={instructionsList}
+            setInstructionsList={setInstructionsList}
           />
         )}
       />
+
       {/* Course ThumbNail */}
       <label>
         <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
@@ -282,42 +283,42 @@ const CourseInformation = () => {
         </div>
       </label>
 
-      {/* Benefits of Course Field */}
+      {/* Promise to students */}
       <label className="relative w-full text-richblack-5">
         <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
-          Benefits of the Course<sup className="text-pink-200">*</sup>
+          Promise Statement For Students<sup className="text-pink-200">*</sup>
         </p>
         <textarea
           rows="3"
-          placeholder="Enter benefits of taking the course"
-          {...register("whatYouWillLearn", {
-            required: "Course benefit is required",
+          placeholder="Enter your promise statement for the students"
+          {...register("instructorPromise", {
+            required: "Promise Statement is required",
           })}
           className="bg-richblack-700 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
         />
-        {errors.whatYouWillLearn && (
+        {errors.instructorPromise && (
           <p className="text-pink-200 text-sm mt-1">
-            {errors.whatYouWillLearn.message}
+            {errors.instructorPromise.message}
           </p>
         )}
       </label>
 
-      {/* Requirements/Instructions Field */}
+      {/* Course Tags Field */}
       <Controller
-        name="instructions"
+        name="tags"
         control={control}
         rules={{
-          required: "At least one instruction is required",
+          required: "At least one tag is required",
           validate: (value) =>
-            value.length > 0 || "Minimum one instruction is required",
+            value.length > 0 || "Minimum one tag is required",
         }}
         render={({ field, fieldState: { error } }) => (
-          <RequirementsInputField
+          <TagsInputField
             value={field.value || []} // Ensure array is always defined
             onChange={field.onChange}
             error={error}
-            instructionsList={instructionsList}
-            setInstructionsList={setInstructionsList}
+            tagsList={tagsList}
+            setTagsList={setTagsList}
           />
         )}
       />
