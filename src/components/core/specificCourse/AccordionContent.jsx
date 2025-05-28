@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { MdKeyboardArrowDown, MdOndemandVideo } from "react-icons/md";
+import {
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp,
+  MdOndemandVideo,
+} from "react-icons/md";
 
 const AccordionContent = ({ content }) => {
   const [toggleSectionIndices, setToggleSectionIndices] = useState([]);
@@ -12,22 +16,24 @@ const AccordionContent = ({ content }) => {
         ? prevIndices.filter((item) => item !== index)
         : [...prevIndices, index]
     );
+    setToggleSubSectionIndices((prevIndices) => ({
+      ...prevIndices,
+      [index]: [],
+    }));
   };
 
   const toggleSubSection = (index, subIndex) => {
-    const subSectionIndices = JSON.parse(
-      JSON.stringify(toggleSubSectionIndices)
-    );
-    if (!Object.keys(subSectionIndices).includes(String(index))) {
-      subSectionIndices[index] = [];
-      subSectionIndices[index].push(subIndex);
-    } else if (
-      Object.keys(subSectionIndices).includes(String(index)) &&
-      !subSectionIndices[index].includes(subIndex)
-    ) {
-      subSectionIndices[index].push(subIndex);
-    }
-    setToggleSubSectionIndices(subSectionIndices);
+    setToggleSubSectionIndices((prevIndices) => {
+      const newIndices = { ...prevIndices };
+      if (!newIndices[index]) {
+        newIndices[index] = [subIndex];
+        return newIndices;
+      }
+      newIndices[index] = newIndices[index].includes(subIndex)
+        ? newIndices[index].filter((item) => item !== subIndex)
+        : [...newIndices[index], subIndex];
+      return newIndices;
+    });
   };
 
   return (
@@ -43,7 +49,10 @@ const AccordionContent = ({ content }) => {
         </div>
         <button
           className="text-sm font-medium text-yellow-25"
-          onClick={() => setToggleSectionIndices([])}
+          onClick={() => {
+            setToggleSectionIndices([]);
+            setToggleSubSectionIndices({});
+          }}
         >
           Collapse all sections
         </button>
@@ -74,13 +83,20 @@ const AccordionContent = ({ content }) => {
                 <div className="flex flex-col gap-2" key={subIndex}>
                   <div>
                     <div
-                      className="flex justify-between items-center text-richblack-50"
+                      className="flex justify-between items-center text-richblack-50 cursor-pointer"
                       onClick={() => toggleSubSection(index, subIndex)}
                     >
                       <div className="flex gap-2 items-center">
                         <MdOndemandVideo />
                         <div>{subItem?.title}</div>
-                        <MdKeyboardArrowDown className="cursor-pointer" />
+                        {Object.keys(toggleSubSectionIndices).includes(
+                          String(index)
+                        ) &&
+                        toggleSubSectionIndices[index].includes(subIndex) ? (
+                          <MdKeyboardArrowUp />
+                        ) : (
+                          <MdKeyboardArrowDown />
+                        )}
                       </div>
                       <div>
                         {convertTime(subItem?.SubSectionVideo?.duration)}
