@@ -31,11 +31,12 @@ const RequirementsInputField = ({
   return (
     <div className="relative w-full text-richblack-5">
       <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
-        Instructions/Requirements<sup className="text-pink-200">*</sup>
+        What Will Students Learn<sup className="text-pink-200">*</sup>
       </p>
+      <p className="text-sm text-richblack-100 mb-2">(Add some points about what students will learn from this course)</p>
       <input
         type="text"
-        placeholder="Please press 'Add' after entering each instruction!"
+        placeholder="Please click on 'Add' after entering each point!"
         value={instructionInput}
         onChange={(e) => {
           setInstructionInput(e.target.value);
