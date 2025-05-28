@@ -134,8 +134,15 @@ const SpecificCourse = () => {
                 <h3 className="text-2xl font-medium text-richblack-25 mb-3">
                   Course Content
                 </h3>
-                <AccordionContent content={courseinfo?.courseContent}/>
-                
+                <AccordionContent content={courseinfo?.courseContent} />
+              </div>
+              <div className="flex flex-col gap-3 mt-3">
+                <h3 className="text-xl font-medium text-richblack-25">Author</h3>
+                <div className="flex gap-3 items-center">
+                  <img src={courseinfo?.instructor?.image} alt={courseinfo?.instructor?.firstName} className="h-12 w-12 rounded-full" />
+                  <div className="text-richblack-100">{courseinfo?.instructor?.firstName}&nbsp;{courseinfo?.instructor?.lastName}</div>
+                </div>
+                <p className="text-richblack-200">{courseinfo?.instructorPromise}</p>
               </div>
             </div>
             <div className="w-full max-w-[384px] bg-richblack-700 px-6 py-3 flex flex-col gap-3 rounded-b-lg">
