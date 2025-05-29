@@ -11,7 +11,7 @@ import SubmitButton from "../components/Form/SubmitButton";
 import Footer from "../components/common/Footer";
 import AccordionContent from "../components/core/specificCourse/AccordionContent";
 
-const { GET_SPECIFIC_COURSE_API } = endpoints;
+const { GET_SPECIFIC_COURSE_API, ADD_TO_CART_API } = endpoints;
 
 const SpecificCourse = () => {
   const params = useParams();
@@ -44,6 +44,34 @@ const SpecificCourse = () => {
       toast.error(error?.message || error?.response?.data?.message);
     } finally {
       dispatch(setLoading(false));
+    }
+  };
+
+  const addToCart = async () => {
+    if (user) {
+      try {
+        dispatch(setLoading(true));
+        const response = await apiConnector("POST", ADD_TO_CART_API, {
+          courseId: params.courseId,
+        });
+        if (response?.data?.success) {
+          toast.success(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message || error?.message);
+      } finally {
+        dispatch(setLoading(false));
+      }
+    } else {
+      toast.error("Please login to add this course to cart!");
+    }
+  };
+
+  const enrollFreeToCourse = () => {
+    if (user) {
+      console.log("if", user);
+    } else {
+      toast.error("Please login to enroll to this course!");
     }
   };
 
@@ -102,6 +130,13 @@ const SpecificCourse = () => {
               <div className="text-richblack-100">
                 Course created on: {formatDateTime(courseinfo?.createdAt)}
               </div>
+              <div className="flex gap-2 flex-wrap">
+                {courseinfo?.tags?.map((item, index) => (
+                  <span className="italic text-blue-100" key={index}>
+                    #{item?.split(" ")?.join("")}
+                  </span>
+                ))}
+              </div>
             </div>
             <div className="w-full max-w-[384px] bg-richblack-700 lg:mt-6 rounded-t-lg">
               <img
@@ -136,13 +171,24 @@ const SpecificCourse = () => {
                 </h3>
                 <AccordionContent content={courseinfo?.courseContent} />
               </div>
-              <div className="flex flex-col gap-3 mt-3">
-                <h3 className="text-xl font-medium text-richblack-25">Author</h3>
+              <div className="flex flex-col gap-1 mt-3">
+                <h3 className="text-xl font-medium text-richblack-25">
+                  Author
+                </h3>
                 <div className="flex gap-3 items-center">
-                  <img src={courseinfo?.instructor?.image} alt={courseinfo?.instructor?.firstName} className="h-12 w-12 rounded-full" />
-                  <div className="text-richblack-100">{courseinfo?.instructor?.firstName}&nbsp;{courseinfo?.instructor?.lastName}</div>
+                  <img
+                    src={courseinfo?.instructor?.image}
+                    alt={courseinfo?.instructor?.firstName}
+                    className="h-12 w-12 rounded-full"
+                  />
+                  <div className="text-richblack-50">
+                    {courseinfo?.instructor?.firstName}&nbsp;
+                    {courseinfo?.instructor?.lastName}
+                  </div>
                 </div>
-                <p className="text-richblack-200">{courseinfo?.instructorPromise}</p>
+                <p className="text-richblack-100 text-sm">
+                  {courseinfo?.instructorPromise}
+                </p>
               </div>
             </div>
             <div className="w-full max-w-[384px] bg-richblack-700 px-6 py-3 flex flex-col gap-3 rounded-b-lg">
@@ -151,12 +197,14 @@ const SpecificCourse = () => {
                   <SubmitButton
                     buttonContent="Add to Cart"
                     buttonType="button"
+                    onClick={addToCart}
                   />
                   <SubmitButton
                     buttonContent="Enroll For Free"
                     buttonType="button"
                     background="bg-richblack-800 border-b border-r border-richblack-400"
                     text="text-richblack-100 font-medium"
+                    onClick={enrollFreeToCourse}
                   />
                   <p className="text-richblack-100 italic text-center text-sm">
                     30-Day Money-Back Guarantee
