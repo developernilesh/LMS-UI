@@ -39,7 +39,7 @@ const AccordionContent = ({ content }) => {
   return (
     <div className="w-full">
       <div className="flex justify-between w-full mb-3">
-        <div className="flex gap-3 text-richblack-200">
+        <div className="flex gap-1 text-richblack-200">
           <div>{content?.length}&nbsp;Sections</div>
           <div>&nbsp;&#8226;&nbsp;</div>
           <div>
