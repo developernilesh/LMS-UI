@@ -16,6 +16,7 @@ import ProfileDropdown from "../core/Auth/ProfileDropdown";
 import { setLoading } from "../../redux/slices/loaderSlice";
 import { setUser } from "../../redux/slices/profileSLice";
 import { setCategories } from "../../redux/slices/courseSlice";
+import { setCartItems } from "../../redux/slices/cartSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,8 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
 
-  const { VIEW_ALL_CATEGORIES_API, USER_DETAILS_API } = endpoints;
+  const { VIEW_ALL_CATEGORIES_API, USER_DETAILS_API, GET_CART_ITEMS_API } =
+    endpoints;
 
   // matching the route with the current path
   const location = useLocation();
@@ -57,9 +59,24 @@ const Navbar = () => {
       const response = await apiConnector("GET", USER_DETAILS_API);
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
+        fetchCartItems();
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const fetchCartItems = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("GET", GET_CART_ITEMS_API);
+      if (response?.data?.success) {
+        dispatch(setCartItems(response.data.data));
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
     } finally {
       dispatch(setLoading(false));
     }
