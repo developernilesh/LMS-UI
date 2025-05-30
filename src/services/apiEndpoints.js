@@ -30,6 +30,12 @@ export const endpoints = {
   ADD_SUB_SECTION_API: `${BASE_URL}/course/add-sub-section`,
   EDIT_SUB_SECTION_API: `${BASE_URL}/course/update-sub-section`,
   DELETE_SUB_SECTION_API: `${BASE_URL}/course/delete-sub-section`,
+  
+  // #region cart endpoints
+  ADD_TO_CART_API: `${BASE_URL}/course/add-to-cart`,
+  REMOVE_FROM_CART_API: `${BASE_URL}/course/remove-from-cart`,
+  GET_CART_ITEMS_API: `${BASE_URL}/course/get-cart-items`,
+
 };
 
 export default endpoints;
