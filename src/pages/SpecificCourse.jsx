@@ -10,8 +10,10 @@ import StarRatings from "react-star-ratings";
 import SubmitButton from "../components/Form/SubmitButton";
 import Footer from "../components/common/Footer";
 import AccordionContent from "../components/core/specificCourse/AccordionContent";
+import { setCartItems } from "../redux/slices/cartSlice";
 
-const { GET_SPECIFIC_COURSE_API, ADD_TO_CART_API } = endpoints;
+const { GET_SPECIFIC_COURSE_API, ADD_TO_CART_API, GET_CART_ITEMS_API } =
+  endpoints;
 
 const SpecificCourse = () => {
   const params = useParams();
@@ -55,6 +57,7 @@ const SpecificCourse = () => {
           courseId: params.courseId,
         });
         if (response?.data?.success) {
+          fetchCartItems();
           toast.success(response.data.message);
         }
       } catch (error) {
@@ -64,6 +67,20 @@ const SpecificCourse = () => {
       }
     } else {
       toast.error("Please login to add this course to cart!");
+    }
+  };
+
+  const fetchCartItems = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("GET", GET_CART_ITEMS_API);
+      if (response?.data?.success) {
+        dispatch(setCartItems(response.data.data));
+      }
+    } catch (error) {
+      toast.error(error?.message || error?.response?.data?.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
