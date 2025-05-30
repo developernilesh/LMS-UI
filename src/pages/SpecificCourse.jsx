@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { setLoading } from "../redux/slices/loaderSlice";
 import toast from "react-hot-toast";
 import apiConnector from "../services/apiConnector";
@@ -17,12 +17,15 @@ const { GET_SPECIFIC_COURSE_API, ADD_TO_CART_API, GET_CART_ITEMS_API } =
 
 const SpecificCourse = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.loader);
   const { user } = useSelector((state) => state.profile);
 
   const [courseinfo, setCourseInfo] = useState(null);
   const [avgRating, setAvgRating] = useState(0);
+  const [isCartItem, setIsCartItem] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   const fetchCategoryPageDetails = async () => {
     dispatch(setLoading(true));
@@ -95,6 +98,11 @@ const SpecificCourse = () => {
   useEffect(() => {
     fetchCategoryPageDetails();
   }, []);
+
+  useEffect(() => {
+    user?.cartItems?.includes(params.courseId) && setIsCartItem(true);
+    user?.courses?.includes(params.courseId) && setIsEnrolled(true);
+  }, [user]);
 
   if (loading) return <Loader />;
 
@@ -211,18 +219,38 @@ const SpecificCourse = () => {
             <div className="w-full max-w-[384px] bg-richblack-700 px-6 py-3 flex flex-col gap-3 rounded-b-lg">
               {(!user || user.accountType === "Student") && (
                 <div className="flex flex-col gap-3">
-                  <SubmitButton
-                    buttonContent="Add to Cart"
-                    buttonType="button"
-                    onClick={addToCart}
-                  />
-                  <SubmitButton
-                    buttonContent="Enroll For Free"
-                    buttonType="button"
-                    background="bg-richblack-800 border-b border-r border-richblack-400"
-                    text="text-richblack-100 font-medium"
-                    onClick={enrollFreeToCourse}
-                  />
+                  {isEnrolled ? (
+                    <SubmitButton
+                      buttonContent="View Course Content"
+                      buttonType="button"
+                      background="bg-richblack-800 border-b border-r border-richblack-400"
+                      text="text-richblack-100 font-medium"
+                      // onClick={enrollFreeToCourse}
+                    />
+                  ) : (
+                    <>
+                      {isCartItem ? (
+                        <SubmitButton
+                          buttonContent="Go to Cart"
+                          buttonType="button"
+                          onClick={() => navigate("/dashboard/my-wishlist")}
+                        />
+                      ) : (
+                        <SubmitButton
+                          buttonContent="Add to Cart"
+                          buttonType="button"
+                          onClick={addToCart}
+                        />
+                      )}
+                      <SubmitButton
+                        buttonContent="Enroll For Free"
+                        buttonType="button"
+                        background="bg-richblack-800 border-b border-r border-richblack-400"
+                        text="text-richblack-100 font-medium"
+                        onClick={enrollFreeToCourse}
+                      />
+                    </>
+                  )}
                   <p className="text-richblack-100 italic text-center text-sm">
                     30-Day Money-Back Guarantee
                   </p>
