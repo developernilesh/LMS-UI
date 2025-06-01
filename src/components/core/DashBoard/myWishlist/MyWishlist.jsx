@@ -10,7 +10,8 @@ import endpoints from "../../../../services/apiEndpoints";
 import Loader from "../../../Loader/Loader";
 import { setCartItems } from "../../../../redux/slices/cartSlice";
 
-const { REMOVE_FROM_CART_API, GET_CART_ITEMS_API } = endpoints;
+const { REMOVE_FROM_CART_API, GET_CART_ITEMS_API, CLEAR_CART_ITEMS_API } =
+  endpoints;
 
 const MyWishlist = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -26,6 +27,21 @@ const MyWishlist = () => {
       if (response?.data?.success) {
         fetchCartItems();
         toast.success(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error?.message);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const clearCart = async () => {
+    try {
+      dispatch(setLoading(true));
+      const response = await apiConnector("POST", CLEAR_CART_ITEMS_API);
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        dispatch(setCartItems([]));
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || error?.message);
@@ -57,9 +73,19 @@ const MyWishlist = () => {
 
   return (
     <div className="w-11/12">
-      <p className="py-3 text-richblack-100">
-        {cartItems.length} Courses in Wishlist
-      </p>
+      <div className="flex justify-between items-center">
+        <div className="py-3 text-richblack-100">
+          {cartItems.length} Courses in Wishlist
+        </div>
+        <SubmitButton
+          buttonContent="Clear Cart"
+          onClick={clearCart}
+          background="bg-richblack-900 border border-yellow-50"
+          text="text-yellow-50"
+          buttonType="button"
+          width="w-fit"
+        />
+      </div>
       <div className="flex flex-col-reverse lg:flex-row w-full">
         <div className="w-full max-w-[780px] ">
           {cartItems?.map((item, index) => {
@@ -124,13 +150,17 @@ const MyWishlist = () => {
                       buttonType="button"
                       width="w-fit"
                     />
-
                     <div className="flex flex-row lg:flex-col items-center lg:items-start gap-1 mb-4">
-                      <div className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
-                        Rs. {formatWithCommas(0)}
+                      <div className="flex items-center gap-1">
+                        <span className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
+                          Rs.{formatWithCommas(0)}
+                        </span>
+                        <span className="text-sm text-richblack-200 italic">
+                          (Free)
+                        </span>
                       </div>
                       <div className="text-sm text-richblack-200 line-through">
-                        Rs. {formatWithCommas(item?.price)}
+                        Rs.{formatWithCommas(item?.price)}
                       </div>
                     </div>
                   </div>
@@ -144,13 +174,13 @@ const MyWishlist = () => {
             <div className="flex flex-row lg:flex-col items-center lg:items-start gap-1 mb-4">
               <div className="text-richblack-100 text-sm">Total:&nbsp;</div>
               <div className="text-2xl font-semibold text-yellow-100 flex items-center">
-                <span>Rs. {formatWithCommas(0)}&nbsp;</span>
+                <span>Rs.{formatWithCommas(0)}&nbsp;</span>
                 <span className="text-sm italic font-normal text-richblack-50">
                   (All Courses Are Free)
                 </span>
               </div>
               <div className="text-sm text-richblack-200 line-through">
-                Rs.{" "}
+                Rs.
                 {formatWithCommas(
                   cartItems?.reduce((acc, curr) => acc + curr.price, 0)
                 )}
