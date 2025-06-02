@@ -11,9 +11,15 @@ import SubmitButton from "../components/Form/SubmitButton";
 import Footer from "../components/common/Footer";
 import AccordionContent from "../components/core/specificCourse/AccordionContent";
 import { setCartItems } from "../redux/slices/cartSlice";
+import { setUser } from "../redux/slices/profileSLice";
 
-const { GET_SPECIFIC_COURSE_API, ADD_TO_CART_API, GET_CART_ITEMS_API } =
-  endpoints;
+const {
+  GET_SPECIFIC_COURSE_API,
+  ADD_TO_CART_API,
+  GET_CART_ITEMS_API,
+  USER_DETAILS_API,
+  ENROLL_TO_COURSE_API,
+} = endpoints;
 
 const SpecificCourse = () => {
   const params = useParams();
@@ -60,7 +66,7 @@ const SpecificCourse = () => {
           courseId: params.courseId,
         });
         if (response?.data?.success) {
-          fetchCartItems();
+          fetchUserDetails();
           toast.success(response.data.message);
         }
       } catch (error) {
@@ -87,9 +93,37 @@ const SpecificCourse = () => {
     }
   };
 
-  const enrollFreeToCourse = () => {
+  const fetchUserDetails = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("GET", USER_DETAILS_API);
+      if (response?.data?.success) {
+        dispatch(setUser(response.data.data));
+        fetchCartItems();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  const enrollFreeToCourse = async () => {
     if (user) {
-      console.log("if", user);
+      try {
+        dispatch(setLoading(true));
+        const response = await apiConnector("POST", ENROLL_TO_COURSE_API, {
+          courseId: params.courseId,
+        });
+        if (response?.data?.success) {
+          fetchUserDetails();
+          toast.success(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message || error?.message);
+      } finally {
+        dispatch(setLoading(false));
+      }
     } else {
       toast.error("Please login to enroll to this course!");
     }
