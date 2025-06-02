@@ -36,6 +36,7 @@ export const endpoints = {
   REMOVE_FROM_CART_API: `${BASE_URL}/course/remove-from-cart`,
   GET_CART_ITEMS_API: `${BASE_URL}/course/get-cart-items`,
   CLEAR_CART_ITEMS_API: `${BASE_URL}/course/clear-cart`,
+  ENROLL_TO_COURSE_API: `${BASE_URL}/course/enroll-to-course`,
 
 };
 
