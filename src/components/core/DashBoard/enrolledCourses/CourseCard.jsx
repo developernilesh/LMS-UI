@@ -3,16 +3,15 @@ import SubmitButton from "../../../Form/SubmitButton";
 import { BsFileEarmarkCheckFill } from "react-icons/bs";
 import ProgressBar from "./ProgressBar";
 
-const CourseCard = ({ course, key }) => {
+const CourseCard = ({ course }) => {
   return (
     <div
-      key={key}
       className="w-full max-w-sm border rounded-lg shadow-sm bg-richblack-800 border-richblack-700 hover:scale-[1.01] 
         transtion-all duration-200 ease-in-out cursor-pointer"
     >
       <img
         className="rounded-t-lg h-56 w-full"
-        src={course.thumbNail}
+        src={course.thumbNail?.secure_url}
         alt={course.courseName}
       />
       <div className="p-5 flex flex-col gap-3">
