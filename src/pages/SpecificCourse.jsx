@@ -12,6 +12,7 @@ import Footer from "../components/common/Footer";
 import AccordionContent from "../components/core/specificCourse/AccordionContent";
 import { setCartItems } from "../redux/slices/cartSlice";
 import { setUser } from "../redux/slices/profileSLice";
+import ConfirmationModal from "../components/common/ConfirmationModal";
 
 const {
   GET_SPECIFIC_COURSE_API,
@@ -32,6 +33,7 @@ const SpecificCourse = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [isCartItem, setIsCartItem] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(null);
 
   const fetchCategoryPageDetails = async () => {
     dispatch(setLoading(true));
@@ -116,8 +118,8 @@ const SpecificCourse = () => {
           courseId: params.courseId,
         });
         if (response?.data?.success) {
-          fetchUserDetails();
           toast.success(response.data.message);
+          navigate("/dashboard/enrolled-courses");
         }
       } catch (error) {
         toast.error(error?.response?.data?.message || error?.message);
@@ -259,7 +261,7 @@ const SpecificCourse = () => {
                       buttonType="button"
                       background="bg-richblack-800 border-b border-r border-richblack-400"
                       text="text-richblack-100 font-medium"
-                      // onClick={enrollFreeToCourse}
+                      onClick={() => navigate("")}
                     />
                   ) : (
                     <>
@@ -281,7 +283,17 @@ const SpecificCourse = () => {
                         buttonType="button"
                         background="bg-richblack-800 border-b border-r border-richblack-400"
                         text="text-richblack-100 font-medium"
-                        onClick={enrollFreeToCourse}
+                        onClick={() =>
+                          setConfirmationModal({
+                            text1: "Click on Enroll",
+                            text2:
+                              "You will be enrolled to this course for free!",
+                            btn1text: "Enroll",
+                            btn2text: "Cancel",
+                            btn1handler: () => enrollFreeToCourse(),
+                            btn2handler: () => setConfirmationModal(null),
+                          })
+                        }
                       />
                     </>
                   )}
@@ -309,6 +321,7 @@ const SpecificCourse = () => {
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   );
 };
