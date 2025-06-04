@@ -21,9 +21,7 @@ const EnrolledCourse = () => {
       const response = await apiConnector("GET", VIEW_ENROLLED_COURSES_API);
       if (response?.data?.success) {
         setEnrolledCourses(response?.data?.data);
-        toast.success(response?.data?.message);
       }
-      console.log("res", response);
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something Went Wrong!");
     } finally {
