@@ -154,7 +154,10 @@ const MyWishlist = () => {
                       width="w-fit"
                     />
                     <div className="flex flex-row lg:flex-col items-center lg:items-start gap-1 mb-4">
-                      <div className="flex items-center gap-1">
+                      <div className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
+                        Rs.{formatWithCommas(item?.price)}
+                      </div>
+                      {/* <div className="flex items-center gap-1">
                         <span className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
                           Rs.{formatWithCommas(0)}
                         </span>
@@ -164,7 +167,7 @@ const MyWishlist = () => {
                       </div>
                       <div className="text-sm text-richblack-200 line-through">
                         Rs.{formatWithCommas(item?.price)}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -172,12 +175,12 @@ const MyWishlist = () => {
             );
           })}
         </div>
-        {cartItems?.length > 0 && (
+        {cartItems?.length > 0 && 
           <div className="border-t border-richblack-700">
             <div className="w-full sm:w-[282px] ml-0 my-6 lg:ml-6 bg-richblack-800 rounded-lg p-6">
               <div className="flex flex-row lg:flex-col items-center lg:items-start gap-1 mb-4">
                 <div className="text-richblack-100 text-sm">Total:&nbsp;</div>
-                <div className="text-2xl font-semibold text-yellow-100 flex items-center">
+                {/* <div className="text-2xl font-semibold text-yellow-100 flex items-center">
                   <span>Rs.{formatWithCommas(0)}&nbsp;</span>
                   <span className="text-sm italic font-normal text-richblack-50">
                     (All Courses Are Free)
@@ -188,16 +191,22 @@ const MyWishlist = () => {
                   {formatWithCommas(
                     cartItems?.reduce((acc, curr) => acc + curr.price, 0)
                   )}
+                </div> */}
+                <div className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
+                  Rs.
+                  {formatWithCommas(
+                    cartItems?.reduce((acc, curr) => acc + curr.price, 0)
+                  )}
                 </div>
               </div>
               <SubmitButton
-                buttonContent="Enroll For Free"
+                buttonContent="Buy Now"
                 // onClick={() => navigate("/dashboard/settings")}
                 buttonType="button"
               />
             </div>
           </div>
-        )}
+        }
       </div>
     </div>
   );
