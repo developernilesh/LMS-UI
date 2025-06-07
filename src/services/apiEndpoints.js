@@ -37,7 +37,11 @@ export const endpoints = {
   GET_CART_ITEMS_API: `${BASE_URL}/course/get-cart-items`,
   CLEAR_CART_ITEMS_API: `${BASE_URL}/course/clear-cart`,
   ENROLL_TO_COURSE_API: `${BASE_URL}/course/enroll-to-course`,
-
+  
+  // #region payment endpoints
+  CAPTURE_PAYMENT_API: `${BASE_URL}/payment/capture-payment`,
+  VERIFY_PAYMENT_API: `${BASE_URL}/payment/verify-payment`,
+  SEND_PAYMENT_SUCCESSFUL_EMAIL_API: `${BASE_URL}/payment/payment-successful-email`,
 };
 
 export default endpoints;
