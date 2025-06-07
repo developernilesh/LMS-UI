@@ -12,14 +12,13 @@ import Footer from "../components/common/Footer";
 import AccordionContent from "../components/core/specificCourse/AccordionContent";
 import { setCartItems } from "../redux/slices/cartSlice";
 import { setUser } from "../redux/slices/profileSLice";
-import ConfirmationModal from "../components/common/ConfirmationModal";
+import { payWithRazorpay } from "../services/operations/studentPaymentProcess";
 
 const {
   GET_SPECIFIC_COURSE_API,
   ADD_TO_CART_API,
   GET_CART_ITEMS_API,
   USER_DETAILS_API,
-  ENROLL_TO_COURSE_API,
 } = endpoints;
 
 const SpecificCourse = () => {
@@ -33,7 +32,6 @@ const SpecificCourse = () => {
   const [avgRating, setAvgRating] = useState(0);
   const [isCartItem, setIsCartItem] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
-  const [confirmationModal, setConfirmationModal] = useState(null);
 
   const fetchCategoryPageDetails = async () => {
     dispatch(setLoading(true));
@@ -110,25 +108,8 @@ const SpecificCourse = () => {
     }
   };
 
-  const enrollFreeToCourse = async () => {
-    if (user) {
-      try {
-        dispatch(setLoading(true));
-        const response = await apiConnector("POST", ENROLL_TO_COURSE_API, {
-          courseId: params.courseId,
-        });
-        if (response?.data?.success) {
-          toast.success(response.data.message);
-          navigate("/dashboard/enrolled-courses");
-        }
-      } catch (error) {
-        toast.error(error?.response?.data?.message || error?.message);
-      } finally {
-        dispatch(setLoading(false));
-      }
-    } else {
-      toast.error("Please login to enroll to this course!");
-    }
+  const enrollToCourse = () => {
+    payWithRazorpay([JSON.parse(JSON.stringify(courseinfo))], user, navigate);
   };
 
   useEffect(() => {
@@ -279,21 +260,11 @@ const SpecificCourse = () => {
                         />
                       )}
                       <SubmitButton
-                        buttonContent="Enroll to this course"
+                        buttonContent="Enroll To This Course"
                         buttonType="button"
                         background="bg-richblack-800 border-b border-r border-richblack-400"
                         text="text-richblack-100 font-medium"
-                        onClick={() =>
-                          setConfirmationModal({
-                            text1: "Click on Enroll",
-                            text2:
-                              "You will be enrolled to this course for free!",
-                            btn1text: "Enroll",
-                            btn2text: "Cancel",
-                            btn1handler: () => enrollFreeToCourse(),
-                            btn2handler: () => setConfirmationModal(null),
-                          })
-                        }
+                        onClick={enrollToCourse}
                       />
                     </>
                   )}
@@ -321,7 +292,6 @@ const SpecificCourse = () => {
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
-      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   );
 };
