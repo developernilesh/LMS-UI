@@ -9,14 +9,19 @@ import endpoints from "../../../../services/apiEndpoints";
 import Loader from "../../../Loader/Loader";
 import { setCartItems } from "../../../../redux/slices/cartSlice";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { payWithRazorpay } from "../../../../services/operations/studentPaymentProcess";
 
 const { REMOVE_FROM_CART_API, GET_CART_ITEMS_API, CLEAR_CART_ITEMS_API } =
   endpoints;
 
 const MyWishlist = () => {
   const { cartItems } = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.loader);
+  const { user } = useSelector((state) => state.profile);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const removeFromCart = async (courseId) => {
     try {
@@ -65,6 +70,8 @@ const MyWishlist = () => {
     }
   };
 
+  const buyAllCourses = () => payWithRazorpay(cartItems, user, navigate);
+
   if (loading)
     return (
       <div className="fixed bottom-0 z-50">
@@ -107,8 +114,8 @@ const MyWishlist = () => {
               >
                 <img
                   src={item?.thumbNail?.secure_url}
-                  alt=""
-                  className="w-[150px] sm:w-[185px] h-[85px] sm:h-[104px] rounded-md"
+                  alt={item._id}
+                  className="min-w-[150px] sm:min-w-[185px] h-[85px] sm:h-[104px] rounded-md"
                 />
                 <div className="w-full flex flex-col sm:flex-row gap-3">
                   <div className="w-full flex flex-col gap-1">
@@ -157,17 +164,6 @@ const MyWishlist = () => {
                       <div className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
                         Rs.{formatWithCommas(item?.price)}
                       </div>
-                      {/* <div className="flex items-center gap-1">
-                        <span className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
-                          Rs.{formatWithCommas(0)}
-                        </span>
-                        <span className="text-sm text-richblack-200 italic">
-                          (Free)
-                        </span>
-                      </div>
-                      <div className="text-sm text-richblack-200 line-through">
-                        Rs.{formatWithCommas(item?.price)}
-                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -175,23 +171,11 @@ const MyWishlist = () => {
             );
           })}
         </div>
-        {cartItems?.length > 0 && 
+        {cartItems?.length > 0 && (
           <div className="border-t border-richblack-700">
             <div className="w-full sm:w-[282px] ml-0 my-6 lg:ml-6 bg-richblack-800 rounded-lg p-6">
               <div className="flex flex-row lg:flex-col items-center lg:items-start gap-1 mb-4">
                 <div className="text-richblack-100 text-sm">Total:&nbsp;</div>
-                {/* <div className="text-2xl font-semibold text-yellow-100 flex items-center">
-                  <span>Rs.{formatWithCommas(0)}&nbsp;</span>
-                  <span className="text-sm italic font-normal text-richblack-50">
-                    (All Courses Are Free)
-                  </span>
-                </div>
-                <div className="text-sm text-richblack-200 line-through">
-                  Rs.
-                  {formatWithCommas(
-                    cartItems?.reduce((acc, curr) => acc + curr.price, 0)
-                  )}
-                </div> */}
                 <div className="text-2xl font-semibold text-yellow-100 whitespace-nowrap">
                   Rs.
                   {formatWithCommas(
@@ -201,12 +185,12 @@ const MyWishlist = () => {
               </div>
               <SubmitButton
                 buttonContent="Buy Now"
-                // onClick={() => navigate("/dashboard/settings")}
+                onClick={buyAllCourses}
                 buttonType="button"
               />
             </div>
           </div>
-        }
+        )}
       </div>
     </div>
   );
