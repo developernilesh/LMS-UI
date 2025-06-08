@@ -70,7 +70,13 @@ const MyWishlist = () => {
     }
   };
 
-  const buyAllCourses = () => payWithRazorpay(cartItems, user, navigate);
+  const buyAllCourses = () => {
+    if (!user._id) {
+      toast.error("Please login to enroll");
+      return;
+    }
+    payWithRazorpay(cartItems, user, navigate, dispatch, fetchCartItems);
+  };
 
   if (loading)
     return (
