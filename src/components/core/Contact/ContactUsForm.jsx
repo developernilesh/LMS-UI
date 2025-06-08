@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import InputField from "../Form/InputField";
-import SubmitButton from "../Form/SubmitButton";
-import countrycode from "../../data/countrycode.json";
+import InputField from "../../Form/InputField";
+import SubmitButton from "../../Form/SubmitButton";
+import countrycode from "../../../data/countrycode.json";
 
 const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
   const {
