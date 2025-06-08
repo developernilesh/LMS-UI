@@ -21,6 +21,7 @@ import ShowInstructorCourses from "./components/core/DashBoard/instructorCourse/
 import EditInstructorCourse from "./components/core/DashBoard/instructorCourse/EditInstructorCourse.jsx";
 import Catalog from "./pages/Catalog.jsx";
 import SpecificCourse from "./pages/SpecificCourse.jsx";
+import CourseContent from "./pages/CourseContent.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,14 @@ const router = createBrowserRouter([
       {
         path: "course/:courseId",
         element: <SpecificCourse />,
+      },
+      {
+        path: "view-course-content/:courseId",
+        element: (
+          <ProtectedRoute>
+            <CourseContent />
+          </ProtectedRoute>
+        ),
       },
       {
         element: <Dashboard />,
