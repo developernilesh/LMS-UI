@@ -33,7 +33,7 @@ const SpecificCourse = () => {
   const [isCartItem, setIsCartItem] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
 
-  const fetchCategoryPageDetails = async () => {
+  const fetchSpecificCourseDetails = async () => {
     dispatch(setLoading(true));
     try {
       const response = await apiConnector(
@@ -109,11 +109,21 @@ const SpecificCourse = () => {
   };
 
   const enrollToCourse = () => {
-    payWithRazorpay([JSON.parse(JSON.stringify(courseinfo))], user, navigate);
+    if (!user._id) {
+      toast.error("Please login to enroll");
+      return;
+    }
+    payWithRazorpay(
+      [JSON.parse(JSON.stringify(courseinfo))],
+      user,
+      navigate,
+      dispatch,
+      fetchCartItems
+    );
   };
 
   useEffect(() => {
-    fetchCategoryPageDetails();
+    fetchSpecificCourseDetails();
   }, []);
 
   useEffect(() => {
