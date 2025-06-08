@@ -1,5 +1,5 @@
 import React from "react";
-import ContactUsForm from "../components/Contact/ContactUsForm";
+import ContactUsForm from "../components/core/Contact/ContactUsForm";
 import contactData from "../data/contactData";
 import Footer from "../components/common/Footer";
 import { useSelector } from "react-redux";

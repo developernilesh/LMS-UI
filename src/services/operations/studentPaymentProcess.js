@@ -2,6 +2,7 @@ import toast from "react-hot-toast";
 import image from "../../assets/Logo/MainLogo.png";
 import endpoints from "../apiEndpoints";
 import apiConnector from "../apiConnector";
+import { setLoading } from "../../redux/slices/loaderSlice";
 
 const {
   CAPTURE_PAYMENT_API,
@@ -9,7 +10,13 @@ const {
   VERIFY_PAYMENT_API,
 } = endpoints;
 
-export const payWithRazorpay = async (courses, user, navigate) => {
+export const payWithRazorpay = async (
+  courses,
+  user,
+  navigate,
+  dispatch,
+  fetchCartItems
+) => {
   const courseIds = [];
   courses.forEach((item) => courseIds.push(item._id));
   if (courseIds.length === 0) {
@@ -17,7 +24,7 @@ export const payWithRazorpay = async (courses, user, navigate) => {
     return;
   }
 
-  const toastId = toast.loading("Loading...");
+  const toastId = toast.loading("Processing Payment...");
   try {
     // loading the script
     const res = await loadScript(
@@ -30,7 +37,6 @@ export const payWithRazorpay = async (courses, user, navigate) => {
     const orderResponse = await apiConnector("POST", CAPTURE_PAYMENT_API, {
       courseIds,
     });
-    console.log("order-response", user?.email);
     if (orderResponse?.data?.success) {
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
@@ -47,7 +53,7 @@ export const payWithRazorpay = async (courses, user, navigate) => {
         },
         handler: function (response) {
           sendPaymentSuccessEmail(response, orderResponse);
-          verifyPayment(response, courseIds, navigate);
+          verifyPayment(response, courseIds, navigate, dispatch, fetchCartItems);
         },
         theme: {
           color: "#3399cc",
@@ -66,7 +72,8 @@ export const payWithRazorpay = async (courses, user, navigate) => {
   }
 };
 
-const verifyPayment = async (response, courseIds, navigate) => {
+const verifyPayment = async (response, courseIds, navigate, dispatch, fetchCartItems) => {
+  dispatch(setLoading(true));
   try {
     const paymentResponse = await apiConnector("POST", VERIFY_PAYMENT_API, {
       razorpayOrderid: response.razorpay_order_id,
@@ -77,9 +84,12 @@ const verifyPayment = async (response, courseIds, navigate) => {
     if (paymentResponse?.data?.success) {
       toast.success(paymentResponse?.data?.message);
       navigate("/dashboard/enrolled-courses");
+      fetchCartItems();
     }
   } catch (error) {
     throw new Error(`${error}`);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 

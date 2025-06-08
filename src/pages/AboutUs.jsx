@@ -9,7 +9,7 @@ import { infoParas, stats, LearningGridArray } from "../data/aboutUs";
 import GradientText from "../components/core/About/GradientText";
 import SectionContainer from "../components/core/About/SectionContainer";
 import CtaButton from "../components/core/HomePage/CtaButton";
-import ContactUsForm from "../components/Contact/ContactUsForm";
+import ContactUsForm from "../components/core/Contact/ContactUsForm";
 import Footer from "../components/common/Footer";
 import { useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
