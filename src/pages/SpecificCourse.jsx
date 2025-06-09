@@ -252,7 +252,7 @@ const SpecificCourse = () => {
                       buttonType="button"
                       background="bg-richblack-800 border-b border-r border-richblack-400"
                       text="text-richblack-100 font-medium"
-                      onClick={() => navigate("")}
+                      onClick={() => navigate(`/view-course-content/${params.courseId}`)}
                     />
                   ) : (
                     <>
