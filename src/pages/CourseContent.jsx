@@ -28,7 +28,6 @@ const CourseContent = () => {
       );
       if (response?.data?.success) {
         setCourseDetails(response.data.data);
-        setLecture(response.data.data?.courseContent[0]?.subSection[0]);
       }
     } catch (error) {
       toast.error(error?.message || error?.response?.data?.message);
