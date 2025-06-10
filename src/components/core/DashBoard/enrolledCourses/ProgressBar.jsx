@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const ProgressBar = ({ progress }) => {
+const ProgressBar = ({totalLectures}) => {
+  const [progress, setProgress] = useState(0)
+  const {user} = useSelector(state => state.profile)
+
+  useEffect(() => {
+    if(user._id){
+      const completedLectures = user.courseProgress.length
+      const totalProgress = (completedLectures/totalLectures)*100
+      setProgress(String(totalProgress).split(".").length === 2 ? totalProgress.toFixed(2) : totalProgress)
+    }
+  },[user])
   return (
     <>
       {!progress ? (
