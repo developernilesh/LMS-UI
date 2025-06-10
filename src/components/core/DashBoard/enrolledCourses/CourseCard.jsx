@@ -25,7 +25,12 @@ const CourseCard = ({ course }) => {
               {course.courseDescription}
             </p>
           </div>
-          <ProgressBar progress={course.progress} />
+          <ProgressBar
+            totalLectures={course.courseContent?.reduce(
+              (acc, curr) => acc + curr.subSection.length,
+              0
+            )}
+          />
           <div className="flex justify-between items-center">
             <div className="text-[#d191ff]">
               <span className="">Valid till:</span> <span>Lifetime</span>
