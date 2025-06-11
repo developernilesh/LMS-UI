@@ -157,7 +157,10 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
         </div>
       </div>
       {openReviewModal && (
-        <AddReviewModal setopenReviewModal={setopenReviewModal} />
+        <AddReviewModal
+          setopenReviewModal={setopenReviewModal}
+          courseId={courseDetails?._id}
+        />
       )}
     </>
   );
