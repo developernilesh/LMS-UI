@@ -36,7 +36,7 @@ const NestedContent = ({
       }
       setConfirmationModalData(null);
     } catch (error) {
-      toast.error(error?.message || error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || error?.message);
     } finally {
       setLoading(false);
     }
@@ -53,7 +53,7 @@ const NestedContent = ({
       }
       setConfirmationModalData(null);
     } catch (error) {
-      toast.error(error?.message || error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || error?.message);
     } finally {
       setLoading(false);
     }

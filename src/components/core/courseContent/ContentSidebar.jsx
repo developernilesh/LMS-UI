@@ -47,7 +47,7 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
         fetchUserDetails();
       }
     } catch (error) {
-      toast.error(error?.message || error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || error?.message);
     } finally {
       dispatch(setLoading(false));
     }

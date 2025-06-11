@@ -66,7 +66,7 @@ export const payWithRazorpay = async (
       });
     }
   } catch (error) {
-    toast.error(error?.message || error?.response?.data?.message);
+    toast.error(error?.response?.data?.message || error?.message);
   } finally {
     toast.dismiss(toastId);
   }
