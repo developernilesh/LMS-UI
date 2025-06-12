@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import image from "../../assets/Logo/MainLogo.png";
+import image from "../../assets/Logo/Favicon.png";
 import endpoints from "../apiEndpoints";
 import apiConnector from "../apiConnector";
 import { setLoading } from "../../redux/slices/loaderSlice";
