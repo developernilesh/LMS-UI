@@ -14,6 +14,7 @@ const EnrolledCourse = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.loader);
+  const { user } = useSelector((state) => state.profile);
 
   const fetchEnrolledCourses = async () => {
     dispatch(setLoading(true));
@@ -33,26 +34,39 @@ const EnrolledCourse = () => {
     fetchEnrolledCourses();
   }, []);
 
+  if (!user?._id || loading) {
+    <div className="w-11/12">
+      <div className="flex flex-wrap justify-center gap-6">
+        {[1, 2].map((_, index) => (
+          <CourseCardSkeleton key={index} />
+        ))}
+      </div>
+    </div>;
+  }
+
   return (
     <div className="w-11/12">
-      <h3 className="text-3xl text-richblack-5 font-medium py-3">
-        Enrolled Courses
-      </h3>
-      {loading ? (
-        <div className="flex flex-wrap justify-center gap-6">
-          {[1, 2].map((_, index) => (
-            <CourseCardSkeleton key={index} />
-          ))}
-        </div>
-      ) : enrolledCourses.length > 0 ? (
-        <div className="flex flex-wrap justify-center gap-6">
-          {enrolledCourses.map((item, index) => (
-            <CourseCard course={item} key={index} />
-          ))}
-        </div>
+      {user?.accountType === "Student" ? (
+        <>
+          <h3 className="text-3xl text-richblack-5 font-medium py-3">
+            Enrolled Courses
+          </h3>
+          {enrolledCourses.length > 0 ? (
+            <div className="flex flex-wrap justify-center gap-6">
+              {enrolledCourses.map((item, index) => (
+                <CourseCard course={item} key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-2xl pt-10 text-center text-pink-200">
+              You are not enrolled to any course!
+            </div>
+          )}
+        </>
       ) : (
-        <div className="text-2xl pt-10 text-center text-pink-200">
-          You are not enrolled to any course!
+        <div className="text-2xl text-pink-500 text-center mt-16">
+          Only Students Are Allowed to Enroll to Any Course and See Their
+          Enrolled Courses!
         </div>
       )}
     </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import endpoints from "../../../../services/apiEndpoints";
 import apiConnector from "../../../../services/apiConnector";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CourseCard from "./CourseCard";
 import CourseCardSkeleton from "./CourseCardSkeleton";
 import toast from "react-hot-toast";
@@ -18,6 +18,7 @@ const ShowInstructorCourses = () => {
   const dispatch = useDispatch();
   const [allCourses, setAllCourses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => state.profile);
 
   const fetchAllCourses = async () => {
     setLoading(true);
@@ -40,16 +41,20 @@ const ShowInstructorCourses = () => {
     fetchAllCourses();
   }, []);
 
-  return (
+  if (!user?._id || loading) {
+    <div className="w-11/12 mx-auto">
+      <div className="w-full flex flex-wrap justify-center gap-6">
+        {[...Array(2)].map((_, index) => (
+          <CourseCardSkeleton key={index} />
+        ))}
+      </div>
+    </div>;
+  }
+
+  return user?.accountType === "Instructor" ? (
     <div className="w-11/12 mx-auto">
       <h2 className="text-3xl text-richblack-5 font-medium py-6">My Courses</h2>
-      {loading ? (
-        <div className="w-full flex flex-wrap justify-center gap-6">
-          {[...Array(2)].map((_, index) => (
-            <CourseCardSkeleton key={index} />
-          ))}
-        </div>
-      ) : allCourses.length > 0 ? (
+      {allCourses.length > 0 ? (
         <div className="w-full flex flex-wrap justify-center gap-6">
           {allCourses.map((course) => (
             <CourseCard
@@ -73,6 +78,10 @@ const ShowInstructorCourses = () => {
           </Link>
         </div>
       )}
+    </div>
+  ) : (
+    <div className="text-2xl text-pink-500 text-center mt-16">
+      Only Instructors Are Allowed to Add Any Course and See Their Added Courses!
     </div>
   );
 };

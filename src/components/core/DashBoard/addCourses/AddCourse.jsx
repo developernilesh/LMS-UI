@@ -7,11 +7,12 @@ import {
   setStep,
 } from "../../../../redux/slices/courseSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Error from "../../../../pages/Error";
 
 const AddCourse = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.loader);
-  const { course } = useSelector((state) => state.course);
+  const { user } = useSelector((state) => state.profile);
 
   useEffect(() => {
     dispatch(setCourse(null));
@@ -19,13 +20,19 @@ const AddCourse = () => {
     dispatch(setStep(1));
   }, []);
 
-  if (loading)
+  if (!user?._id || loading)
     return (
       <div className="fixed bottom-0 z-50">
         <Loader />
       </div>
     );
-  return <CourseForm />;
+  return user?.accountType === "Instructor" ? (
+    <CourseForm />
+  ) : (
+    <div className="text-2xl text-pink-500 text-center mt-16">
+      Only Instructors Are Allowed to Add Any Course!
+    </div>
+  );
 };
 
 export default AddCourse;

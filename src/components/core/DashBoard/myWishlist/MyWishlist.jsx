@@ -78,14 +78,14 @@ const MyWishlist = () => {
     payWithRazorpay(cartItems, user, navigate, dispatch, fetchCartItems);
   };
 
-  if (loading)
+  if (!user?._id || loading)
     return (
       <div className="fixed bottom-0 z-50">
         <Loader />
       </div>
     );
 
-  return (
+  return user?.accountType === "Student" ? (
     <div className="w-11/12">
       <div className="flex justify-between items-center">
         <div className="py-3 text-richblack-100">
@@ -198,6 +198,10 @@ const MyWishlist = () => {
           </div>
         )}
       </div>
+    </div>
+  ) : (
+    <div className="text-2xl text-pink-500 text-center mt-16">
+      Only Students Are Allowed to Add Any Course to Their Wishlist!
     </div>
   );
 };
