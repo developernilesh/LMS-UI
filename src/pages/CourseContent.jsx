@@ -51,7 +51,10 @@ const CourseContent = () => {
           <video
             src={lecture?.SubSectionVideo?.secure_url}
             controls={true}
-            // autoPlay={true}
+            controlsList="nodownload"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
+            onCopy={(e) => e.preventDefault()}
             className="w-full"
           />
           <div className="pt-3 pb-6 w-full border-t border-richblack-600">
