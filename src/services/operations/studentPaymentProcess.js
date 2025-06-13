@@ -15,7 +15,8 @@ export const payWithRazorpay = async (
   user,
   navigate,
   dispatch,
-  fetchCartItems
+  fetchCartItems,
+  fetchUserDetails
 ) => {
   const courseIds = [];
   courses.forEach((item) => courseIds.push(item._id));
@@ -53,7 +54,14 @@ export const payWithRazorpay = async (
         },
         handler: function (response) {
           sendPaymentSuccessEmail(response, orderResponse);
-          verifyPayment(response, courseIds, navigate, dispatch, fetchCartItems);
+          verifyPayment(
+            response,
+            courseIds,
+            navigate,
+            dispatch,
+            fetchCartItems,
+            fetchUserDetails
+          );
         },
         theme: {
           color: "#3399cc",
@@ -72,7 +80,14 @@ export const payWithRazorpay = async (
   }
 };
 
-const verifyPayment = async (response, courseIds, navigate, dispatch, fetchCartItems) => {
+const verifyPayment = async (
+  response,
+  courseIds,
+  navigate,
+  dispatch,
+  fetchCartItems,
+  fetchUserDetails
+) => {
   dispatch(setLoading(true));
   try {
     const paymentResponse = await apiConnector("POST", VERIFY_PAYMENT_API, {
@@ -85,6 +100,7 @@ const verifyPayment = async (response, courseIds, navigate, dispatch, fetchCartI
       toast.success(paymentResponse?.data?.message);
       navigate("/dashboard/enrolled-courses");
       fetchCartItems();
+      fetchUserDetails();
     }
   } catch (error) {
     throw new Error(`${error}`);
