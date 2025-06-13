@@ -42,13 +42,18 @@ const ShowInstructorCourses = () => {
   }, []);
 
   if (!user?._id || loading) {
-    <div className="w-11/12 mx-auto">
-      <div className="w-full flex flex-wrap justify-center gap-6">
-        {[...Array(2)].map((_, index) => (
-          <CourseCardSkeleton key={index} />
-        ))}
+    return (
+      <div className="w-11/12 mx-auto">
+        <h2 className="text-3xl text-richblack-5 font-medium py-6">
+          My Courses
+        </h2>
+        <div className="w-full flex flex-wrap justify-center gap-6">
+          {[...Array(2)].map((_, index) => (
+            <CourseCardSkeleton key={index} />
+          ))}
+        </div>
       </div>
-    </div>;
+    );
   }
 
   return user?.accountType === "Instructor" ? (
@@ -81,7 +86,8 @@ const ShowInstructorCourses = () => {
     </div>
   ) : (
     <div className="text-2xl text-pink-500 text-center mt-16">
-      Only Instructors Are Allowed to Add Any Course and See Their Added Courses!
+      Only Instructors Are Allowed to Add Any Course and See Their Added
+      Courses!
     </div>
   );
 };
