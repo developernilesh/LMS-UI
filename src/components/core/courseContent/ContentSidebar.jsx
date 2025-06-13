@@ -17,6 +17,8 @@ import AddReviewModal from "./AddReviewModal";
 const { MARK_UNMARK_LECTURE_API, USER_DETAILS_API } = endpoints;
 
 const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
+  const [totalCompletedLecturesArray, setTotalCompletedLecturesArray] =
+    useState(null);
   const [openIndex, setOpenIndex] = useState(null);
   const [openReviewModal, setopenReviewModal] = useState(false);
   const navigate = useNavigate();
@@ -57,9 +59,18 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
     setOpenIndex(null);
     setLecture(null);
     if (!user || courseDetails.courseContent.length === 0) return;
-    if (user.courseProgress?.length > 0) {
+    const completedLectures = [];
+    courseDetails?.courseContent.forEach((section) => {
+      section.subSection.forEach((subSection) => {
+        if (user.courseProgress?.includes(subSection?._id)) {
+          completedLectures.push(subSection._id);
+        }
+      });
+    });
+    if (completedLectures?.length > 0) {
+      setTotalCompletedLecturesArray(completedLectures);
       const lastCompletedLecture =
-        user.courseProgress[user.courseProgress.length - 1];
+        completedLectures[completedLectures.length - 1];
       courseDetails.courseContent?.forEach((section, index) => {
         section.subSection?.forEach((subsection, subindex) => {
           if (subsection._id === lastCompletedLecture) {
@@ -73,6 +84,8 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
       setLecture(courseDetails.courseContent[0]?.subSection[0]);
     }
   }, [user, courseDetails, user.courseProgress.length]);
+
+  
 
   return (
     <>
@@ -94,7 +107,7 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
             {courseDetails?.courseName}
           </h2>
           <div>
-            {user.courseProgress.length}/
+            {totalCompletedLecturesArray?.length}/
             {courseDetails.courseContent?.reduce(
               (acc, curr) => acc + curr.subSection.length,
               0
