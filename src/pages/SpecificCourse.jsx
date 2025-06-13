@@ -67,6 +67,7 @@ const SpecificCourse = () => {
         });
         if (response?.data?.success) {
           fetchUserDetails();
+          fetchCartItems();
           toast.success(response.data.message);
         }
       } catch (error) {
@@ -99,7 +100,6 @@ const SpecificCourse = () => {
       const response = await apiConnector("GET", USER_DETAILS_API);
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
-        fetchCartItems();
       }
     } catch (error) {
       console.error(error);
@@ -118,7 +118,8 @@ const SpecificCourse = () => {
       user,
       navigate,
       dispatch,
-      fetchCartItems
+      fetchCartItems,
+      fetchUserDetails
     );
   };
 
@@ -252,7 +253,9 @@ const SpecificCourse = () => {
                       buttonType="button"
                       background="bg-richblack-800 border-b border-r border-richblack-400"
                       text="text-richblack-100 font-medium"
-                      onClick={() => navigate(`/view-course-content/${params.courseId}`)}
+                      onClick={() =>
+                        navigate(`/view-course-content/${params.courseId}`)
+                      }
                     />
                   ) : (
                     <>
