@@ -12,8 +12,12 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { payWithRazorpay } from "../../../../services/operations/studentPaymentProcess";
 
-const { REMOVE_FROM_CART_API, GET_CART_ITEMS_API, CLEAR_CART_ITEMS_API } =
-  endpoints;
+const {
+  REMOVE_FROM_CART_API,
+  GET_CART_ITEMS_API,
+  CLEAR_CART_ITEMS_API,
+  USER_DETAILS_API,
+} = endpoints;
 
 const MyWishlist = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -75,7 +79,28 @@ const MyWishlist = () => {
       toast.error("Please login to enroll");
       return;
     }
-    payWithRazorpay(cartItems, user, navigate, dispatch, fetchCartItems);
+    payWithRazorpay(
+      cartItems,
+      user,
+      navigate,
+      dispatch,
+      fetchCartItems,
+      fetchUserDetails
+    );
+  };
+
+  const fetchUserDetails = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("GET", USER_DETAILS_API);
+      if (response?.data?.success) {
+        dispatch(setUser(response.data.data));
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   if (!user?._id || loading)
