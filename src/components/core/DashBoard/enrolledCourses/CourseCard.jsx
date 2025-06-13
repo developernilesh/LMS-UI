@@ -12,7 +12,7 @@ const CourseCard = ({ course }) => {
         transtion-all duration-200 ease-in-out cursor-pointer"
       >
         <img
-          className="rounded-t-lg h-56 w-full"
+          className="rounded-t-lg h-56 w-[384px]"
           src={course.thumbNail?.secure_url}
           alt={course.courseName}
         />
@@ -25,12 +25,7 @@ const CourseCard = ({ course }) => {
               {course.courseDescription}
             </p>
           </div>
-          <ProgressBar
-            totalLectures={course.courseContent?.reduce(
-              (acc, curr) => acc + curr.subSection.length,
-              0
-            )}
-          />
+          <ProgressBar course={course} />
           <div className="flex justify-between items-center">
             <div className="text-[#d191ff]">
               <span className="">Valid till:</span> <span>Lifetime</span>
