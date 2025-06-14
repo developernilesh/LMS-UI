@@ -17,6 +17,7 @@ import ExploreMoreCards from "../components/core/HomePage/ExploreMoreCards";
 import Footer from "../components/common/Footer";
 import { useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
+import ReviewSlider from "../components/common/ReviewSlider";
 
 const tabs = HomePageExplore.map((category) => category.tag);
 
@@ -300,7 +301,7 @@ const Home = () => {
       </section>
 
       {/* section 3 */}
-      <section className="container mx-auto flex flex-col items-center gap-4 text-white py-10">
+      <section className="container mx-auto flex flex-col items-center gap-4 text-white pt-10">
         {/* sub section 1 */}
         <div
           className={`flex flex-col md:flex-row justify-center items-center my-20 gap-20 w-[90%] sm:w-[85%] mx-auto`}
@@ -344,6 +345,11 @@ const Home = () => {
         </div>
         {/* sub section 2 */}
       </section>
+
+      {/* Review Section */}
+      <ReviewSlider />
+
+      {/* Review Section */}
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>

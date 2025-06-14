@@ -13,6 +13,7 @@ import ContactUsForm from "../components/core/Contact/ContactUsForm";
 import Footer from "../components/common/Footer";
 import { useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
+import ReviewSlider from "../components/common/ReviewSlider";
 
 const AboutUs = () => {
   const { loading } = useSelector((state) => state.loader);
@@ -171,6 +172,7 @@ const AboutUs = () => {
           />
         </SectionContainer>
       </section>
+      <ReviewSlider/>
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>

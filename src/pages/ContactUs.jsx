@@ -4,6 +4,7 @@ import contactData from "../data/contactData";
 import Footer from "../components/common/Footer";
 import { useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
+import ReviewSlider from "../components/common/ReviewSlider";
 
 const ContactUs = () => {
   const { loading } = useSelector((state) => state.loader);
@@ -34,6 +35,7 @@ const ContactUs = () => {
           />
         </div>
       </div>
+      <ReviewSlider/>
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>

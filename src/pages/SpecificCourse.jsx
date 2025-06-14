@@ -13,6 +13,7 @@ import AccordionContent from "../components/core/specificCourse/AccordionContent
 import { setCartItems } from "../redux/slices/cartSlice";
 import { setUser } from "../redux/slices/profileSLice";
 import { payWithRazorpay } from "../services/operations/studentPaymentProcess";
+import ReviewSlider from "../components/common/ReviewSlider";
 
 const {
   GET_SPECIFIC_COURSE_API,
@@ -302,6 +303,7 @@ const SpecificCourse = () => {
           </div>
         </div>
       </div>
+      <ReviewSlider/>
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
