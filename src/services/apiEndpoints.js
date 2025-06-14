@@ -31,7 +31,6 @@ export const endpoints = {
   EDIT_SUB_SECTION_API: `${BASE_URL}/course/update-sub-section`,
   DELETE_SUB_SECTION_API: `${BASE_URL}/course/delete-sub-section`,
   MARK_UNMARK_LECTURE_API: `${BASE_URL}/course/toggle-marking-lecture`,
-  ADD_RATING_REVIEW_API: `${BASE_URL}/course/add-rating-and-review`,
   
   // #region cart endpoints
   ADD_TO_CART_API: `${BASE_URL}/course/add-to-cart`,
@@ -39,10 +38,17 @@ export const endpoints = {
   GET_CART_ITEMS_API: `${BASE_URL}/course/get-cart-items`,
   CLEAR_CART_ITEMS_API: `${BASE_URL}/course/clear-cart`,
   
+  // #region rating and review endpoints
+  GET_ALL_RATING_REVIEW_API: `${BASE_URL}/course/get-all-ratings-and-reviews`,
+  ADD_RATING_REVIEW_API: `${BASE_URL}/course/add-rating-and-review`,
+  
   // #region payment endpoints
   CAPTURE_PAYMENT_API: `${BASE_URL}/payment/capture-payment`,
   VERIFY_PAYMENT_API: `${BASE_URL}/payment/verify-payment`,
   SEND_PAYMENT_SUCCESSFUL_EMAIL_API: `${BASE_URL}/payment/payment-successful-email`,
+  
+  // #region contact-us form endpoints
+  CONTACT_US_FORM_SUBMISSION_API: `${BASE_URL}/contact/contact-us`,
 };
 
 export default endpoints;

@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../Form/InputField";
 import SubmitButton from "../../Form/SubmitButton";
 import countrycode from "../../../data/countrycode.json";
+import { toast } from "react-hot-toast";
+import apiConnector from "../../../services/apiConnector";
+import endpoints from "../../../services/apiEndpoints";
 
-const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
+const { CONTACT_US_FORM_SUBMISSION_API } = endpoints;
+
+const ContactUsForm = ({ title, subtitle, alignItems = "center" }) => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -12,9 +18,33 @@ const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("formData : ", data);
-    reset();
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const formattedData = {
+        firstName: capitalizeFirstLetter(data.firstName),
+        lastName: capitalizeFirstLetter(data.lastName),
+        email: data.email,
+        message: capitalizeFirstLetter(data.message),
+        phoneNo:
+          data.countryCode && data.phoneNo
+            ? `${data.countryCode}-${data.phoneNo}`
+            : "",
+      };
+      const response = await apiConnector(
+        "POST",
+        CONTACT_US_FORM_SUBMISSION_API,
+        formattedData
+      );
+      if (response?.data?.success) {
+        toast.success(response.data.message);
+        reset();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error?.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,16 +63,30 @@ const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
             name="firstName"
             placeholder="Enter first name"
             register={register}
-            validation={{ required: "Firstname is required" }}
+            validation={{
+              required: "First name is required",
+              minLength: {
+                value: 2,
+                message: "First name must be at least 2 characters",
+              },
+            }}
             error={errors.firstName}
+            disabled={loading}
           />
           <InputField
             label="Last Name"
             name="lastName"
             placeholder="Enter last name"
             register={register}
-            validation={{ required: "Lastname is required" }}
+            validation={{
+              required: "Last name is required",
+              minLength: {
+                value: 2,
+                message: "Last name must be at least 2 characters",
+              },
+            }}
             error={errors.lastName}
+            disabled={loading}
           />
         </div>
         <InputField
@@ -53,22 +97,22 @@ const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
           validation={{
             required: "Email is required",
             pattern: {
-              value: /^\S+@\S+$/i,
-              message: "Invalid email format",
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
             },
           }}
           error={errors.email}
+          disabled={loading}
         />
         <label className="w-full text-richblack-5">
           <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
-            Phone Number<sup className="text-pink-200">*</sup>
+            Phone Number
           </p>
           <div className="flex items-start gap-5">
             <select
               name="countryCode"
-              {...register("countryCode", {
-                required: "countryCode is required",
-              })}
+              {...register("countryCode")}
+              disabled={loading}
               defaultValue="+91"
               className="bg-richblack-800 rounded-[0.5rem] p-3 pb-4 w-[75px] border-b border-richblack-500"
             >
@@ -79,18 +123,25 @@ const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
               ))}
             </select>
             <input
-              type="number"
+              type="tel"
               name="phoneNo"
               placeholder="1234567890"
-              {...register("phoneNo", { required: "Phone no. is required" })}
+              {...register("phoneNo")}
+              onKeyDown={(e) => {
+                if (
+                  !/[0-9]/.test(e.key) &&
+                  e.key !== "Backspace" &&
+                  e.key !== "Delete" &&
+                  e.key !== "ArrowLeft" &&
+                  e.key !== "ArrowRight"
+                ) {
+                  e.preventDefault();
+                }
+              }}
+              disabled={loading}
               className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
             />
           </div>
-          {errors.phoneNo && (
-            <p className="text-pink-200 text-sm mt-1">
-              {errors.phoneNo.message}
-            </p>
-          )}
         </label>
         <label className="w-full text-richblack-5">
           <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
@@ -99,8 +150,19 @@ const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
           <textarea
             rows="4"
             name="message"
-            placeholder="Enter you message"
-            {...register("message", { required: "Message is required" })}
+            placeholder="Enter your message"
+            {...register("message", {
+              required: "Message is required",
+              minLength: {
+                value: 10,
+                message: "Message must be at least 10 characters long",
+              },
+              maxLength: {
+                value: 500,
+                message: "Message cannot exceed 500 characters",
+              },
+            })}
+            disabled={loading}
             className="bg-richblack-800 rounded-[0.5rem] w-full p-[12px] border-b border-richblack-500"
           />
           {errors.message && (
@@ -109,10 +171,17 @@ const ContactUsForm = ({ title, subtitle, alignItems = 'center' }) => {
             </p>
           )}
         </label>
-        <SubmitButton buttonContent="Send Message" />
+        <SubmitButton
+          buttonContent={loading ? "Sending..." : "Send Message"}
+          disabled={loading}
+        />
       </form>
     </div>
   );
 };
 
 export default ContactUsForm;
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
