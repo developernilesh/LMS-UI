@@ -59,7 +59,7 @@ const Navbar = () => {
       const response = await apiConnector("GET", USER_DETAILS_API);
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
-        fetchCartItems();
+        response.data.data.accountType === 'Student' && fetchCartItems();
       }
     } catch (error) {
       console.error(error);
@@ -76,7 +76,7 @@ const Navbar = () => {
         dispatch(setCartItems(response.data.data));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }
