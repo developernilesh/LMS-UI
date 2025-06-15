@@ -6,6 +6,7 @@ import endpoints from "../../../../services/apiEndpoints";
 import apiConnector from "../../../../services/apiConnector";
 import Loader from "../../../Loader/Loader";
 import { Link } from "react-router-dom";
+import ChartData from "./ChartData";
 
 const { VIEW_ENROLLED_COURSES_API } = endpoints;
 
@@ -42,7 +43,7 @@ const InstructorDashboard = () => {
 
   return user?.accountType === "Instructor" ? (
     <div className="w-full">
-      <div className="w-11/12 max-w-[1024px] mx-auto flex gap-6 my-6">
+      <div className="w-11/12 max-w-[1024px] mx-auto flex flex-col lg:flex-row gap-6 my-6">
         <div className="bg-richblack-800 rounded-lg p-6 flex flex-col gap-3 border border-richblack-700">
           <h3 className="text-xl text-richblack-5 font-bold">Statistics</h3>
           <div className="flex flex-col gap-1">
@@ -82,16 +83,14 @@ const InstructorDashboard = () => {
           </div>
         </div>
         <div className="w-full bg-richblack-800 rounded-lg p-6 border border-richblack-700">
-          PieChart
+          <ChartData courses={allCourses} />
         </div>
       </div>
       <div className="w-11/12 max-w-[1024px] mx-auto px-3 py-6 bg-richblack-800 rounded-lg border border-richblack-700">
         <div className="flex justify-between items-end px-2 mb-3">
           <h3 className="text-xl text-richblack-5 font-bold">Your Courses</h3>
           <Link to="/dashboard/my-courses">
-            <button className=" text-yellow-50 font-bold">
-              View All
-            </button>
+            <button className=" text-yellow-50 font-bold">View All</button>
           </Link>
         </div>
         <div className="flex flex-wrap gap-3 justify-evenly">
@@ -100,8 +99,11 @@ const InstructorDashboard = () => {
               (a, b) => b.studentsEnrolled.length - a.studentsEnrolled.length
             )
             ?.slice(0, 3)
-            ?.map((item) => (
-              <div className="w-[300px] p-3 bg-richblack-700 rounded-lg">
+            ?.map((item, index) => (
+              <div
+                className="w-[300px] p-3 bg-richblack-700 rounded-lg"
+                key={index}
+              >
                 <img
                   src={item.thumbNail?.secure_url}
                   alt="Course"
