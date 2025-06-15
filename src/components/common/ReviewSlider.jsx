@@ -59,8 +59,8 @@ const ReviewSlider = () => {
             ?.map((item) => (
               <SwiperSlide key={item._id}>
                 <div className="w-full flex justify-center">
-                  <div className="w-full max-w-[300px] bg-richblack-700 cursor-pointer flex flex-col gap-3 rounded-lg p-3">
-                    <div className="bg-richblack-800 flex flex-col gap-3 rounded-lg p-3">
+                  <div className="w-full max-w-[300px] bg-richblack-700 cursor-pointer flex flex-col gap-3 p-3">
+                    <div className="bg-richblack-800 flex flex-col gap-3 p-3">
                       <div className="flex gap-2 items-center">
                         <img
                           src={item.user?.image}
