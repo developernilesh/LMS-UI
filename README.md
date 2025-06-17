@@ -185,15 +185,13 @@ npm install
 
 3. Create environment file:
 ```bash
-cp .env.example .env
+cp .env
 ```
 
 4. Configure environment variables:
 ```env
-VITE_API_URL=your_api_url_here
-VITE_APP_NAME=Learning Management System
-VITE_APP_VERSION=1.0.0
-VITE_APP_ENV=development
+VITE_BASE_URL = your_base_api_url_here (which is basically the backend server url like, http://localhost:4000)
+VITE_RAZORPAY_KEY = your_razorpay_key_here
 ```
 
 5. Start the development server:
@@ -255,29 +253,6 @@ src/
 - `npm run format` - Format code using Prettier
 - `npm run test` - Run test suite
 - `npm run analyze` - Analyze bundle size
-
-## 🔐 Environment Variables
-
-Required environment variables:
-
-```env
-# API Configuration
-VITE_API_URL=your_api_url_here
-VITE_API_VERSION=v1
-
-# Application
-VITE_APP_NAME=Learning Management System
-VITE_APP_VERSION=1.0.0
-VITE_APP_ENV=development
-
-# Authentication
-VITE_AUTH_TOKEN_KEY=auth_token
-VITE_REFRESH_TOKEN_KEY=refresh_token
-
-# Feature Flags
-VITE_ENABLE_ANALYTICS=true
-VITE_ENABLE_NOTIFICATIONS=true
-```
 
 ## 🤝 Contributing
 
