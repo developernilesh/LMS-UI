@@ -10,6 +10,7 @@ import { setLoading } from "../../../../redux/slices/loaderSlice";
 import toast from "react-hot-toast";
 import { setUser } from "../../../../redux/slices/profileSLice";
 import apiConnector from "../../../../services/apiConnector";
+import { handleError } from "../../../../services/operations/handleError";
 
 const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"];
 const { PROFILE_UPDATE_API } = endpoints;
@@ -65,8 +66,7 @@ export default function EditProfile() {
         navigate("/dashboard/my-profile");
       }
     } catch (error) {
-      console.log("error : ", error);
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }
