@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../redux/slices/loaderSlice";
-import toast from "react-hot-toast";
 import endpoints from "../../../../services/apiEndpoints";
 import apiConnector from "../../../../services/apiConnector";
 import Loader from "../../../Loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ChartData from "./ChartData";
+import { handleError } from "../../../../services/operations/handleError";
 
 const { VIEW_ENROLLED_COURSES_API } = endpoints;
 
 const InstructorDashboard = () => {
   const [allCourses, setAllCourses] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading } = useSelector((state) => state.loader);
   const { user } = useSelector((state) => state.profile);
 
@@ -24,7 +25,7 @@ const InstructorDashboard = () => {
         setAllCourses(response.data.data);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }

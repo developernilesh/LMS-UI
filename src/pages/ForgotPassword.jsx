@@ -3,7 +3,7 @@ import { setLoading } from "../redux/slices/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import InputField from "../components/Form/InputField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
 import SubmitButton from "../components/Form/SubmitButton";
 import Loader from "../components/Loader/Loader";
@@ -11,6 +11,7 @@ import endpoints from "../services/apiEndpoints";
 import toast from "react-hot-toast";
 import apiConnector from "../services/apiConnector";
 import Footer from "../components/common/Footer";
+import { handleError } from "../services/operations/handleError";
 
 const ForgotPassword = () => {
   const {
@@ -21,9 +22,9 @@ const ForgotPassword = () => {
   } = useForm();
 
   const { RESET_PASSWORD_TOKEN_API } = endpoints;
-
-  const { loading } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.loader);
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [email, setEmail] = useState();
 
@@ -40,8 +41,7 @@ const ForgotPassword = () => {
       }
       return false;
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
-      return false;
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }

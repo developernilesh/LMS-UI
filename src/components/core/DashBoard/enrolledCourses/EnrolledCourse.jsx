@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import endpoints from "../../../../services/apiEndpoints";
 import apiConnector from "../../../../services/apiConnector";
-import toast from "react-hot-toast";
 import CourseCardSkeleton from "./CourseCardSkeleton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { handleError } from "../../../../services/operations/handleError";
 
 const { VIEW_ENROLLED_COURSES_API } = endpoints;
 
 const EnrolledCourse = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState([]);
   const { user } = useSelector((state) => state.profile);
@@ -21,7 +24,7 @@ const EnrolledCourse = () => {
         setEnrolledCourses(response?.data?.data);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

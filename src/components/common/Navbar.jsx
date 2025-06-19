@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../assets/Logo/MainLogo.png";
-import { Link, matchPath, useLocation } from "react-router-dom";
+import { Link, matchPath, useLocation, useNavigate } from "react-router-dom";
 import { NavbarLinks } from "../../data/navbar-links";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,10 +17,11 @@ import { setLoading } from "../../redux/slices/loaderSlice";
 import { setUser } from "../../redux/slices/profileSLice";
 import { setCategories } from "../../redux/slices/courseSlice";
 import { setCartItems } from "../../redux/slices/cartSlice";
+import { handleError } from "../../services/operations/handleError";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   const { tokenExpiresIn } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
@@ -62,7 +63,7 @@ const Navbar = () => {
         response.data.data.accountType === 'Student' && fetchCartItems();
       }
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(navigate, error, false))
     } finally {
       dispatch(setLoading(false));
     }

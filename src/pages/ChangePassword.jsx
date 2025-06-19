@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import InputField from "../components/Form/InputField";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
 import Loader from "../components/Loader/Loader";
+import { handleError } from "../services/operations/handleError";
 
 const ChangePassword = () => {
   const {
@@ -24,6 +25,7 @@ const ChangePassword = () => {
   const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { CHANGE_PASSWORD_API } = endpoints;
 
@@ -45,7 +47,7 @@ const ChangePassword = () => {
         reset();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       setTimeout(() => {
         setLoading(false);

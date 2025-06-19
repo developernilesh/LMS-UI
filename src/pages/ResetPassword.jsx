@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import InputField from "../components/Form/InputField";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,7 @@ import { setLoading } from "../redux/slices/loaderSlice";
 import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
 import Footer from "../components/common/Footer";
+import { handleError } from "../services/operations/handleError";
 
 const ResetPassword = () => {
   const {
@@ -28,6 +29,7 @@ const ResetPassword = () => {
   const { loading } = useSelector((state) => state.loader);
   const { token } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { RESET_PASSWORD_API } = endpoints;
 
   const onSubmit = async (data) => {
@@ -45,7 +47,7 @@ const ResetPassword = () => {
         reset();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import OTPInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
@@ -11,10 +11,10 @@ import endpoints from "../services/apiEndpoints";
 import apiConnector from "../services/apiConnector";
 import toast from "react-hot-toast";
 import Footer from "../components/common/Footer";
+import { handleError } from "../services/operations/handleError";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
-
   const { loading } = useSelector((state) => state.loader);
   const { signupData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const VerifyOtp = () => {
         navigate("/login");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }
@@ -50,7 +50,7 @@ const VerifyOtp = () => {
         toast.success(response.data.message);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }

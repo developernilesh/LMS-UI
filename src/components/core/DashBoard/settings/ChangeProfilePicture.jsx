@@ -6,13 +6,15 @@ import apiConnector from "../../../../services/apiConnector";
 import endpoints from "../../../../services/apiEndpoints";
 import { setUser } from "../../../../redux/slices/profileSLice";
 import toast from "react-hot-toast";
+import { handleError } from "../../../../services/operations/handleError";
+import { useNavigate } from "react-router-dom";
 
 const { UPLOAD_PROFILE_PICTURE_API } = endpoints;
 
 export default function ChangeProfilePicture() {
   const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [previewSource, setPreviewSource] = useState(null);
@@ -56,7 +58,7 @@ export default function ChangeProfilePicture() {
         dispatch(setUser(presentUser));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       setIsLoading(false);
     }

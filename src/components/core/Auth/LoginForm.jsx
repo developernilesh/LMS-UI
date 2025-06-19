@@ -9,6 +9,7 @@ import { setLoading } from "../../../redux/slices/loaderSlice";
 import endpoints from "../../../services/apiEndpoints";
 import { setTokenExpiresIn } from "../../../redux/slices/authSlice";
 import apiConnector from "../../../services/apiConnector";
+import { handleError } from "../../../services/operations/handleError";
 
 const LoginForm = () => {
   const {
@@ -38,7 +39,7 @@ const LoginForm = () => {
         reset();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }

@@ -13,6 +13,7 @@ import apiConnector from "../../../services/apiConnector";
 import endpoints from "../../../services/apiEndpoints";
 import { setUser } from "../../../redux/slices/profileSLice";
 import AddReviewModal from "./AddReviewModal";
+import { handleError } from "../../../services/operations/handleError";
 
 const { MARK_UNMARK_LECTURE_API, USER_DETAILS_API } = endpoints;
 
@@ -33,7 +34,7 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
         dispatch(setUser(response.data.data));
       }
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(navigate, error, false))
     } finally {
       dispatch(setLoading(false));
     }

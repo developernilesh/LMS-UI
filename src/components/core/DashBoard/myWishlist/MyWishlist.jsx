@@ -11,6 +11,7 @@ import { setCartItems } from "../../../../redux/slices/cartSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { payWithRazorpay } from "../../../../services/operations/studentPaymentProcess";
+import { handleError } from "../../../../services/operations/handleError";
 
 const {
   REMOVE_FROM_CART_API,
@@ -97,7 +98,7 @@ const MyWishlist = () => {
         dispatch(setUser(response.data.data));
       }
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(navigate, error, false))
     } finally {
       dispatch(setLoading(false));
     }

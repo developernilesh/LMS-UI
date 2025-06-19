@@ -4,11 +4,12 @@ import toast from "react-hot-toast";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../../Form/InputField";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import endpoints from "../../../services/apiEndpoints";
 import { setLoading } from "../../../redux/slices/loaderSlice";
 import apiConnector from "../../../services/apiConnector";
 import { setSignupData } from "../../../redux/slices/authSlice";
+import { handleError } from "../../../services/operations/handleError";
 
 const SignupForm = () => {
   const {
@@ -21,9 +22,9 @@ const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accountType, setAccountType] = useState("Student");
-  
+
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { SEND_OTP_API } = endpoints;
 
   const onSubmit = async (data) => {
@@ -31,7 +32,7 @@ const SignupForm = () => {
       toast.error("Passwords do not match");
       return;
     }
-    const finalData = { ...data, accountType };    
+    const finalData = { ...data, accountType };
     dispatch(setLoading(true));
     try {
       const response = await apiConnector("POST", SEND_OTP_API, {
@@ -40,11 +41,11 @@ const SignupForm = () => {
       if (response?.data?.success) {
         toast.success(response.data.message);
         dispatch(setSignupData(finalData));
-        navigate("/verify-otp")
+        navigate("/verify-otp");
         reset();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong!");
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }

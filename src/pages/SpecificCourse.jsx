@@ -14,6 +14,7 @@ import { setCartItems } from "../redux/slices/cartSlice";
 import { setUser } from "../redux/slices/profileSLice";
 import { payWithRazorpay } from "../services/operations/studentPaymentProcess";
 import ReviewSlider from "../components/common/ReviewSlider";
+import { handleError } from "../services/operations/handleError";
 
 const {
   GET_SPECIFIC_COURSE_API,
@@ -103,7 +104,7 @@ const SpecificCourse = () => {
         dispatch(setUser(response.data.data));
       }
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(navigate, error, false))
     } finally {
       dispatch(setLoading(false));
     }

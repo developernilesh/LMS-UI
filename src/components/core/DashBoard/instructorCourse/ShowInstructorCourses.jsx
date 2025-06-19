@@ -4,18 +4,20 @@ import apiConnector from "../../../../services/apiConnector";
 import { useDispatch, useSelector } from "react-redux";
 import CourseCard from "./CourseCard";
 import CourseCardSkeleton from "./CourseCardSkeleton";
-import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SubmitButton from "../../../Form/SubmitButton";
 import {
   setCourse,
   setIsEditCourse,
   setStep,
 } from "../../../../redux/slices/courseSlice";
+import { handleError } from "../../../../services/operations/handleError";
+
+const { VIEW_ENROLLED_COURSES_API } = endpoints;
 
 const ShowInstructorCourses = () => {
-  const { VIEW_ENROLLED_COURSES_API } = endpoints;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [allCourses, setAllCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.profile);
@@ -28,7 +30,7 @@ const ShowInstructorCourses = () => {
         setAllCourses(response.data.data);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }
