@@ -21,7 +21,7 @@ import { handleError } from "../../services/operations/handleError";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { tokenExpiresIn } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
@@ -39,6 +39,10 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
     useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [showDesktopSearch, setShowDesktopSearch] = useState(false);
+  const [searchedCourses, setSearchedCourses] = useState([]);
 
   const fetchAllCategories = async () => {
     dispatch(setLoading(true));
@@ -60,10 +64,10 @@ const Navbar = () => {
       const response = await apiConnector("GET", USER_DETAILS_API);
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
-        response.data.data.accountType === 'Student' && fetchCartItems();
+        response.data.data.accountType === "Student" && fetchCartItems();
       }
     } catch (error) {
-      dispatch(handleError(navigate, error, false))
+      dispatch(handleError(navigate, error, false));
     } finally {
       dispatch(setLoading(false));
     }
@@ -91,6 +95,11 @@ const Navbar = () => {
     if (tokenExpiresIn && Date.now() < Number(tokenExpiresIn))
       fetchUserDetails();
   }, [tokenExpiresIn]);
+
+  useEffect(() => {
+    if(searchQuery.length < 3) return;
+    setSearchedCourses(courses.filter(course => course.courseName.includes(searchQuery)))
+  }, [searchQuery])
 
   return (
     <div className="w-11/12 mx-auto h-12 flex items-center">
@@ -146,12 +155,49 @@ const Navbar = () => {
 
         {/* Items based on the user's authentication status */}
         <div className="flex items-center gap-2 md:gap-4">
+          {/* Searchbar - Desktop (moved here) */}
+          <div className="hidden md:flex items-center">
+            {!showDesktopSearch ? (
+              <button
+                className="flex items-center justify-center text-richblack-25 text-2xl"
+                onClick={() => setShowDesktopSearch(true)}
+                aria-label="Open search"
+              >
+                <IoSearchOutline className="text-xl" />
+              </button>
+            ) : (
+              <div className="flex items-center">
+                <input
+                  type="text"
+                  className="w-full max-w-56 px-2 lg:px-4 py-1 rounded-l-md bg-richblack-800 text-richblack-25 border border-richblack-600 focus:outline-none text-sm"
+                  placeholder="Search for courses, topics..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                />
+                <button
+                  className="bg-yellow-50 px-2 lg:px-3 py-1 rounded-r-md border border-l-0 border-yellow-50 hover:bg-yellow-100 hover:border-yellow-100 transition-colors"
+                  onClick={() => {
+                    setShowDesktopSearch(false);
+                    setSearchQuery("");
+                  }}
+                  aria-label="Search"
+                >
+                  <IoClose className="text-xl text-richblack-800" />
+                </button>
+              </div>
+            )}
+          </div>
+          {/* End Desktop Searchbar */}
           {user ? (
             <>
-              {/* Search Icon */}
-              {/* <button className="flex items-center justify-center">
+              {/* Search Icon - Mobile */}
+              <button
+                className="flex items-center justify-center md:hidden"
+                onClick={() => setShowMobileSearch(true)}
+              >
                 <IoSearchOutline className="text-richblack-25 text-2xl" />
-              </button> */}
+              </button>
 
               {/* Cart Icon */}
               {user?.accountType === "Student" && (
@@ -173,6 +219,14 @@ const Navbar = () => {
             </>
           ) : (
             <>
+              {/* Search Icon - Mobile (for unauthenticated users) */}
+              <button
+                className="flex items-center justify-center md:hidden"
+                onClick={() => setShowMobileSearch(true)}
+              >
+                <IoSearchOutline className="text-richblack-25 text-2xl" />
+              </button>
+
               {/* Login Button */}
               <Link to="/login">
                 <button
@@ -203,6 +257,32 @@ const Navbar = () => {
             <IoMenu />
           </button>
         </div>
+
+        {/* Mobile Search Overlay */}
+        {showMobileSearch && (
+          <div className="fixed inset-0 z-50 bg-richblack-900 flex items-start pt-8 px-4">
+            <div className="flex w-full max-w-lg mx-auto items-center">
+              <input
+                type="text"
+                className="w-full px-4 py-1.5 rounded-l-md bg-richblack-800 text-richblack-25 border border-richblack-600 focus:outline-none"
+                placeholder="Search for courses, topics..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+              />
+              <button
+                className="bg-yellow-50 text-richblack-900 px-3 py-2 rounded-r-md border border-yellow-50 hover:bg-yellow-100 transition-colors"
+                onClick={() => {
+                  setShowMobileSearch(false);
+                  setSearchQuery("");
+                }}
+                aria-label="Close search"
+              >
+                <IoClose className="text-xl" />
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Mobile Menu */}
         {isMenuOpen && (
@@ -302,3 +382,18 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+const courses = [
+  { courseId: 1, courseName: 'Introduction to JavaScript' },
+  { courseId: 2, courseName: 'ReactJS Basics' },
+  { courseId: 3, courseName: 'Node.js Fundamentals' },
+  { courseId: 4, courseName: 'Advanced CSS Techniques' },
+  { courseId: 5, courseName: 'MongoDB Essentials' },
+  { courseId: 6, courseName: 'Responsive Web Design' },
+  { courseId: 7, courseName: 'API Development with Express' },
+  { courseId: 8, courseName: 'Python for Data Science' },
+  { courseId: 9, courseName: 'Machine Learning Fundamentals' },
+  { courseId: 10, courseName: 'Cloud Computing Basics' }
+];
+
+console.log(courses);
