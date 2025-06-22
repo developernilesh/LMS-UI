@@ -26,8 +26,12 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
 
-  const { VIEW_ALL_CATEGORIES_API, USER_DETAILS_API, GET_CART_ITEMS_API } =
-    endpoints;
+  const {
+    VIEW_ALL_CATEGORIES_API,
+    USER_DETAILS_API,
+    GET_CART_ITEMS_API,
+    VIEW_ALL_COURSES_API,
+  } = endpoints;
 
   // matching the route with the current path
   const location = useLocation();
@@ -39,10 +43,19 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
     useState(false);
+  const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showDesktopSearch, setShowDesktopSearch] = useState(false);
   const [searchedCourses, setSearchedCourses] = useState([]);
+
+  const goToTheCourse = (course) => {
+    setSearchQuery("");
+    setShowMobileSearch(false);
+    setShowDesktopSearch(false);
+    setSearchedCourses([]);
+    navigate(`/course/${course._id}`);
+  };
 
   const fetchAllCategories = async () => {
     dispatch(setLoading(true));
@@ -87,8 +100,23 @@ const Navbar = () => {
     }
   };
 
+  const fetchAllCourses = async () => {
+    dispatch(setLoading(true));
+    try {
+      const response = await apiConnector("GET", VIEW_ALL_COURSES_API);
+      if (response?.data?.success) {
+        setCourses(response.data.data);
+      }
+    } catch (error) {
+      dispatch(handleError(navigate, error, false));
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   useEffect(() => {
     fetchAllCategories();
+    fetchAllCourses();
   }, []);
 
   useEffect(() => {
@@ -97,9 +125,20 @@ const Navbar = () => {
   }, [tokenExpiresIn]);
 
   useEffect(() => {
-    if(searchQuery.length < 3) return;
-    setSearchedCourses(courses.filter(course => course.courseName.includes(searchQuery)))
-  }, [searchQuery])
+    if (searchQuery.length < 2) {
+      setSearchedCourses([]);
+      return;
+    }
+    setSearchedCourses(
+      courses.filter(
+        (course) =>
+          course.courseName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          course.courseDescription
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery]);
 
   return (
     <div className="w-11/12 mx-auto h-12 flex items-center">
@@ -166,25 +205,47 @@ const Navbar = () => {
                 <IoSearchOutline className="text-xl" />
               </button>
             ) : (
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  className="w-full max-w-56 px-2 lg:px-4 py-1 rounded-l-md bg-richblack-800 text-richblack-25 border border-richblack-600 focus:outline-none text-sm"
-                  placeholder="Search for courses, topics..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  autoFocus
-                />
-                <button
-                  className="bg-yellow-50 px-2 lg:px-3 py-1 rounded-r-md border border-l-0 border-yellow-50 hover:bg-yellow-100 hover:border-yellow-100 transition-colors"
-                  onClick={() => {
-                    setShowDesktopSearch(false);
-                    setSearchQuery("");
-                  }}
-                  aria-label="Search"
-                >
-                  <IoClose className="text-xl text-richblack-800" />
-                </button>
+              <div className="relative">
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    className="w-full max-w-56 px-2 lg:px-4 py-1 rounded-l-md bg-richblack-800 text-richblack-25 border border-richblack-600 focus:outline-none text-sm"
+                    placeholder="Search for courses, topics..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    autoFocus
+                  />
+                  <button
+                    className="bg-yellow-50 px-2 lg:px-3 py-1 rounded-r-md border border-l-0 border-yellow-50 hover:bg-yellow-100 hover:border-yellow-100 transition-colors"
+                    onClick={() => {
+                      setShowDesktopSearch(false);
+                      setSearchQuery("");
+                      setSearchedCourses([]);
+                    }}
+                    aria-label="Search"
+                  >
+                    <IoClose className="text-xl text-richblack-800" />
+                  </button>
+                </div>
+                {searchedCourses.length > 0 && (
+                  <ul className="absolute w-full mt-1 bg-richblack-700 text-richblack-50 rounded-md z-10 text-sm">
+                    {searchedCourses.map((course, index) => (
+                      <li
+                        key={course.courseId}
+                        className={`px-4 py-2 hover:bg-richblack-800 cursor-pointer ${
+                          index === 0 ? "rounded-t-md border-y" : "border-b"
+                        } ${
+                          index === searchedCourses.length - 1
+                            ? "rounded-b-md"
+                            : ""
+                        } border-x border-richblack-600`}
+                        onClick={() => goToTheCourse(course)}
+                      >
+                        {course.courseName}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
           </div>
@@ -261,25 +322,47 @@ const Navbar = () => {
         {/* Mobile Search Overlay */}
         {showMobileSearch && (
           <div className="fixed inset-0 z-50 bg-richblack-900 flex items-start pt-8 px-4">
-            <div className="flex w-full max-w-lg mx-auto items-center">
-              <input
-                type="text"
-                className="w-full px-4 py-1.5 rounded-l-md bg-richblack-800 text-richblack-25 border border-richblack-600 focus:outline-none"
-                placeholder="Search for courses, topics..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                autoFocus
-              />
-              <button
-                className="bg-yellow-50 text-richblack-900 px-3 py-2 rounded-r-md border border-yellow-50 hover:bg-yellow-100 transition-colors"
-                onClick={() => {
-                  setShowMobileSearch(false);
-                  setSearchQuery("");
-                }}
-                aria-label="Close search"
-              >
-                <IoClose className="text-xl" />
-              </button>
+            <div className="w-full max-w-lg mx-auto">
+              <div className="flex w-full items-center">
+                <input
+                  type="text"
+                  className="w-full px-4 py-1.5 rounded-l-md bg-richblack-800 text-richblack-25 border border-richblack-600 focus:outline-none"
+                  placeholder="Search for courses, topics..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                />
+                <button
+                  className="bg-yellow-50 text-richblack-900 px-3 py-2 rounded-r-md border border-yellow-50 hover:bg-yellow-100 transition-colors"
+                  onClick={() => {
+                    setShowMobileSearch(false);
+                    setSearchQuery("");
+                    setSearchedCourses([]);
+                  }}
+                  aria-label="Close search"
+                >
+                  <IoClose className="text-xl" />
+                </button>
+              </div>
+              {searchedCourses.length > 0 && (
+                <ul className="w-full mt-3 bg-richblack-700 text-richblack-50 rounded-md z-10">
+                  {searchedCourses.map((course, index) => (
+                    <li
+                      key={course.courseId}
+                      className={`px-4 py-2 hover:bg-richblack-800 cursor-pointer ${
+                        index === 0 ? "rounded-t-md border-y" : "border-b"
+                      } ${
+                        index === searchedCourses.length - 1
+                          ? "rounded-b-md"
+                          : ""
+                      } border-x border-richblack-600`}
+                      onClick={() => goToTheCourse(course)}
+                    >
+                      {course.courseName}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         )}
@@ -382,18 +465,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-const courses = [
-  { courseId: 1, courseName: 'Introduction to JavaScript' },
-  { courseId: 2, courseName: 'ReactJS Basics' },
-  { courseId: 3, courseName: 'Node.js Fundamentals' },
-  { courseId: 4, courseName: 'Advanced CSS Techniques' },
-  { courseId: 5, courseName: 'MongoDB Essentials' },
-  { courseId: 6, courseName: 'Responsive Web Design' },
-  { courseId: 7, courseName: 'API Development with Express' },
-  { courseId: 8, courseName: 'Python for Data Science' },
-  { courseId: 9, courseName: 'Machine Learning Fundamentals' },
-  { courseId: 10, courseName: 'Cloud Computing Basics' }
-];
-
-console.log(courses);
