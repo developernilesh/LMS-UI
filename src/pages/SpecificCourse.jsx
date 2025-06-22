@@ -127,7 +127,7 @@ const SpecificCourse = () => {
 
   useEffect(() => {
     fetchSpecificCourseDetails();
-  }, []);
+  }, [params.courseId]);
 
   useEffect(() => {
     user?.cartItems?.includes(params.courseId) && setIsCartItem(true);
