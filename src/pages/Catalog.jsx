@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { setLoading } from "../redux/slices/loaderSlice";
 import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
@@ -9,6 +9,7 @@ import Footer from "../components/common/Footer";
 import CategoryCourseCard from "../components/core/catalogPage/CategoryCourseCard";
 import FrequentlyBoughtCourseCard from "../components/core/catalogPage/FrequentlyBoughtCourseCard";
 import CourseSlider from "../components/core/catalogPage/CourseSlider";
+import { handleError } from "../services/operations/handleError";
 
 const { VIEW_CATEGORY_PAGE_DETAILS_API } = endpoints;
 
@@ -16,6 +17,7 @@ const Catalog = () => {
   const { loading } = useSelector((state) => state.loader);
   const param = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("Most Popular");
   const [categoryPageDetails, setCategoryPageDetails] =
@@ -33,7 +35,7 @@ const Catalog = () => {
         setActiveTab("Most Popular");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }

@@ -9,6 +9,8 @@ import endpoints from "../../../../../services/apiEndpoints";
 import toast from "react-hot-toast";
 import SubmitButton from "../../../../Form/SubmitButton";
 import SubSectionModal from "./SubSectionModal";
+import { handleError } from "../../../../../services/operations/handleError";
+import { useNavigate } from "react-router-dom";
 
 const { DELETE_SECTION_API, DELETE_SUB_SECTION_API } = endpoints;
 
@@ -19,7 +21,8 @@ const NestedContent = ({
   setLoading,
 }) => {
   const { course } = useSelector((state) => state.course);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [confirmationModalData, setConfirmationModalData] = useState(null);
   const [addSubSection, setAddSubSection] = useState(null);
   const [editSubSection, setEditSubSection] = useState(null);
@@ -36,7 +39,7 @@ const NestedContent = ({
       }
       setConfirmationModalData(null);
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

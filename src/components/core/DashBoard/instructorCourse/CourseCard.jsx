@@ -6,10 +6,13 @@ import apiConnector from "../../../../services/apiConnector";
 import endpoints from "../../../../services/apiEndpoints";
 import toast from "react-hot-toast";
 import StarRatings from "react-star-ratings";
+import { handleError } from "../../../../services/operations/handleError";
+import { useDispatch } from "react-redux";
 
 const { DELETE_COURSE_API } = endpoints;
 
 const CourseCard = ({ course, fetchAllCourses }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [confirmationModalData, setConfirmationModalData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -35,7 +38,7 @@ const CourseCard = ({ course, fetchAllCourses }) => {
         fetchAllCourses();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

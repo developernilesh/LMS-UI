@@ -65,7 +65,7 @@ const Navbar = () => {
         dispatch(setCategories(response.data.data));
       }
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(navigate, error, false));
     } finally {
       dispatch(setLoading(false));
     }

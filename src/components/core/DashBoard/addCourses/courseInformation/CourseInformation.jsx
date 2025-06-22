@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import Loader from "../../../../Loader/Loader";
+import { handleError } from "../../../../../services/operations/handleError";
+import { useNavigate } from "react-router-dom";
 
 const { CREATE_COURSE_API, EDIT_COURSE_API, GET_SPECIFIC_COURSE_API } =
   endpoints;
@@ -26,6 +28,7 @@ const CourseInformation = () => {
   } = useForm();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { categories, isEditCourse, course } = useSelector(
     (state) => state.course
   );
@@ -132,7 +135,7 @@ const CourseInformation = () => {
         dispatch(setStep(2));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

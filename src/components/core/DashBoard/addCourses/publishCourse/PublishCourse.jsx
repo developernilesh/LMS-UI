@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
+import { handleError } from "../../../../../services/operations/handleError";
 
 const { PUBLISH_COURSE_API } = endpoints;
 
@@ -52,7 +53,7 @@ const PublishCourse = () => {
         resetFunction();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

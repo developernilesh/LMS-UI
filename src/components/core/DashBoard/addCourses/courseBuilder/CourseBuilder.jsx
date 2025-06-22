@@ -15,6 +15,8 @@ import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import NestedContent from "./NestedContent";
 import Loader from "../../../../Loader/Loader";
+import { handleError } from "../../../../../services/operations/handleError";
+import { useNavigate } from "react-router-dom";
 
 const CourseBuilder = () => {
   const {
@@ -29,6 +31,7 @@ const CourseBuilder = () => {
     endpoints;
   const { course } = useSelector((state) => state.course);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [isEditSection, setIsEditSection] = useState(false);
   const [sectionInfo, setSectionInfo] = useState(false);
@@ -84,7 +87,7 @@ const CourseBuilder = () => {
         reset();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }
