@@ -6,17 +6,23 @@ import countrycode from "../../../data/countrycode.json";
 import { toast } from "react-hot-toast";
 import apiConnector from "../../../services/apiConnector";
 import endpoints from "../../../services/apiEndpoints";
+import { handleError } from "../../../services/operations/handleError";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const { CONTACT_US_FORM_SUBMISSION_API } = endpoints;
 
 const ContactUsForm = ({ title, subtitle, alignItems = "center" }) => {
-  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -41,7 +47,7 @@ const ContactUsForm = ({ title, subtitle, alignItems = "center" }) => {
         reset();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

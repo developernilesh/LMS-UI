@@ -7,6 +7,9 @@ import InputField from "../../../../Form/InputField";
 import SubmitButton from "../../../../Form/SubmitButton";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
+import { handleError } from "../../../../../services/operations/handleError";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const { ADD_SUB_SECTION_API, EDIT_SUB_SECTION_API } = endpoints;
 
@@ -25,6 +28,8 @@ const SubSectionModal = ({
     formState: { errors },
   } = useForm();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [previewSource, setPreviewSource] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
@@ -104,8 +109,7 @@ const SubSectionModal = ({
         fetchCourseData();
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message;
-      toast.error(errorMessage);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

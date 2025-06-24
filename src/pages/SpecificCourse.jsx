@@ -73,7 +73,7 @@ const SpecificCourse = () => {
           toast.success(response.data.message);
         }
       } catch (error) {
-        toast.error(error?.response?.data?.message || error?.message);
+        dispatch(handleError(navigate, error));
       } finally {
         dispatch(setLoading(false));
       }
@@ -90,7 +90,7 @@ const SpecificCourse = () => {
         dispatch(setCartItems(response.data.data));
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error, false));
     } finally {
       dispatch(setLoading(false));
     }

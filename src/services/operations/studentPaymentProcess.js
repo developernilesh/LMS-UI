@@ -3,6 +3,7 @@ import image from "../../assets/Logo/Favicon.png";
 import endpoints from "../apiEndpoints";
 import apiConnector from "../apiConnector";
 import { setLoading } from "../../redux/slices/loaderSlice";
+import { handleError } from "./handleError";
 
 const {
   CAPTURE_PAYMENT_API,
@@ -74,7 +75,7 @@ export const payWithRazorpay = async (
       });
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || error?.message);
+    dispatch(handleError(navigate, error));
   } finally {
     toast.dismiss(toastId);
   }

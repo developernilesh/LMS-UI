@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { setLoading } from "../../../redux/slices/loaderSlice";
 import apiConnector from "../../../services/apiConnector";
 import endpoints from "../../../services/apiEndpoints";
+import { handleError } from "../../../services/operations/handleError";
+import { useNavigate } from "react-router-dom";
 
 const { ADD_RATING_REVIEW_API } = endpoints;
 
@@ -16,6 +18,8 @@ const AddReviewModal = ({ courseId, setopenReviewModal }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.profile);
   const { register, handleSubmit, reset } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submitReviewForm = async (data) => {
     if (starRating === 0) {
@@ -35,7 +39,7 @@ const AddReviewModal = ({ courseId, setopenReviewModal }) => {
         reset();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }

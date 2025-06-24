@@ -34,7 +34,7 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
         dispatch(setUser(response.data.data));
       }
     } catch (error) {
-      dispatch(handleError(navigate, error, false))
+      dispatch(handleError(navigate, error, false));
     } finally {
       dispatch(setLoading(false));
     }
@@ -50,7 +50,7 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
         fetchUserDetails();
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       dispatch(setLoading(false));
     }
@@ -85,8 +85,6 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
       setLecture(courseDetails.courseContent[0]?.subSection[0]);
     }
   }, [user, courseDetails, user.courseProgress.length]);
-
-  
 
   return (
     <>

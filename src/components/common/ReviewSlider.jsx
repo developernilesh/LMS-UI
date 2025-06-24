@@ -7,12 +7,17 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import StarRatings from "react-star-ratings";
+import { handleError } from "../../services/operations/handleError";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const { GET_ALL_RATING_REVIEW_API } = endpoints;
 
 const ReviewSlider = () => {
   const [allReviews, setAllReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchAllReviews = async () => {
     try {
@@ -21,7 +26,7 @@ const ReviewSlider = () => {
         setAllReviews(response.data.data);
       }
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(navigate, error, false));
     } finally {
       setIsLoading(false);
     }

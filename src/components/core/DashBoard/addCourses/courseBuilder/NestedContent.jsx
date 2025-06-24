@@ -56,7 +56,7 @@ const NestedContent = ({
       }
       setConfirmationModalData(null);
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message);
+      dispatch(handleError(navigate, error));
     } finally {
       setLoading(false);
     }
