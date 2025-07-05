@@ -6,6 +6,7 @@ export const logout = (navigate) => {
   return (dispatch) => {
     dispatch(setTokenExpiresIn(Date.now() - 100000));
     dispatch(setUser(null));
+    localStorage.removeItem("token");
     localStorage.removeItem("tokenExpiresIn");
     toast.success("Logged Out");
     navigate("/login");

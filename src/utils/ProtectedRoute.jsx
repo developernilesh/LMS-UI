@@ -12,6 +12,7 @@ const ProtectedRoute = ({ children }) => {
     if (tokenExpiresIn && Date.now() > Number(tokenExpiresIn)) {
       dispatch(setUser(null));
       localStorage.removeItem("tokenExpiresIn");
+      localStorage.removeItem("token");
     }
   }, [location.pathname]);
 
