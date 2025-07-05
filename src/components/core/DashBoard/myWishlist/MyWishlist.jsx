@@ -24,6 +24,7 @@ const MyWishlist = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { loading } = useSelector((state) => state.loader);
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,7 +65,9 @@ const MyWishlist = () => {
   const fetchCartItems = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", GET_CART_ITEMS_API);
+      const response = await apiConnector("GET", GET_CART_ITEMS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         dispatch(setCartItems(response.data.data));
       }
@@ -93,7 +96,9 @@ const MyWishlist = () => {
   const fetchUserDetails = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", USER_DETAILS_API);
+      const response = await apiConnector("GET", USER_DETAILS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
       }

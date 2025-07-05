@@ -22,9 +22,10 @@ import { handleError } from "../../services/operations/handleError";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { tokenExpiresIn } = useSelector((state) => state.auth);
+  const { token, tokenExpiresIn } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const { cartItems } = useSelector((state) => state.cart);
+  const { categories } = useSelector((state) => state.course);
 
   const {
     VIEW_ALL_CATEGORIES_API,
@@ -39,7 +40,6 @@ const Navbar = () => {
     if (!route) return false;
     return matchPath({ path: route }, location.pathname);
   };
-  const { categories } = useSelector((state) => state.course);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavbarCatalogOpenInMobile, setIsNavbarCatalogOpenInMobile] =
     useState(false);
@@ -74,7 +74,9 @@ const Navbar = () => {
   const fetchUserDetails = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", USER_DETAILS_API);
+      const response = await apiConnector("GET", USER_DETAILS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
         response.data.data.accountType === "Student" && fetchCartItems();
@@ -89,7 +91,9 @@ const Navbar = () => {
   const fetchCartItems = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", GET_CART_ITEMS_API);
+      const response = await apiConnector("GET", GET_CART_ITEMS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         dispatch(setCartItems(response.data.data));
       }

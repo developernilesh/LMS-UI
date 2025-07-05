@@ -29,6 +29,7 @@ const SpecificCourse = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.loader);
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
 
   const [courseinfo, setCourseInfo] = useState(null);
   const [avgRating, setAvgRating] = useState(0);
@@ -85,7 +86,9 @@ const SpecificCourse = () => {
   const fetchCartItems = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", GET_CART_ITEMS_API);
+      const response = await apiConnector("GET", GET_CART_ITEMS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         dispatch(setCartItems(response.data.data));
       }
@@ -99,12 +102,14 @@ const SpecificCourse = () => {
   const fetchUserDetails = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", USER_DETAILS_API);
+      const response = await apiConnector("GET", USER_DETAILS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
       }
     } catch (error) {
-      dispatch(handleError(navigate, error, false))
+      dispatch(handleError(navigate, error, false));
     } finally {
       dispatch(setLoading(false));
     }
@@ -304,7 +309,7 @@ const SpecificCourse = () => {
           </div>
         </div>
       </div>
-      <ReviewSlider/>
+      <ReviewSlider />
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>

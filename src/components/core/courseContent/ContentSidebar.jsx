@@ -25,11 +25,14 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
 
   const fetchUserDetails = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await apiConnector("GET", USER_DETAILS_API);
+      const response = await apiConnector("GET", USER_DETAILS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         dispatch(setUser(response.data.data));
       }
