@@ -7,7 +7,7 @@ import InputField from "../../Form/InputField";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../../redux/slices/loaderSlice";
 import endpoints from "../../../services/apiEndpoints";
-import { setTokenExpiresIn } from "../../../redux/slices/authSlice";
+import { setToken, setTokenExpiresIn } from "../../../redux/slices/authSlice";
 import apiConnector from "../../../services/apiConnector";
 import { handleError } from "../../../services/operations/handleError";
 
@@ -35,6 +35,8 @@ const LoginForm = () => {
         toast.success(response?.data?.message);
         dispatch(setTokenExpiresIn(response?.data?.tokenExpiresIn));
         localStorage.setItem("tokenExpiresIn", JSON.stringify(response?.data?.tokenExpiresIn));
+        dispatch(setToken(response?.data?.token));
+        localStorage.setItem("token", JSON.stringify(response?.data?.token));
         navigate("/dashboard/my-profile");
         reset();
       }
