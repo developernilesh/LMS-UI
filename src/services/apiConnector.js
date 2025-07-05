@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  withCredentials: true
-})
+  withCredentials: true,
+});
 
-const apiConnector = (method, url, bodyData, params, headers) => {
+const apiConnector = (method, url, bodyData, headers, params) => {
   return axiosInstance({
     method: `${method}`,
     url: `${url}`,
