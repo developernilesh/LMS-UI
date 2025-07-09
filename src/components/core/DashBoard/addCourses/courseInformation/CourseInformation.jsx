@@ -32,6 +32,7 @@ const CourseInformation = () => {
   const { categories, isEditCourse, course } = useSelector(
     (state) => state.course
   );
+  const { token } = useSelector((state) => state.auth);
 
   const [loading, setLoading] = useState(false);
   const [instructionsList, setInstructionsList] = useState([]);
@@ -125,7 +126,9 @@ const CourseInformation = () => {
       const endpoint = isEditCourse ? EDIT_COURSE_API : CREATE_COURSE_API;
       const method = isEditCourse ? "PUT" : "POST";
 
-      const response = await apiConnector(method, endpoint, formData);
+      const response = await apiConnector(method, endpoint, formData, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         toast.success(response.data.message);
         reset();

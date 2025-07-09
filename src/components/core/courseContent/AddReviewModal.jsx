@@ -20,6 +20,7 @@ const AddReviewModal = ({ courseId, setopenReviewModal }) => {
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
 
   const submitReviewForm = async (data) => {
     if (starRating === 0) {
@@ -32,6 +33,8 @@ const AddReviewModal = ({ courseId, setopenReviewModal }) => {
         courseId,
         rating: starRating,
         review: data?.review,
+      }, {
+        Authorization: `Bearer ${token}`,
       });
       if (response?.data?.success) {
         toast.success(response.data.message);

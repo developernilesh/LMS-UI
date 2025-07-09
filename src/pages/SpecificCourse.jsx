@@ -67,6 +67,8 @@ const SpecificCourse = () => {
         dispatch(setLoading(true));
         const response = await apiConnector("POST", ADD_TO_CART_API, {
           courseId: params.courseId,
+        }, {
+          Authorization: `Bearer ${token}`,
         });
         if (response?.data?.success) {
           fetchUserDetails();

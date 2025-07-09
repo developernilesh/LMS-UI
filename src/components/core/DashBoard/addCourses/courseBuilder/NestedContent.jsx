@@ -21,6 +21,7 @@ const NestedContent = ({
   setLoading,
 }) => {
   const { course } = useSelector((state) => state.course);
+  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [confirmationModalData, setConfirmationModalData] = useState(null);
@@ -33,6 +34,8 @@ const NestedContent = ({
     try {
       const response = await apiConnector("DELETE", DELETE_SECTION_API, {
         sectionId,
+      }, {
+        Authorization: `Bearer ${token}`,
       });
       if (response?.data?.success) {
         fetchSpecificCourse(course?._id);
@@ -50,6 +53,8 @@ const NestedContent = ({
     try {
       const response = await apiConnector("DELETE", DELETE_SUB_SECTION_API, {
         subSectionId,
+      }, {
+        Authorization: `Bearer ${token}`,
       });
       if (response?.data?.success) {
         fetchSpecificCourse(course?._id);

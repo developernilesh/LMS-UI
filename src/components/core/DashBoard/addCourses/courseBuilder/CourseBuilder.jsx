@@ -30,6 +30,7 @@ const CourseBuilder = () => {
   const { ADD_SECTION_API, UPDATE_SECTION_API, GET_SPECIFIC_COURSE_API } =
     endpoints;
   const { course } = useSelector((state) => state.course);
+  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -78,7 +79,9 @@ const CourseBuilder = () => {
       const endpoint = isEditSection ? UPDATE_SECTION_API : ADD_SECTION_API;
       const method = isEditSection ? "PUT" : "POST";
 
-      const response = await apiConnector(method, endpoint, payload);
+      const response = await apiConnector(method, endpoint, payload, {
+        Authorization: `Bearer ${token}`,
+      });
 
       if (response?.data?.success) {
         toast.success(response.data.message);

@@ -34,6 +34,8 @@ const MyWishlist = () => {
       dispatch(setLoading(true));
       const response = await apiConnector("POST", REMOVE_FROM_CART_API, {
         courseId,
+      }, {
+        Authorization: `Bearer ${token}`,
       });
       if (response?.data?.success) {
         fetchCartItems();
@@ -49,7 +51,9 @@ const MyWishlist = () => {
   const clearCart = async () => {
     try {
       dispatch(setLoading(true));
-      const response = await apiConnector("POST", CLEAR_CART_ITEMS_API);
+      const response = await apiConnector("POST", CLEAR_CART_ITEMS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
       console.log("res", response);
       if (response?.data?.success) {
         toast.success(response.data.message);

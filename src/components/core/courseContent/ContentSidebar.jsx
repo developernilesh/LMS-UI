@@ -48,6 +48,8 @@ const ContentSidebar = ({ courseDetails, setLecture, lecture }) => {
     try {
       const response = await apiConnector("POST", MARK_UNMARK_LECTURE_API, {
         subSectionId: lectureId,
+      }, {
+        Authorization: `Bearer ${token}`,
       });
       if (response?.data?.success) {
         fetchUserDetails();

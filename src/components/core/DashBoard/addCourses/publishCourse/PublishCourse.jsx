@@ -23,6 +23,7 @@ const PublishCourse = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { course } = useSelector((state) => state.course);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (course.status === "Published") {
@@ -47,6 +48,8 @@ const PublishCourse = () => {
       const response = await apiConnector("POST", PUBLISH_COURSE_API, {
         courseId: course?._id,
         status: "Published",
+      }, {
+        Authorization: `Bearer ${token}`,
       });
       if (response?.data?.success) {
         toast.success(response.data.message);

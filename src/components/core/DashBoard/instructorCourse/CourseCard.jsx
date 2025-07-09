@@ -7,13 +7,14 @@ import endpoints from "../../../../services/apiEndpoints";
 import toast from "react-hot-toast";
 import StarRatings from "react-star-ratings";
 import { handleError } from "../../../../services/operations/handleError";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const { DELETE_COURSE_API } = endpoints;
 
 const CourseCard = ({ course, fetchAllCourses }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
   const [confirmationModalData, setConfirmationModalData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [avgRating, setAvgRating] = useState(0);
@@ -31,6 +32,8 @@ const CourseCard = ({ course, fetchAllCourses }) => {
       setLoading(true);
       const response = await apiConnector("DELETE", DELETE_COURSE_API, {
         courseId,
+      }, {
+        Authorization: `Bearer ${token}`,
       });
       if (response?.data?.success) {
         toast.success(response.data.message);

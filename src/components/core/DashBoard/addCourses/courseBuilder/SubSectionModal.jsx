@@ -8,7 +8,7 @@ import SubmitButton from "../../../../Form/SubmitButton";
 import apiConnector from "../../../../../services/apiConnector";
 import endpoints from "../../../../../services/apiEndpoints";
 import { handleError } from "../../../../../services/operations/handleError";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const { ADD_SUB_SECTION_API, EDIT_SUB_SECTION_API } = endpoints;
@@ -30,6 +30,7 @@ const SubSectionModal = ({
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
   const [previewSource, setPreviewSource] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
@@ -99,7 +100,9 @@ const SubSectionModal = ({
     formData.append(idField, idValue);
     try {
       setLoading(true);
-      const response = await apiConnector(method, url, formData);
+      const response = await apiConnector(method, url, formData, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         toast.success(response.data.message);
         reset();
