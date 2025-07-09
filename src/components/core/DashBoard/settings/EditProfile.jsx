@@ -17,6 +17,7 @@ const { PROFILE_UPDATE_API } = endpoints;
 
 export default function EditProfile() {
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -54,7 +55,9 @@ export default function EditProfile() {
     };
     try {
       dispatch(setLoading(true));
-      const response = await apiConnector("PUT", PROFILE_UPDATE_API, payload);
+      const response = await apiConnector("PUT", PROFILE_UPDATE_API, payload, {
+        Authorization: `Bearer ${token}`,
+      });
       if (response?.data?.success) {
         toast.success(response.data.message);
         const presentUser = { ...user };

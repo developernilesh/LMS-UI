@@ -15,11 +15,19 @@ const EnrolledCourse = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState([]);
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
 
   const fetchEnrolledCourses = async () => {
     setLoading(true);
     try {
-      const response = await apiConnector("GET", VIEW_ENROLLED_COURSES_API);
+      const response = await apiConnector(
+        "GET",
+        VIEW_ENROLLED_COURSES_API,
+        null,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
       if (response?.data?.success) {
         setEnrolledCourses(response?.data?.data);
       }

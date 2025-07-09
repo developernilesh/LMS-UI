@@ -21,11 +21,19 @@ const ShowInstructorCourses = () => {
   const [allCourses, setAllCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
 
   const fetchAllCourses = async () => {
     setLoading(true);
     try {
-      const response = await apiConnector("GET", VIEW_ENROLLED_COURSES_API);
+      const response = await apiConnector(
+        "GET",
+        VIEW_ENROLLED_COURSES_API,
+        null,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
       if (response?.data?.success) {
         setAllCourses(response.data.data);
       }

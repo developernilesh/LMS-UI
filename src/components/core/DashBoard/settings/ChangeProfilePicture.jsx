@@ -13,6 +13,7 @@ const { UPLOAD_PROFILE_PICTURE_API } = endpoints;
 
 export default function ChangeProfilePicture() {
   const { user } = useSelector((state) => state.profile);
+  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +50,10 @@ export default function ChangeProfilePicture() {
       const response = await apiConnector(
         "PUT",
         UPLOAD_PROFILE_PICTURE_API,
-        formData
+        formData,
+        {
+          Authorization: `Bearer ${token}`,
+        }
       );
       if (response?.data?.success) {
         toast.success(response.data.message);

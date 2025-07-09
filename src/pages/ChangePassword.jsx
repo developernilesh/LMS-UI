@@ -24,6 +24,7 @@ const ChangePassword = () => {
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,10 +38,17 @@ const ChangePassword = () => {
     }
     setLoading(true);
     try {
-      const response = await apiConnector("POST", CHANGE_PASSWORD_API, {
-        ...data,
-        email: user.email,
-      });
+      const response = await apiConnector(
+        "POST",
+        CHANGE_PASSWORD_API,
+        {
+          ...data,
+          email: user.email,
+        },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
       if (response?.data?.success) {
         toast.success(response.data.message);
         navigate("/dashboard/my-profile");
