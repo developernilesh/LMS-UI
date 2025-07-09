@@ -93,7 +93,8 @@ const MyWishlist = () => {
       navigate,
       dispatch,
       fetchCartItems,
-      fetchUserDetails
+      fetchUserDetails,
+      token
     );
   };
 

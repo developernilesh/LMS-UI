@@ -128,7 +128,8 @@ const SpecificCourse = () => {
       navigate,
       dispatch,
       fetchCartItems,
-      fetchUserDetails
+      fetchUserDetails,
+      token
     );
   };
 
