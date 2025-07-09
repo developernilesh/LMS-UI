@@ -17,7 +17,8 @@ export const payWithRazorpay = async (
   navigate,
   dispatch,
   fetchCartItems,
-  fetchUserDetails
+  fetchUserDetails,
+  token
 ) => {
   const courseIds = [];
   courses.forEach((item) => courseIds.push(item._id));
@@ -38,6 +39,8 @@ export const payWithRazorpay = async (
     }
     const orderResponse = await apiConnector("POST", CAPTURE_PAYMENT_API, {
       courseIds,
+    }, {
+      Authorization: `Bearer ${token}`,
     });
     if (orderResponse?.data?.success) {
       const options = {
@@ -54,14 +57,15 @@ export const payWithRazorpay = async (
           contact: user?.additionalDetails?.contact,
         },
         handler: function (response) {
-          sendPaymentSuccessEmail(response, orderResponse);
+          sendPaymentSuccessEmail(response, orderResponse, token);
           verifyPayment(
             response,
             courseIds,
             navigate,
             dispatch,
             fetchCartItems,
-            fetchUserDetails
+            fetchUserDetails,
+            token
           );
         },
         theme: {
@@ -87,7 +91,8 @@ const verifyPayment = async (
   navigate,
   dispatch,
   fetchCartItems,
-  fetchUserDetails
+  fetchUserDetails,
+  token
 ) => {
   dispatch(setLoading(true));
   try {
@@ -96,6 +101,8 @@ const verifyPayment = async (
       razorpayPaymentId: response.razorpay_payment_id,
       razorpaySignature: response.razorpay_signature,
       courses: courseIds,
+    }, {
+      Authorization: `Bearer ${token}`,
     });
     if (paymentResponse?.data?.success) {
       toast.success(paymentResponse?.data?.message);
@@ -110,12 +117,14 @@ const verifyPayment = async (
   }
 };
 
-const sendPaymentSuccessEmail = async (response, orderResponse) => {
+const sendPaymentSuccessEmail = async (response, orderResponse, token) => {
   try {
     await apiConnector("POST", SEND_PAYMENT_SUCCESSFUL_EMAIL_API, {
       orderId: response.razorpay_order_id,
       paymentId: response.razorpay_payment_id,
       amount: orderResponse?.data?.paymentDetails?.amount,
+    }, {
+      Authorization: `Bearer ${token}`,
     });
   } catch (error) {
     throw new Error(`${error}`);
