@@ -65,34 +65,50 @@ const ContactUsForm = ({ title, subtitle, alignItems = "center" }) => {
       >
         <div className="flex flex-row md:flex-col lg:flex-row w-full gap-4">
           <InputField
-            label="First Name"
+            label="Firstname"
             name="firstName"
-            placeholder="Enter first name"
+            placeholder="Enter Firstname"
             register={register}
             validation={{
-              required: "First name is required",
+              required: "Firstname is required",
               minLength: {
                 value: 2,
-                message: "First name must be at least 2 characters",
+                message: "Firstname must be at least 2 characters",
+              },
+              maxLength: {
+                value: 50,
+                message: "Firstname must be less than 50 characters",
+              },
+              pattern: {
+                value: /^[A-Za-z\s'-]+$/,
+                message:
+                  "Only letters, spaces, hyphens, and apostrophes are allowed",
               },
             }}
             error={errors.firstName}
-            disabled={loading}
           />
           <InputField
-            label="Last Name"
+            label="Lastname"
             name="lastName"
-            placeholder="Enter last name"
+            placeholder="Enter Lastname"
             register={register}
             validation={{
-              required: "Last name is required",
+              required: "Lastname is required",
               minLength: {
                 value: 2,
-                message: "Last name must be at least 2 characters",
+                message: "Lastname must be at least 2 characters",
+              },
+              maxLength: {
+                value: 50,
+                message: "Lastname must be less than 50 characters",
+              },
+              pattern: {
+                value: /^[A-Za-z\s'-]+$/,
+                message:
+                  "Only letters, spaces, hyphens, and apostrophes are allowed",
               },
             }}
             error={errors.lastName}
-            disabled={loading}
           />
         </div>
         <InputField
