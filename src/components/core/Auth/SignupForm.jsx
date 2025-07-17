@@ -104,7 +104,22 @@ const SignupForm = () => {
             name="firstName"
             placeholder="Enter Firstname"
             register={register}
-            validation={{ required: "Firstname is required" }}
+            validation={{
+              required: "Firstname is required",
+              minLength: {
+                value: 2,
+                message: "Firstname must be at least 2 characters",
+              },
+              maxLength: {
+                value: 50,
+                message: "Firstname must be less than 50 characters",
+              },
+              pattern: {
+                value: /^[A-Za-z\s'-]+$/,
+                message:
+                  "Only letters, spaces, hyphens, and apostrophes are allowed",
+              },
+            }}
             error={errors.firstName}
           />
           <InputField
@@ -112,7 +127,22 @@ const SignupForm = () => {
             name="lastName"
             placeholder="Enter Lastname"
             register={register}
-            validation={{ required: "Lastname is required" }}
+            validation={{
+              required: "Lastname is required",
+              minLength: {
+                value: 2,
+                message: "Lastname must be at least 2 characters",
+              },
+              maxLength: {
+                value: 50,
+                message: "Lastname must be less than 50 characters",
+              },
+              pattern: {
+                value: /^[A-Za-z\s'-]+$/,
+                message:
+                  "Only letters, spaces, hyphens, and apostrophes are allowed",
+              },
+            }}
             error={errors.lastName}
           />
         </div>
@@ -125,8 +155,8 @@ const SignupForm = () => {
           validation={{
             required: "Email is required",
             pattern: {
-              value: /^\S+@\S+$/i,
-              message: "Invalid email format",
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
             },
           }}
           error={errors.email}
