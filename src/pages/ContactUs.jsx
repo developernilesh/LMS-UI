@@ -35,7 +35,7 @@ const ContactUs = () => {
           />
         </div>
       </div>
-      <ReviewSlider/>
+      {/* <ReviewSlider/> */}
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
