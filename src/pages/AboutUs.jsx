@@ -172,7 +172,7 @@ const AboutUs = () => {
           />
         </SectionContainer>
       </section>
-      <ReviewSlider/>
+      {/* <ReviewSlider/> */}
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
