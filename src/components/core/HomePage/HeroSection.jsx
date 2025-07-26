@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import HighlightedText from "./HighlightedText";
 import { FaPlay } from "react-icons/fa";
 import { TypeAnimation } from "react-type-animation";
 
@@ -37,22 +36,22 @@ const HeroSection = () => {
       <div className="min-h-[calc(100vh-48px)] container mx-auto flex items-center py-16 pt-8 relative z-10">
         <div className="w-11/12 mx-auto grid lg:grid-cols-2 gap-12 items-center relative">
           {/* Floating Code Patterns */}
-          <div className="absolute top-12 left-32 opacity-0 lg:opacity-30 animate-float">
+          <div className="absolute top-12 left-32 opacity-0 lg:opacity-20 animate-float">
             <div className="font-mono text-richblack-100 text-sm">
               {'<div className="hero">'}
             </div>
           </div>
-          <div className="absolute -top-4 right-72 opacity-0 lg:opacity-30 animate-float delay-300">
+          <div className="absolute -top-4 right-72 opacity-0 lg:opacity-20 animate-float delay-300">
             <div className="font-mono text-richblack-100 text-sm">
               {"function learn() {"}
             </div>
           </div>
-          <div className="absolute bottom-14 left-64 opacity-0 lg:opacity-30 animate-float delay-700">
+          <div className="absolute bottom-[55%] left-[38%] opacity-0 lg:opacity-20 animate-float delay-700">
             <div className="font-mono text-richblack-100 text-sm">
               {"const skills = [];"}
             </div>
           </div>
-          <div className="absolute bottom-0 right-28 opacity-0 lg:opacity-30 animate-float delay-1000">
+          <div className="absolute bottom-0 right-28 opacity-0 lg:opacity-20 animate-float delay-1000">
             <div className="font-mono text-richblack-100 text-sm">
               {"return success;"}
             </div>
@@ -96,8 +95,11 @@ const HeroSection = () => {
             <p className="text-lg text-richblack-200 mb-8 animate-slideInLeft delay-600 leading-relaxed">
               Interactive coding courses taught by industry experts. Join
               thousands of developers who've
-              <HighlightedText> transformed their careers</HighlightedText> with
-              our hands-on learning approach.
+              <span className="bg-gradient-to-br from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text">
+                {" "}
+                transformed their careers
+              </span>{" "}
+              with our hands-on learning approach.
             </p>
 
             {/* Enhanced CTA Buttons */}
