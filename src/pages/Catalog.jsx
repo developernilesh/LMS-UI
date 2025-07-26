@@ -6,7 +6,6 @@ import apiConnector from "../services/apiConnector";
 import endpoints from "../services/apiEndpoints";
 import Loader from "../components/Loader/Loader";
 import Footer from "../components/common/Footer";
-import CategoryCourseCard from "../components/core/catalogPage/CategoryCourseCard";
 import FrequentlyBoughtCourseCard from "../components/core/catalogPage/FrequentlyBoughtCourseCard";
 import CourseSlider from "../components/core/catalogPage/CourseSlider";
 import { handleError } from "../services/operations/handleError";
@@ -20,8 +19,7 @@ const Catalog = () => {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("Most Popular");
-  const [categoryPageDetails, setCategoryPageDetails] =
-    useState("Most Popular");
+  const [categoryPageDetails, setCategoryPageDetails] = useState([]);
 
   const fetchCategoryPageDetails = async () => {
     dispatch(setLoading(true));
@@ -99,7 +97,7 @@ const Catalog = () => {
             {activeTab === "Newest" &&
               (categoryPageDetails?.newestCourses?.courses.length > 0 ? (
                 <CourseSlider
-                  courses={categoryPageDetails?.mostPopular?.courses}
+                  courses={categoryPageDetails?.newestCourses?.courses}
                 />
               ) : (
                 <div className="w-full text-pink-400 text-center mb-2">
