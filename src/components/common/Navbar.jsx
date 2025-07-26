@@ -62,7 +62,12 @@ const Navbar = () => {
     try {
       const response = await apiConnector("GET", VIEW_ALL_CATEGORIES_API);
       if (response?.data?.success) {
-        dispatch(setCategories(response.data.data));
+        dispatch(
+          setCategories([
+            { name: "All", description: "All Courses" },
+            ...response.data.data,
+          ])
+        );
       }
     } catch (error) {
       dispatch(handleError(navigate, error, false));
@@ -109,7 +114,7 @@ const Navbar = () => {
     try {
       const response = await apiConnector("GET", VIEW_ALL_COURSES_API);
       if (response?.data?.success) {
-        setCourses(response.data.data);
+        setCourses(response.data.data?.allCourses);
       }
     } catch (error) {
       dispatch(handleError(navigate, error, false));
@@ -173,17 +178,25 @@ const Navbar = () => {
                   </div>
                   {categories.length !== 0 && (
                     <>
-                      <div className="h-2 w-2 bg-richblack-5 absolute hidden group-hover:block right-[15%] rotate-45"></div>
+                      <div className="h-2 w-2 bg-richblack-5 absolute hidden group-hover:block right-[15%] rotate-45 z-50"></div>
                       <div
-                        className="absolute hidden group-hover:block bg-richblack-5 text-richblack-900 py-2 px-4 rounded-md shadow-md 
-                      left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap"
+                        className="absolute hidden group-hover:block bg-richblack-5 text-richblack-900 p-2 rounded-md shadow-md 
+                      left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap z-50"
                       >
                         <ul className="flex flex-col gap-2">
-                          {categories.map((category) => (
-                            <li key={category._id}>
-                              <Link to={`/catalog/${category._id}`}>
-                                {category.name}
-                              </Link>
+                          {categories.map((category, index) => (
+                            <li
+                              key={index}
+                              onClick={() =>
+                                navigate(
+                                  category?._id
+                                    ? `/catalog/${category._id}`
+                                    : "all-courses"
+                                )
+                              }
+                              className="bg-richblack-50 hover:bg-richblack-100 px-4 py-1 rounded cursor-pointer"
+                            >
+                              {category.name}
                             </li>
                           ))}
                         </ul>
@@ -437,19 +450,23 @@ const Navbar = () => {
                         </div>
                         {categories.length !== 0 &&
                           isNavbarCatalogOpenInMobile && (
-                            <div className="bg-richblack-5 text-richblack-900 py-2 px-4 mt-2 rounded-md">
+                            <div className="bg-richblack-5 text-richblack-900 p-2 mt-2 rounded-md">
                               <ul className="flex flex-col gap-2">
-                                {categories.map((category) => (
-                                  <li key={category._id}>
-                                    <Link
-                                      to={`/catalog/${category._id}`}
-                                      onClick={() => {
-                                        setIsMenuOpen(false);
-                                        setIsNavbarCatalogOpenInMobile(false);
-                                      }}
-                                    >
-                                      {category.name}
-                                    </Link>
+                                {categories.map((category, index) => (
+                                  <li
+                                    key={index}
+                                    onClick={() => {
+                                      setIsMenuOpen(false);
+                                      setIsNavbarCatalogOpenInMobile(false);
+                                      navigate(
+                                        category?._id
+                                          ? `/catalog/${category._id}`
+                                          : "all-courses"
+                                      );
+                                    }}
+                                    className="bg-richblack-50 hover:bg-richblack-100 px-4 py-1 rounded cursor-pointer"
+                                  >
+                                    {category.name}
                                   </li>
                                 ))}
                               </ul>
