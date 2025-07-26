@@ -161,12 +161,12 @@ const PopularCoursesSection = () => {
                   </h3>
 
                   {/* Instructor */}
-                  <p className="text-richblack-300 mb-4 flex items-center gap-2">
+                  <div className="text-richblack-300 mb-4 flex items-center gap-2">
                     <div className="w-8 h-8 bg-richblue-200 rounded-full flex items-center justify-center">
                       <FaUser size={12} className="text-richblue-900" />
                     </div>
                     <span className="text-sm">{course.instructor}</span>
-                  </p>
+                  </div>
 
                   {/* Course Stats */}
                   <div className="flex items-center justify-between mb-4 text-sm">
