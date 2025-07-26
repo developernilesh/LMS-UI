@@ -1,5 +1,4 @@
 import React from "react";
-import HighlightedText from "../components/core/HomePage/HighlightedText";
 import aboutus1 from "../assets/Images/aboutus1.webp";
 import aboutus2 from "../assets/Images/aboutus2.webp";
 import aboutus3 from "../assets/Images/aboutus3.webp";
@@ -8,24 +7,27 @@ import ContentBlock from "../components/core/About/ContentBlock";
 import { infoParas, stats, LearningGridArray } from "../data/aboutUs";
 import GradientText from "../components/core/About/GradientText";
 import SectionContainer from "../components/core/About/SectionContainer";
-import CtaButton from "../components/core/HomePage/CtaButton";
 import ContactUsForm from "../components/core/Contact/ContactUsForm";
 import Footer from "../components/common/Footer";
 import { useSelector } from "react-redux";
 import Loader from "../components/Loader/Loader";
 import ReviewSlider from "../components/common/ReviewSlider";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   const { loading } = useSelector((state) => state.loader);
   if (loading) return <Loader />;
-  
+
   return (
     <>
       <section className="bg-richblack-800">
         <div className="container mx-auto flex flex-col items-center gap-4 text-white pt-10">
           <h2 className="font-semibold text-4xl text-center w-[90%] sm:w-[80%] md:w-[60%]">
             Driving Innovation in Online Education for a<br />
-            <HighlightedText>Brighter Future</HighlightedText>
+            <span className="bg-gradient-to-br from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text">
+              {" "}
+              Brighter Future
+            </span>
           </h2>
           <p className="w-[90%] sm:w-[80%] md:w-[60%] text-center text-base font-medium text-richblack-200 mb-4">
             Studynotion is at the forefront of driving innovation in online
@@ -57,7 +59,10 @@ const AboutUs = () => {
           <p className="font-semibold text-4xl text-center text-richblack-100">
             "We are passionate about revolutionizing the way we learn. Our
             innovative platform&nbsp;
-            <HighlightedText>combines technology,</HighlightedText>&nbsp;
+            <span className="bg-gradient-to-br from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text">
+              combines technology,
+            </span>
+            &nbsp;
             <GradientText gradient="from-[#E65C00] to-[#F9D423]">
               expertise,
             </GradientText>{" "}
@@ -147,9 +152,14 @@ const AboutUs = () => {
                       job-relevant online learning to individuals and
                       organizations worldwide.
                     </p>
-                    <CtaButton active={true} linkto={item.BtnLink}>
-                      {item.BtnText}
-                    </CtaButton>
+                    <Link to={`${item.BtnLink}`}>
+                      <button
+                        className="px-6 py-3 rounded-lg text-base font-medium text-center bg-yellow-50 text-black hover:bg-yellow-25
+                        transition-all duration-200 ease-linear hover:scale-95"
+                      >
+                        {item.BtnText}
+                      </button>
+                    </Link>
                   </div>
                 ) : (
                   <div className="p-8">
@@ -172,7 +182,7 @@ const AboutUs = () => {
           />
         </SectionContainer>
       </section>
-      <ReviewSlider/>
+      <ReviewSlider />
       <footer className="w-full bg-richblack-800 text-richblack-200">
         <Footer />
       </footer>
