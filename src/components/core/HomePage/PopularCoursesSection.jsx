@@ -1,5 +1,12 @@
 import React from "react";
-import { FaClock, FaCode, FaPlay, FaRocket, FaStar, FaUser } from "react-icons/fa";
+import {
+  FaClock,
+  FaCode,
+  FaPlay,
+  FaRocket,
+  FaStar,
+  FaUser,
+} from "react-icons/fa";
 
 const PopularCoursesSection = () => {
   return (
@@ -206,7 +213,11 @@ const PopularCoursesSection = () => {
                   </div>
 
                   {/* CTA Button */}
-                  <button className="w-full bg-gradient-to-r from-blue-100 to-caribbeangreen-50 text-richblack-900 py-3 rounded-xl font-bold text-sm hover:from-caribbeangreen-50 hover:via-pink-100 hover:to-blue-100 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-100/25 group/btn">
+                  <button
+                    className="w-full bg-gradient-to-r from-blue-100 to-richblue-100 text-richblack-900 py-2 rounded-xl font-bold 
+                  text-sm hover:from-caribbeangreen-50 hover:to-blue-100 hover:scale-105 transition-all duration-300 flex items-center 
+                  justify-center gap-2 shadow-lg hover:shadow-blue-100/25 group/btn"
+                  >
                     <span>Enroll Now</span>
                     <FaRocket
                       size={14}
@@ -225,7 +236,7 @@ const PopularCoursesSection = () => {
 
         {/* View All Courses Button */}
         <div className="text-center mt-16">
-          <button className="group bg-gradient-to-r from-richblack-700 to-richblack-600 border-2 border-blue-100/30 text-blue-100 px-12 py-4 rounded-2xl font-bold text-lg hover:from-blue-100 hover:to-yellow-100 hover:text-richblack-900 hover:scale-105 transition-all duration-300 overflow-hidden relative">
+          <button className="group bg-gradient-to-r from-richblack-700 to-richblack-600 border border-blue-100/30 text-blue-100 px-8 py-2 rounded-2xl font-semibold text-lg hover:from-blue-100 hover:to-blue-200 hover:text-richblack-900 hover:scale-105 transition-all duration-300 overflow-hidden relative">
             <span className="relative z-10 flex items-center gap-3">
               View All Courses
               <FaPlay
@@ -233,7 +244,7 @@ const PopularCoursesSection = () => {
                 className="group-hover:scale-110 transition-transform duration-300"
               />
             </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-yellow-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-200 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
           </button>
         </div>
       </div>
