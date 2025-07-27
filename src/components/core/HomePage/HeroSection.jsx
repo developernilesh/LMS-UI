@@ -104,18 +104,22 @@ const HeroSection = () => {
 
             {/* Enhanced CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-slideInLeft delay-800">
-              <button className="group relative bg-gradient-to-r from-blue-100 to-blue-200 text-richblack-900 px-8 py-2 rounded-xl font-semibold hover:from-blue-200 hover:to-blue-100 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-blue-100/25">
-                <FaPlay
-                  size={16}
-                  className="group-hover:scale-110 transition-transform duration-300"
-                />
-                Explore Courses
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
-              <button className="group relative border border-blue-100 text-blue-100 px-8 py-2 rounded-xl font-semibold hover:bg-blue-100 hover:text-richblack-900 hover:scale-105 transition-all duration-300 overflow-hidden">
-                <span className="relative z-10">Learn More</span>
-                <div className="absolute inset-0 bg-blue-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-              </button>
+              <Link to="/all-courses">
+                <button className="group relative bg-gradient-to-r from-blue-100 to-blue-200 text-richblack-900 px-8 py-2 rounded-xl font-semibold hover:from-blue-200 hover:to-blue-100 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-blue-100/25">
+                  <FaPlay
+                    size={16}
+                    className="group-hover:scale-110 transition-transform duration-300"
+                  />
+                  Explore Courses
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+              </Link>
+              <Link to="/about">
+                <button className="group relative border border-blue-100 text-blue-100 px-8 py-2 rounded-xl font-semibold hover:bg-blue-100 hover:text-richblack-900 hover:scale-105 transition-all duration-300 overflow-hidden">
+                  <span className="relative z-10">Learn More</span>
+                  <div className="absolute inset-0 bg-blue-100 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                </button>
+              </Link>
             </div>
           </div>
 
