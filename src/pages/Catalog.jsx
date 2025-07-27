@@ -61,9 +61,6 @@ const Catalog = () => {
       </div>
       <div className="container mx-auto">
         <div className="w-11/12 mx-auto my-8">
-          <h3 className="text-2xl font-semibold text-richblack-50">
-            Courses to get you started
-          </h3>
           <div>
             {/* Tabs for course filtering */}
             <div className="flex flex-wrap gap-4 mt-4 mb-6 border-b border-richblack-600">
