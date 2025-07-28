@@ -13,14 +13,13 @@ const Template = ({ title, desc1, desc2, image, formType }) => {
       </div>
 
       <div className="w-full md:w-1/2 hidden md:block">
-        <div className="relative w-11/12 max-w-[585px] mr-auto">
+        <div className="relative w-11/12 max-w-[500px] mr-auto">
           <img
             src={frameImg}
             alt="pattern"
             loading="lazy"
             className="absolute top-4 left-4"
           />
-
           <img
             src={image}
             alt="students"
