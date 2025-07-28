@@ -201,11 +201,10 @@ const FeaturesSection = () => {
                 </div>
                 <div>
                   <h4 className="text-xl font-semibold text-white mb-2">
-                    AI-Powered Learning
+                    Suupervised Learning
                   </h4>
                   <p className="text-richblack-300">
-                    Get personalized learning paths and recommendations powered
-                    by advanced AI algorithms.
+                    Get personalized learning paths and recommendations from our interactive team.
                   </p>
                 </div>
               </div>
