@@ -117,10 +117,10 @@ const MyProfile = () => {
               <div>
                 {user?.additionalDetails?.dateOfBirth ? (
                   <span className="text-richblack-5">
-                  {user?.additionalDetails?.dateOfBirth
-                  .split("-")
-                  .reverse()
-                  .join("-")}
+                    {user?.additionalDetails?.dateOfBirth
+                      .split("-")
+                      .reverse()
+                      .join("-")}
                   </span>
                 ) : (
                   <span className="text-richblack-400 font-light">
@@ -140,33 +140,42 @@ const MyProfile = () => {
           <div>
             <div className="text-richblack-200">About</div>
             <div>
-                {user?.additionalDetails?.about ? (
-                  <span className="text-richblack-5">
-                    {user.additionalDetails.about}
-                  </span>
-                ) : (
-                  <span className="text-richblack-400 font-light">
-                    Please add something about you
-                  </span>
-                )}
-              </div>
+              {user?.additionalDetails?.about ? (
+                <span className="text-richblack-5">
+                  {user.additionalDetails.about}
+                </span>
+              ) : (
+                <span className="text-richblack-400 font-light">
+                  Please add something about you
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
         {/* change password */}
-        <div className="p-6 bg-richblack-800 rounded-lg border border-richblack-700">
-          <SubmitButton
-            buttonContent=<div className="flex items-center">
-              <span>
-                <TbLockPassword />
-              </span>
-              <span>&nbsp;Change Your Password</span>
+        {user?.email === "test.instructor@yopmail.com" ||
+        user?.email === "wedapa9878@jarars.com" ? (
+          <div className="p-6 bg-richblack-800 rounded-lg border border-richblack-700">
+            <div className="w-fit bg-pink-200/20 text-pink-300 rounded-md font-medium px-3 py-1">
+              Changing password isn't available for this test account
             </div>
-            onClick={() => navigate("/dashboard/change-password")}
-            buttonType="button"
-            width="w-fit"
-          />
-        </div>
+          </div>
+        ) : (
+          <div className="p-6 bg-richblack-800 rounded-lg border border-richblack-700">
+            <SubmitButton
+              buttonContent=<div className="flex items-center">
+                <span>
+                  <TbLockPassword />
+                </span>
+                <span>&nbsp;Change Your Password</span>
+              </div>
+              onClick={() => navigate("/dashboard/change-password")}
+              buttonType="button"
+              width="w-fit"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

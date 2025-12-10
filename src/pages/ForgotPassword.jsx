@@ -49,6 +49,13 @@ const ForgotPassword = () => {
 
   const onSubmit = async (data) => {
     const { email } = data;
+    if (
+      email === "test.instructor@yopmail.com" ||
+      email === "wedapa9878@jarars.com"
+    ) {
+      toast.error("Resetting password isn't available for this test account");
+      return;
+    }
     const isMailSuccessfullySent = await sendResetPasswordEmail(email);
     if (isMailSuccessfullySent) {
       setEmail(email);
