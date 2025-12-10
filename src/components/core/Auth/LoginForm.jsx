@@ -34,7 +34,10 @@ const LoginForm = () => {
       if (response?.data?.success) {
         toast.success(response?.data?.message);
         dispatch(setTokenExpiresIn(response?.data?.tokenExpiresIn));
-        localStorage.setItem("tokenExpiresIn", JSON.stringify(response?.data?.tokenExpiresIn));
+        localStorage.setItem(
+          "tokenExpiresIn",
+          JSON.stringify(response?.data?.tokenExpiresIn)
+        );
         dispatch(setToken(response?.data?.token));
         localStorage.setItem("token", JSON.stringify(response?.data?.token));
         navigate("/dashboard/my-profile");
@@ -62,7 +65,7 @@ const LoginForm = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-4 mt-6"
+        className="flex flex-col w-full mt-6"
       >
         <InputField
           label="Email Address"
@@ -78,7 +81,20 @@ const LoginForm = () => {
           }}
           error={errors.email}
         />
-
+        <div className="flex flex-col items-end">
+          <div>
+            <span className="italic text-pure-greys-400">
+              Testing Instructor Account:
+            </span>{" "}
+            test.instructor@yopmail.com
+          </div>
+          <div>
+            <span className="italic text-pure-greys-400">
+              Testing Student Account:
+            </span>{" "}
+            wedapa9878@jarars.com
+          </div>
+        </div>
         <div className="relative">
           <InputField
             label="Password"
@@ -99,6 +115,12 @@ const LoginForm = () => {
               <AiOutlineEye fontSize={24} fill="#AFB2BF" />
             )}
           </span>
+          <div className="text-end">
+            <span className="italic text-pure-greys-400">
+              Testing Password:
+            </span>{" "}
+            Abc@1234
+          </div>
           <Link to="/forgot-password">
             <p className="text-xs mt-1 text-blue-100 max-w-max ml-auto">
               Forgot Password?
